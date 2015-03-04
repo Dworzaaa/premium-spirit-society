@@ -1,0 +1,15 @@
+*.class
+
+# Package Files #
+*.war
+*.ear
+*gource*
+*output.ppm
+
+# IntelliJ IDEA files #
+**/workspace.xml
+**/tasks.xml
+**.iws
+
+**.iml
+**.idea

@@ -1,0 +1,4 @@
+<c:forEach var="subcategory"
+           items="${subcategories}">
+  <li><a href="${subcategory.productCategory.url}/${subcategory.url}" class="glyphicon-ok-circle">${subcategory.name}</a></li>
+</c:forEach>

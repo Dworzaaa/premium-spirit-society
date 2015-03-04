@@ -1,0 +1,21 @@
+.list-striped > div:nth-child(odd) table {
+    background-color: rgb(245, 245, 245);
+}
+
+.record-head {
+    margin-bottom: 0;
+}
+
+.role-list {
+    border: 5px solid CornflowerBlue;
+    min-height: 30px;
+}
+
+textarea.resize-vertical {
+    min-height: 28px;
+    resize: vertical;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

@@ -1,0 +1,38 @@
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page pageEncoding="UTF-8" %>
+
+<sec:authorize ifNotGranted="ROLE_USER">
+    <div class="modal fade" id="basicModal" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="j_spring_security_check" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Modal Body</h3>
+                        <input type="text" name="j_username" placeholder="Email"/> <br>
+                        <br>
+                        <input type="password" name="j_password" placeholder="Password"/> <br>
+                        <label class="checkbox">
+                            <input type="checkbox" name="_spring_security_remember_me"/>
+                            Remember me?
+                        </label>
+                        <br>
+
+                        If you don't have any account yet, you can sign up <a href="/signup">here</a>.
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</sec:authorize>
