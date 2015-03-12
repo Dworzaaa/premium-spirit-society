@@ -11,6 +11,8 @@ public class ProductFormWrapperBO extends ProductFormBO{
         this.setPrice(productFormBO.getPrice());
         this.setUrl(productFormBO.getUrl());
         this.setProductSubcategory(productFormBO.getProductSubcategory());
+        this.setVolume(productFormBO.getVolume());
+        this.setEthanolVolume(productFormBO.getEthanolVolume());
         this.amount = 1;
     }
 

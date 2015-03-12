@@ -352,7 +352,7 @@
     </dependencies>
 
     <build>
-        <finalName>GENEPI</finalName>
+        <finalName>Premium-Spirit-Society</finalName>
         <plugins>
             <!-- Maven plugin -->
             <plugin>

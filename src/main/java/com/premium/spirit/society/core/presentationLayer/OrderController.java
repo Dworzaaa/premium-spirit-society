@@ -3,9 +3,8 @@ package com.premium.spirit.society.core.presentationLayer;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.*;
 import com.premium.spirit.society.core.businessLayer.BO.display.ProductDisplayBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.OrderFormBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormBO;
@@ -31,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.FileOutputStream;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ import java.util.Locale;
 public class OrderController {
 
     private final OrderFormBO order;
-    private   List<ProductFormWrapperBO> productFormWrapperBOs;
+    private List<ProductFormWrapperBO> productFormWrapperBOs;
 
     private final ProductService productService;
     private final ExportToPdfService exportService;
@@ -155,9 +155,24 @@ public class OrderController {
 
     private BaseFont bfBold;
     private BaseFont bf;
-    @RequestMapping(value = "/order/finishOrder", method = RequestMethod.POST)
-    public String orderFinsihOrderPOST(HttpServletRequest request, Locale locale, Model model, @ModelAttribute("order") @Valid OrderFormBO order,@ModelAttribute("productWrappers") @Valid  List<ProductFormWrapperBO>  productFormWrapperBOs){
 
+    @RequestMapping(value = "/order/finishOrder", method = RequestMethod.POST)
+    public String orderFinsihOrderPOST(HttpServletRequest request, Locale locale, Model model, @ModelAttribute("order") @Valid OrderFormBO order) {
+        productFormWrapperBOs = new ArrayList<>();
+        for (ProductFormBO productFormBO : this.order.getProducts()) {
+            boolean wrapperContainsCurrentProduct = false;
+            for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                    wrapperContainsCurrentProduct = true;
+                    productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                    break;
+                }
+
+            }
+            if (!wrapperContainsCurrentProduct) {
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+            }
+        }
         // Just a sample code simulating finish of the order
         String name = SecurityContextHolder.getContext()
                 .getAuthentication()
@@ -187,6 +202,7 @@ public class OrderController {
         order.setUserID(user.getId());
         System.out.println(request.getHeader("paymentMethod"));
         order.setProducts(this.order.getProducts());
+
         if (orderService.getOrdersByUserId(user.getId()).size() == 0)
             orderService.save(order, OrderEntity.class);  //orderService.save(order, OrderEntity.class);
         else
@@ -196,7 +212,7 @@ public class OrderController {
         String pdfFilename = "";
 
         pdfFilename = "test.pdf";
-        createPDF(pdfFilename,productFormWrapperBOs);
+        createPDF(pdfFilename, productFormWrapperBOs);
 
 
         this.order.setProducts(new ArrayList<ProductFormBO>());
@@ -208,7 +224,7 @@ public class OrderController {
     private int pageNumber = 0;
 
 
-    private void createPDF(String pdfFilename,List <ProductFormWrapperBO> productFormWrapperBOs ) {
+    private void createPDF(String pdfFilename, List<ProductFormWrapperBO> productFormWrapperBOs) {
 
         Document doc = new Document();
         PdfWriter docWriter = null;
@@ -226,11 +242,11 @@ public class OrderController {
 
             doc.open();
             PdfContentByte cb = docWriter.getDirectContent();
-
+            doc.newPage();
             boolean beginPage = true;
             int y = 0;
-
-            for (int i = 0; i != productFormWrapperBOs.size(); i++) {
+/*
+                for (int i = 0; i != productFormWrapperBOs.size(); i++) {
                 if (beginPage) {
                     beginPage = false;
                     generateLayout(doc, cb);
@@ -245,6 +261,57 @@ public class OrderController {
                     beginPage = true;
                 }
             }
+*/
+            PdfPTable mainFrame = new PdfPTable(1);
+
+            String imageUrl = "http://www.kissedbutts.com/wpkb-content/uploads/3500-0191-ass-fucking.jpg";
+            Image image2 = Image.getInstance(new URL(imageUrl));
+            image2.scalePercent(30f);
+
+            image2.setAbsolutePosition(700, 0);
+            doc.add(image2);
+            doc.add(new Paragraph(String.valueOf(order.getId())));
+
+
+            mainFrame.setWidthPercentage(95);
+
+
+            PdfPTable table = new PdfPTable(7); // 3 columns.
+
+            table.addCell(new PdfPCell(new Paragraph("ID")));
+            table.addCell(new PdfPCell(new Paragraph("name")));
+            table.addCell(new PdfPCell(new Paragraph("volume")));
+            table.addCell(new PdfPCell(new Paragraph("ethanol volume")));
+            table.addCell(new PdfPCell(new Paragraph("price")));
+            table.addCell(new PdfPCell(new Paragraph("amount")));
+            table.addCell(new PdfPCell(new Paragraph("price together")));
+
+
+            for (int i = 0; i != productFormWrapperBOs.size(); i++) {
+                PdfPCell productId = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getId())));
+                PdfPCell productName = new PdfPCell(new Paragraph(productFormWrapperBOs.get(i).getName()));
+                PdfPCell productVolume = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getVolume())));
+                PdfPCell productEthanolVolume = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getEthanolVolume())));
+                PdfPCell productPrice = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getPrice())));
+                PdfPCell productAmount = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getAmount())));
+                PdfPCell productPriceForAll = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount())));
+
+                table.addCell(productId);
+                table.addCell(productName);
+                table.addCell(productVolume);
+                table.addCell(productEthanolVolume);
+                table.addCell(productPrice);
+                table.addCell(productAmount);
+                table.addCell(productPriceForAll);
+
+            }
+
+            mainFrame.addCell(table);
+
+            table.setWidthPercentage(95);
+
+            doc.add(mainFrame);
+
 
         } catch (Exception dex) {
             dex.printStackTrace();

@@ -76,7 +76,6 @@ public class PictureLoader {
                         + System.getProperty("file.separator") + "carousel";
             }
         }
-
         File f = new File(pictureFolder);
         // pokud existuje slozka s fotkama
         File[] listOfFiles;

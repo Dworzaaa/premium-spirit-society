@@ -3,6 +3,8 @@ package com.premium.spirit.society.core.presentationLayer;
 import com.premium.spirit.society.core.businessLayer.BO.display.ProductDisplayBO;
 import com.premium.spirit.society.core.businessLayer.BO.display.UserDisplayBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.OrderFormBO;
+import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormBO;
+import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormWrapperBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.UserFormBO;
 import com.premium.spirit.society.core.businessLayer.service.*;
 import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
@@ -33,7 +35,7 @@ import java.util.Locale;
 @SessionAttributes({"user"})
 public class UserController {
 
-        private final UserService userService;
+    private final UserService userService;
 
     private final AuthorizationChecker authorizationChecker;
     private final MailService mailService;
@@ -314,15 +316,18 @@ public class UserController {
     @RequestMapping(value = {"/orders", "/profile/orders", "users/orders", "user/{username}/orders", "user/{userID}/orders"}, method = RequestMethod.GET)
     public String ordersGET(Model model, HttpServletRequest request) {
         UserFormBO user = null;
+        List<List<ProductFormWrapperBO>> listOfProductFormWrappers = new ArrayList<>();
+        List<ProductFormWrapperBO> productFormWrapperBOs = new ArrayList<>();
+
         String uri = request.getRequestURI();
         String[] tokens = uri.split("/");
         if (tokens.length == 3) {
             if (isInteger(tokens[2])) {
                 user = userService.getById(Integer.parseInt(tokens[2]), UserFormBO.class, UserEntity.class);
             } else {
-                    Authentication auth = SecurityContextHolder.getContext()
-                            .getAuthentication();
-                    String username = auth.getName();
+                Authentication auth = SecurityContextHolder.getContext()
+                        .getAuthentication();
+                String username = auth.getName();
                 user = userService.getUserByUsername(username);
             }
         } else if (tokens[1].equals("orders") || tokens[1].equals("users")) {
@@ -339,7 +344,27 @@ public class UserController {
         } else {
             model.addAttribute("isAdmin", true);
         }
+
         if (user != null) {
+            for (OrderFormBO order : user.getOrders()) {
+                productFormWrapperBOs = new ArrayList<>();
+                for (ProductFormBO productFormBO : order.getProducts()) {
+                    boolean wrapperContainsCurrentProduct = false;
+                    for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                        if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                            wrapperContainsCurrentProduct = true;
+                            productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                            break;
+                        }
+
+                    }
+                    if (!wrapperContainsCurrentProduct) {
+                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                    }
+                }
+                listOfProductFormWrappers.add(productFormWrapperBOs);
+            }
+            model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
             model.addAttribute("user", user);
             model.addAttribute("orders", user.getOrders());
         }

@@ -28,7 +28,7 @@ public class ProductFormBO implements Serializable {
 
     private int volume;
 
-    private int methanolVolume;
+    private int ethanolVolume;
 
     private ProductSubcategoryEntity  productSubcategory;
 
@@ -170,12 +170,12 @@ public class ProductFormBO implements Serializable {
         this.volume = volume;
     }
 
-    public int getMethanolVolume() {
-        return methanolVolume;
+    public int getEthanolVolume() {
+        return ethanolVolume;
     }
 
-    public void setMethanolVolume(int methanolVolume) {
-        this.methanolVolume = methanolVolume;
+    public void setEthanolVolume(int ethanolVolume) {
+        this.ethanolVolume = ethanolVolume;
     }
 
     public ProductSubcategoryEntity getProductSubcategory() {

@@ -40,7 +40,7 @@ public class ProductEntity implements Comparable<ProductEntity> {
     private int volume;
 
     @Column(name = "METHANOL_VOLUME", nullable = false)
-    private int methanolVolume;
+    private int ethanolVolume;
 
     @Column(name = "IS_PROMOTED", nullable = false)
     private boolean promoted;
@@ -212,12 +212,12 @@ public class ProductEntity implements Comparable<ProductEntity> {
         this.volume = volume;
     }
 
-    public int getMethanolVolume() {
-        return methanolVolume;
+    public int getEthanolVolume() {
+        return ethanolVolume;
     }
 
-    public void setMethanolVolume(int methanolVolume) {
-        this.methanolVolume = methanolVolume;
+    public void setEthanolVolume(int ethanolVolume) {
+        this.ethanolVolume = ethanolVolume;
     }
 
     public boolean isPromoted() {
