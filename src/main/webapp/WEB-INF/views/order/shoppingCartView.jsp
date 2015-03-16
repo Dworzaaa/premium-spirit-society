@@ -11,15 +11,7 @@
     <title></title>
 </head>
 <body>
-<c:forEach var="product"
-           items="${order.products}">
-    <a href="${product.productSubcategory.productCategory.url}/${product.productSubcategory.url}/${product.url}"
-       class="glyphicon-ok-circle">"${product.productSubcategory.productCategory.url}/${product.productSubcategory.url}/${product.url}"</a>
-    <br>
 
-</c:forEach>
-
-<br><br><br><br><br><br><br><br><br><br>
 <c:forEach var="picture"
            items="${pictureList}" varStatus="loop">
     <img src="data:image/jpeg;base64,${picture}"/> <br>
@@ -37,13 +29,12 @@
            method="POST" commandName="order">
 
     <form:radiobutton path="shippingType" value="DPD"/>DPD
-    <form:radiobutton path="shippingType" value="POST"/>POST
     <form:radiobutton path="shippingType" value="DHL"/>DHL
 
 
-    <form:radiobutton path="paymentMethod" value="mastercard"/>DPD
-    <form:radiobutton path="paymentMethod" value="paypal"/>POST
-    <form:radiobutton path="paymentMethod" value="dobirka"/>DHL
+    <form:radiobutton path="paymentMethod" value="mastercard"/>mastercard
+    <form:radiobutton path="paymentMethod" value="paypal"/>paypal
+    <form:radiobutton path="paymentMethod" value="dobirka"/>dobirka
 
     <input type="submit" value="Odeslat objednavku"></inpit>
 

@@ -64,18 +64,23 @@ public class PictureLoader {
         if (this.product != null) {
             pictureFolder = System.getProperty("user.home")
                     + System.getProperty("file.separator") + "PremiumSpiritSociety"
+                    + System.getProperty("file.separator") + "pictures"
                     + System.getProperty("file.separator") + this.product.getProductSubcategory().getProductCategory().getUrl()
                     + System.getProperty("file.separator") + this.product.getProductSubcategory().getUrl()
                     + System.getProperty("file.separator") + this.product.getUrl();
 
 
-        } else if (this.productString != null) {
+        }
+        System.out.println(pictureFolder);
+        /*
+        else if (this.productString != null) {
             if (this.productString.equals("carousel")) {
                 pictureFolder = System.getProperty("user.home")
                         + System.getProperty("file.separator") + "PremiumSpiritSociety"
                         + System.getProperty("file.separator") + "carousel";
             }
         }
+        */
         File f = new File(pictureFolder);
         // pokud existuje slozka s fotkama
         File[] listOfFiles;
@@ -124,6 +129,7 @@ public class PictureLoader {
         for (ProductCategoryDisplayBO category : productCategoryDisplayBOs) {
             pictureFolder = System.getProperty("user.home")
                     + System.getProperty("file.separator") + "PremiumSpiritSociety"
+                    + System.getProperty("file.separator") + "pictures"
                     + System.getProperty("file.separator") + category.getUrl();
 
 

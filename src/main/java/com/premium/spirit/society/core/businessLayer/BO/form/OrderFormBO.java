@@ -50,6 +50,16 @@ public class OrderFormBO implements Serializable{
 
     private String paymentMethod;
 
+    private String invoice;
+
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
+    }
+
     public String getShippingType() {
         return shippingType;
     }

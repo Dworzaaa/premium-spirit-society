@@ -39,6 +39,7 @@
             <th align="center">produkty</th>
             <th align="center">produkty naformatovany</th>
             <th align="center">stav</th>
+            <th align="center">faktura</th>
             </tr>
             </thead>
             <tbody>
@@ -68,6 +69,7 @@
                         </c:forEach>
                     </td>
                     <td> ${order.state}</td>
+                    <td> ${invoiceUrl}${order.invoice}</td>
                 </tr>
             </c:forEach>
 

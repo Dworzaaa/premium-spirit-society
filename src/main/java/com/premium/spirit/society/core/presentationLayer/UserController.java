@@ -313,7 +313,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = {"/orders", "/profile/orders", "users/orders", "user/{username}/orders", "user/{userID}/orders"}, method = RequestMethod.GET)
+    @RequestMapping(value = { "/profile/orders", "users/orders", "user/{username}/orders", "user/{userID}/orders"}, method = RequestMethod.GET)
     public String ordersGET(Model model, HttpServletRequest request) {
         UserFormBO user = null;
         List<List<ProductFormWrapperBO>> listOfProductFormWrappers = new ArrayList<>();
@@ -364,11 +364,13 @@ public class UserController {
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
             }
+String invoice=orderService.getAllUserInvoices(user.getId());
+            invoice+= System.getProperty("file.separator");
+            model.addAttribute("invoiceUrl",invoice );
             model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
             model.addAttribute("user", user);
             model.addAttribute("orders", user.getOrders());
         }
-
         return "user/ordersView";
     }
 

@@ -1,8 +1,6 @@
 package com.premium.spirit.society.core.dataLayer.entity;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -51,21 +49,32 @@ public class OrderEntity {
     @Column(name = "user_id", nullable = false)
     private int userID;
 
+    @Column(name = "invoice", nullable = true)
+    private String invoice;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "shopping_order_has_product",
             joinColumns = {@JoinColumn(name = "shopping_order_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "product_id", nullable = false, updatable = false)})
     private List<ProductEntity> products;
 
-    @Column (name="order_number",length=100,nullable=false)
-        private String orderNumber;
+    @Column(name = "order_number", length = 100, nullable = false)
+    private String orderNumber;
 
 
-    @Column(name="shippingType", nullable=false)
+    @Column(name = "shippingType", nullable = false)
     private String shippingType;
 
-    @Column(name="paymentMethod", nullable=false)
+    @Column(name = "paymentMethod", nullable = false)
     private String paymentMethod;
+
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
+    }
 
     public String getShippingType() {
         return shippingType;

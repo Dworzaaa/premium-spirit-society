@@ -44,10 +44,7 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String homeGET(Model model, HttpServletRequest request) {
-        String pictureFolder = System.getProperty("user.home")
-                + System.getProperty("file.separator") + "PremiumSpiritSociety";
-
-        model.addAttribute("categories", productCategoryService.getAllUnhidden());
+       model.addAttribute("categories", productCategoryService.getAllUnhidden());
         List<ProductDisplayBO> promotedProducts = productService.getPromoted();
         List<String> promotionTextList = new ArrayList<>();
         List<String> pictureList = new ArrayList<>();

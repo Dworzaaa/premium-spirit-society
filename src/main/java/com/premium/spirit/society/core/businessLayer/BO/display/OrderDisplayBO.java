@@ -24,6 +24,16 @@ public class OrderDisplayBO {
 
     private String paymentMethod;
 
+    private String invoice;
+
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
+    }
+
     public int getId() {
         return id;
     }
