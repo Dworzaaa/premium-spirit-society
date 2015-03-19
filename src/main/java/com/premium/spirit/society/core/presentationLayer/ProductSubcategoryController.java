@@ -79,7 +79,7 @@ public class ProductSubcategoryController {
             }
         }
 
-        return "nonExistView";
+        return "deniedView";
     }
 
     @RequestMapping(value = "/subcategory/subcategories", method = RequestMethod.GET)
@@ -97,7 +97,7 @@ public class ProductSubcategoryController {
         }
         ProductSubcategoryFormBO subcategory = productSubcategoryService.getById(catId, ProductSubcategoryFormBO.class, ProductSubcategoryEntity.class);
         if (subcategory == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici subcategory
         }
         model.addAttribute("subcategory", subcategory);
@@ -139,7 +139,7 @@ public class ProductSubcategoryController {
         }
         ProductSubcategoryFormBO subcategory = productSubcategoryService.getById(catId, ProductSubcategoryFormBO.class, ProductSubcategoryEntity.class);
         if (subcategory == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici subcategory
         }
         model.addAttribute("subcategory", subcategory);
@@ -169,7 +169,7 @@ public class ProductSubcategoryController {
         }
         ProductSubcategoryFormBO subcategory = productSubcategoryService.getById(subcategoryID, ProductSubcategoryFormBO.class, ProductSubcategoryEntity.class);
         if (subcategory == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici subcategory
         }
         if (subcategory == null) {
@@ -189,7 +189,7 @@ public class ProductSubcategoryController {
         }
         ProductSubcategoryFormBO subcategory = productSubcategoryService.getById(subcategoryID, ProductSubcategoryFormBO.class, ProductSubcategoryEntity.class);
         if (subcategory == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici subcategory
         }
         if (subcategory == null) {

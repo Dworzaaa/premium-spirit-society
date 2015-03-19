@@ -5,10 +5,7 @@ import com.premium.spirit.society.core.businessLayer.BO.form.OrderFormBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormWrapperBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.UserFormBO;
-import com.premium.spirit.society.core.businessLayer.service.ExportToPdfService;
-import com.premium.spirit.society.core.businessLayer.service.OrderService;
-import com.premium.spirit.society.core.businessLayer.service.ProductService;
-import com.premium.spirit.society.core.businessLayer.service.UserService;
+import com.premium.spirit.society.core.businessLayer.service.*;
 import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
 import com.premium.spirit.society.core.dataLayer.entity.ProductEntity;
 import com.premium.spirit.society.core.dataLayer.entity.ProductSubcategoryEntity;
@@ -17,6 +14,7 @@ import com.premium.spirit.society.core.util.PictureLoader;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,21 +40,24 @@ public class OrderController {
 
     private final ProductService productService;
     private final ExportToPdfService exportService;
-
     private final OrderService orderService;
-    private final UserService userSerivce;
+    private final UserService userService;
+    private  final MailService mailService;
 
     private final Mapper dozer;
 
     @Autowired
-    public OrderController(OrderFormBO order, ProductService productService, ExportToPdfService exportService, OrderService orderService, UserService userSerivce, Mapper dozer) {
+    public OrderController(OrderFormBO order, ProductService productService, ExportToPdfService exportService, OrderService orderService, UserService userService, MailService mailService, Mapper dozer) {
         this.order = order;
         this.productService = productService;
         this.exportService = exportService;
         this.orderService = orderService;
-        this.userSerivce = userSerivce;
+        this.userService = userService;
+        this.mailService = mailService;
         this.dozer = dozer;
     }
+
+
 
     @RequestMapping(value = "/order/addToCart/{productId}", method = RequestMethod.POST)
     public String orderAddToCartPOST(@PathVariable("productId") int productId, @ModelAttribute("product") @Valid ProductFormBO product, HttpServletRequest request, Model model) {
@@ -167,12 +168,7 @@ public class OrderController {
         String name = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
-        UserFormBO user = userSerivce.getUserByUsername(name);
-        //  user.setOrders(new ArrayList<OrderFormBO>());
-        //  user.getOrders().add(order);
-        // userSerivce.update(user, UserEntity.class);
-
-
+        UserFormBO user = userService.getUserByUsername(name);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         sdf.format(new Date()).toString();
         long dateLong = Long.parseLong(sdf.format(new Date()).toString());
@@ -206,6 +202,26 @@ public class OrderController {
 
 
         orderService.createPdf(pdfFilename, productFormWrapperBOs, order);
+
+        productFormWrapperBOs = new ArrayList<>();
+        for (ProductFormBO productFormBO : order.getProducts()) {
+            boolean wrapperContainsCurrentProduct = false;
+            for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                    wrapperContainsCurrentProduct = true;
+                    productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                    break;
+                }
+
+            }
+            if (!wrapperContainsCurrentProduct) {
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+            }
+        }
+
+
+        mailService.notifyOrderCreated(user, productFormWrapperBOs,pdfFilename, locale);
+
         this.order.setProducts(new ArrayList<ProductFormBO>());
 
 

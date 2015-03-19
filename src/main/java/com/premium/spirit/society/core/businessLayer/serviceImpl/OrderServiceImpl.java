@@ -61,7 +61,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
 
     @Override
-    public String getAllUserInvoices(int userId) {
+    public String getInvoiceBaseUrl(int userId) {
         File folder = new File(System.getProperty("user.home")
                 + System.getProperty("file.separator") + "PremiumSpiritSociety"
                 + System.getProperty("file.separator") + "invoices"
@@ -89,7 +89,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             if (!theDir.exists()) {
                 boolean result = false;
                 try {
-                    theDir.mkdir();
+                    theDir.mkdirs();
                     result = true;
                 } catch (SecurityException se) {
                     //TODO: log error

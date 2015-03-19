@@ -22,7 +22,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -42,15 +46,17 @@ public class UserController {
     private final OrderService orderService;
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
+    private final UserService userSerivce;
 
     @Autowired
-    public UserController(UserService userService, AuthorizationChecker authorizationChecker, MailService mailService, OrderService orderService, ProductService productService, ProductCategoryService productCategoryService) {
+    public UserController(UserService userService, AuthorizationChecker authorizationChecker, MailService mailService, OrderService orderService, ProductService productService, ProductCategoryService productCategoryService, UserService userSerivce) {
         this.userService = userService;
         this.authorizationChecker = authorizationChecker;
         this.mailService = mailService;
         this.orderService = orderService;
         this.productService = productService;
         this.productCategoryService = productCategoryService;
+        this.userSerivce = userSerivce;
     }
 
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
@@ -313,7 +319,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = { "/profile/orders", "users/orders", "user/{username}/orders", "user/{userID}/orders"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/profile/orders", "users/orders", "user/{username}/orders", "user/{userID}/orders"}, method = RequestMethod.GET)
     public String ordersGET(Model model, HttpServletRequest request) {
         UserFormBO user = null;
         List<List<ProductFormWrapperBO>> listOfProductFormWrappers = new ArrayList<>();
@@ -364,15 +370,50 @@ public class UserController {
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
             }
-String invoice=orderService.getAllUserInvoices(user.getId());
-            invoice+= System.getProperty("file.separator");
-            model.addAttribute("invoiceUrl",invoice );
+            String invoice = orderService.getInvoiceBaseUrl(user.getId());
+            invoice += System.getProperty("file.separator");
+            model.addAttribute("invoiceUrl", invoice);
             model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
             model.addAttribute("user", user);
             model.addAttribute("orders", user.getOrders());
         }
         return "user/ordersView";
     }
+
+
+    @RequestMapping(value = "/invoices/{userId}/{invoiceUrl}", method = RequestMethod.GET)
+    public String showInvoiceGET(@PathVariable("userId") int userId, @PathVariable("invoiceUrl") String invoiceUrl, HttpServletResponse response, HttpServletRequest request) throws IOException {
+               FileInputStream fis = null;
+
+
+        Authentication auth = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String username = auth.getName();
+
+
+
+        if ((username.equals(userSerivce.getById(userId, UserFormBO.class, UserEntity.class).getUsername())|| authorizationChecker.checkAuthorization(request))) {
+            String invoice = orderService.getInvoiceBaseUrl(userId);
+            invoice += System.getProperty("file.separator");
+            invoice += invoiceUrl;
+            invoice += ".pdf";
+
+            try {
+                fis = new FileInputStream(invoice);
+                InputStream is = fis;
+                org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+                response.flushBuffer();
+                return null;
+            } catch (IOException ex) {
+                throw new RuntimeException("IOError writing file to output stream");
+            } finally {
+                fis.close();
+            }
+        }
+        else
+            return "deniedView";
+    }
+
 
     @RequestMapping(value = "/profile/change-password", method = RequestMethod.GET)
     public String profileChangePasswordGET(Model model, HttpServletRequest request) {

@@ -1,8 +1,8 @@
 package com.premium.spirit.society.core.businessLayer.serviceImpl;
 
+import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormWrapperBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.UserFormBO;
 import com.premium.spirit.society.core.businessLayer.service.MailService;
-import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class MailServiceImpl implements MailService {
         // mentioned.
 
         // Sender's email ID needs to be mentioned
-        String from = "mailbot@genepi.com";
+        String from = "mailbot@premium-spirit-society.com";
 
         // Assuming you are sending email from localhost
         String host = "localhost";
@@ -79,18 +79,18 @@ public class MailServiceImpl implements MailService {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
                     recipient));
             if (map.get("subject").equals("changeOfThePassword")) {
-                message.setSubject("Changed password to GENEPI system");
-                UserEntity user = (UserEntity) map.get("user");
+                message.setSubject("Changed password to premium-spirit-society eshop");
+                UserFormBO user = (UserFormBO) map.get("user");
 
 				/*
                  * String text = "Dear " + user.getUsername() + ",\n\n" +
 				 * "your password was changed to: " + map.get("password") +
 				 * ".\n\nRegards,\nGENEPI team.";
 				 */
-                String[] messagePrameters = new String[]{user.getUsername(),
+                String[] messageParameters = new String[]{user.getUsername(),
                         (String) map.get("password")};
                 String text = messageSource.getMessage("changedPassword",
-                        messagePrameters, locale);
+                        messageParameters, locale);
                 System.out.println(text);
                 message.setText(text, "UTF-8");
                 Transport.send(message);
@@ -102,19 +102,12 @@ public class MailServiceImpl implements MailService {
                         + " Message about the change of the password was sent to user "
                         + user.getId());
             } else if (map.get("subject").equals("creationOfANewUser")) {
-                message.setSubject("New account to GENEPI system", "utf-8");
-                UserEntity user = (UserEntity) map.get("user");
-                /*
-                 * String text = "Dear " + user.getUsername() + ",\n\n" +
-				 * "your account was created. Your password is: " +
-				 * map.get("password") +
-				 * ".\nPlease change it in your user administration as soon as possible.\n\nRegards,\nGENEPI team."
-				 * ;
-				 */
-                String[] messagePrameters = new String[]{user.getUsername(),
+                message.setSubject("New account to premium-spirit-society eshop", "utf-8");
+                UserFormBO user = (UserFormBO) map.get("user");
+                String[] messageParameters = new String[]{user.getUsername(),
                         (String) map.get("password")};
                 String text = messageSource.getMessage("userCreated",
-                        messagePrameters, locale);
+                        messageParameters, locale);
                 System.out.println(text);
                 message.setText(text, "UTF-8");
 
@@ -124,6 +117,37 @@ public class MailServiceImpl implements MailService {
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                 Date today = Calendar.getInstance().getTime();
                 String reportDate = df.format(today);
+                logger.info(reportDate
+                        + " Message about the creation of a new account was sent to user "
+                        + user.getId());
+            } else if (map.get("subject").equals("creationOfANewOrder")) {
+                message.setSubject("New order from created", "utf-8");
+                UserFormBO user = (UserFormBO) map.get("user");
+                List<ProductFormWrapperBO> productFormWrapperBOs = (List<ProductFormWrapperBO>) map.get("productFormWrapperBOs");
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                Date today = Calendar.getInstance().getTime();
+                String reportDate = df.format(today);
+
+                String[] messageParameters = new String[]{user.getUsername(), reportDate};
+                String text = messageSource.getMessage("orderCreated",
+                        messageParameters, locale);
+
+                for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                    text += productFormWrapperBO.getName();
+                    text += "   ";
+                    text += productFormWrapperBO.getAmount();
+                    text += "   ";
+                    text += productFormWrapperBO.getPrice();
+                    text += "   ";
+                    text += (productFormWrapperBO.getAmount() * productFormWrapperBO.getPrice());
+                    text += "\n";
+                }
+                text += "\n\n <a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString() + "\" \n\n";
+                System.out.println(text);
+                message.setText(text, "UTF-8");
+
+                Transport.send(message);
+
                 logger.info(reportDate
                         + " Message about the creation of a new account was sent to user "
                         + user.getId());
@@ -156,6 +180,19 @@ public class MailServiceImpl implements MailService {
             map.put("subject", "changeOfThePassword");
             map.put("user", user);
             map.put("password", password);
+            this.sendMail(user.getContact().getEmail(), map, locale);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void notifyOrderCreated(UserFormBO user, List<ProductFormWrapperBO> productFormWrapperBOs, String invoice, Locale locale) {
+        try {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("subject", "creationOfANewOrder");
+            map.put("user", user);
+            map.put("invoice", invoice);
+            map.put("productFormWrapperBOs", productFormWrapperBOs);
             this.sendMail(user.getContact().getEmail(), map, locale);
         } catch (Exception e) {
             e.printStackTrace();

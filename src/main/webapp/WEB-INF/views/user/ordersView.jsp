@@ -69,7 +69,7 @@
                         </c:forEach>
                     </td>
                     <td> ${order.state}</td>
-                    <td> ${invoiceUrl}${order.invoice}</td>
+                    <td> <a href ="/invoices/${order.userID}/${order.invoice}"> ${invoiceUrl}${order.invoice}</a></td>
                 </tr>
             </c:forEach>
 

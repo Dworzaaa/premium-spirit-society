@@ -66,7 +66,7 @@ public class ProductCategoryController {
                 return "category/categoryView";
             }
         }
-        return "nonExistView";
+        return "deniedView";
     }
 
 
@@ -85,7 +85,7 @@ public class ProductCategoryController {
         }
         ProductCategoryFormBO category = productCategoryService.getById(catId, ProductCategoryFormBO.class, ProductCategoryEntity.class);
         if (category == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici category
         }
         model.addAttribute("category", category);
@@ -123,7 +123,7 @@ public class ProductCategoryController {
         }
         ProductCategoryFormBO category = productCategoryService.getById(catId, ProductCategoryFormBO.class, ProductCategoryEntity.class);
         if (category == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici category
         }
         model.addAttribute("category", category);
@@ -151,7 +151,7 @@ public class ProductCategoryController {
         }
         ProductCategoryFormBO category = productCategoryService.getById(categoryID, ProductCategoryFormBO.class, ProductCategoryEntity.class);
         if (category == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici category
         }
 
@@ -168,7 +168,7 @@ public class ProductCategoryController {
         }
         ProductCategoryFormBO category = productCategoryService.getById(categoryID, ProductCategoryFormBO.class, ProductCategoryEntity.class);
         if (category == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici category
         }
         if (category == null) {

@@ -77,7 +77,7 @@ public class ProductController {
 
             }
         }
-        return "nonExistView";
+        return "deniedView";
     }
 
     @RequestMapping(value = "/product/products", method = RequestMethod.GET)
@@ -95,7 +95,7 @@ public class ProductController {
         }
         ProductFormBO product = productService.getById(catId, ProductFormBO.class, ProductEntity.class);
         if (product == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici product
         }
         model.addAttribute("product", product);
@@ -145,7 +145,7 @@ public class ProductController {
         }
         ProductFormBO product = productService.getById(catId, ProductFormBO.class, ProductEntity.class);
         if (product == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici product
         }
 
@@ -184,7 +184,7 @@ public class ProductController {
         }
         ProductFormBO product = productService.getById(productID, ProductFormBO.class, ProductEntity.class);
         if (product == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici product
         }
         if (product == null) {
@@ -204,7 +204,7 @@ public class ProductController {
         }
         ProductFormBO product = productService.getById(productID, ProductFormBO.class, ProductEntity.class);
         if (product == null) {
-            return "nonExistView";
+            return "deniedView";
             // Neexistujici product
         }
         if (product == null) {

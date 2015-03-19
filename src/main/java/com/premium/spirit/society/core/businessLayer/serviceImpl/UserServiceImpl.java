@@ -127,7 +127,9 @@ public class UserServiceImpl extends GenericServiceImpl<UserFormBO, UserEntity> 
     @Transactional
     public boolean isUniqueEmail(int userId, String email) {
         UserFormBO user = getUserByEmail(email);
-        return user.getContact().getEmail().equals(email);
+        if (user ==null || user.getId()==userId)
+            return true;
+        return !user.getContact().getEmail().equals(email);
     }
 
     @Override
