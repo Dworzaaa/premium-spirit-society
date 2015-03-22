@@ -7,6 +7,7 @@ import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
 import org.springframework.context.annotation.Scope;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Martin on 2. 1. 2015.
@@ -15,6 +16,6 @@ import java.util.List;
 public interface OrderService extends GenericService<OrderFormBO, OrderEntity> {
     public List<OrderDisplayBO> getOrdersByUserId(int id);
     public String createFileName(String username,String orderNumber);
-    public void createPdf(String pdfFilename, List<ProductFormWrapperBO> productFormWrapperBOs,OrderFormBO order);
+    public void createPdf(String pdfFilename, List<ProductFormWrapperBO> productFormWrapperBOs,OrderFormBO order,Locale locale);
     public String getInvoiceBaseUrl(int userId);
 }

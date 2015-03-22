@@ -172,17 +172,8 @@ public class OrderController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         sdf.format(new Date()).toString();
         long dateLong = Long.parseLong(sdf.format(new Date()).toString());
-        dateLong = dateLong * 1000000000;
-        int orderCount = 0;
-        List<OrderFormBO> orders = orderService.getAll(OrderFormBO.class, OrderEntity.class);
-
-
-        if (orders.size() > 0)
-            orderCount += orderService.getById(orders.get(orders.size() - 1).getId(), OrderFormBO.class, OrderEntity.class).getId() + 1;
-        else
-            orderCount++;
-
-        // current date + user's ID + count of all orders
+        dateLong = dateLong * 100000;
+        int orderCount = user.getOrders().size()+1;
         String orderNumber = Long.toString(dateLong) + Long.toString(order.getUserID()) + Long.toString(orderCount);
         order.setOrderNumber(orderNumber);
 
@@ -201,7 +192,7 @@ public class OrderController {
             orderService.merge(order, OrderEntity.class);
 
 
-        orderService.createPdf(pdfFilename, productFormWrapperBOs, order);
+        orderService.createPdf(pdfFilename, productFormWrapperBOs, order,locale);
 
         productFormWrapperBOs = new ArrayList<>();
         for (ProductFormBO productFormBO : order.getProducts()) {

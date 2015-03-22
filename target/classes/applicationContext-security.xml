@@ -20,7 +20,7 @@
         <security:intercept-url pattern="/product/**" access="ROLE_ADMIN"/>
 
         <!-- ROLE_USER permissions -->
-        <security:intercept-url pattern="/profile" access="ROLE_USER"/>
+        <security:intercept-url pattern="/profile/**" access="ROLE_USER"/>
 
         <security:form-login login-page="/" authentication-failure-url="/denied" default-target-url="/"/>
         <security:logout logout-success-url="/"/>
