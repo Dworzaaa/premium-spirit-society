@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -319,7 +320,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = {"/profile/orders", "users/orders", "user/{username}/orders", "user/{userID}/orders"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/profile/orders", "users/orders", "user/{username}/orders"}, method = RequestMethod.GET)
     public String ordersGET(Model model, HttpServletRequest request) {
         UserFormBO user = null;
         List<List<ProductFormWrapperBO>> listOfProductFormWrappers = new ArrayList<>();
@@ -327,8 +328,8 @@ public class UserController {
 
         String uri = request.getRequestURI();
         String[] tokens = uri.split("/");
-        if (tokens.length == 3) {
-            if (isInteger(tokens[2])) {
+        if (tokens.length == 4) {
+            if (isInteger(tokens[3])) {
                 user = userService.getById(Integer.parseInt(tokens[2]), UserFormBO.class, UserEntity.class);
             } else {
                 Authentication auth = SecurityContextHolder.getContext()
@@ -336,8 +337,45 @@ public class UserController {
                 String username = auth.getName();
                 user = userService.getUserByUsername(username);
             }
-        } else if (tokens[1].equals("orders") || tokens[1].equals("users")) {
-            model.addAttribute("orders", orderService.getAll(OrderFormBO.class, OrderEntity.class));
+        }
+        if (uri.equals("/profile/orders")) {
+            Authentication auth = SecurityContextHolder.getContext()
+                    .getAuthentication();
+            String username = auth.getName();
+            user = userService.getUserByUsername(username);
+
+        }
+        if (uri.equals("/users/orders")) {
+            List<OrderFormBO> orders=orderService.getAll(OrderFormBO.class, OrderEntity.class);
+            List<String> listOfInvoices= new ArrayList<>();
+            for (OrderFormBO order :orders) {
+                productFormWrapperBOs = new ArrayList<>();
+                for (ProductFormBO productFormBO : order.getProducts()) {
+                    boolean wrapperContainsCurrentProduct = false;
+                    for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                        if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                            wrapperContainsCurrentProduct = true;
+                            productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                            break;
+                        }
+
+                    }
+                    if (!wrapperContainsCurrentProduct) {
+                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                    }
+                }
+                listOfProductFormWrappers.add(productFormWrapperBOs);
+                String invoice = orderService.getInvoiceBaseUrl(order.getUserID());
+                invoice += System.getProperty("file.separator");
+                invoice+= order.getInvoice();
+                invoice+=".pdf";
+                listOfInvoices.add(invoice);
+            }
+
+            model.addAttribute("listOfInvoices", listOfInvoices);
+            model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
+            model.addAttribute("orders", orders);
+            // TODO: presmerovavat na jinou adresu
         }
 
         Authentication auth = SecurityContextHolder.getContext()
@@ -376,14 +414,22 @@ public class UserController {
             model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
             model.addAttribute("user", user);
             model.addAttribute("orders", user.getOrders());
+
+            user.getOrders().sort(new Comparator<OrderFormBO>() {
+                @Override
+                public int compare(OrderFormBO o1, OrderFormBO o2) {
+                    return  o2.getId()-o1.getId();
+                }
+            });
         }
+
         return "user/ordersView";
     }
 
 
     @RequestMapping(value = "/invoices/{userId}/{invoiceUrl}", method = RequestMethod.GET)
     public String showInvoiceGET(@PathVariable("userId") int userId, @PathVariable("invoiceUrl") String invoiceUrl, HttpServletResponse response, HttpServletRequest request) throws IOException {
-               FileInputStream fis = null;
+        FileInputStream fis = null;
 
 
         Authentication auth = SecurityContextHolder.getContext()
@@ -391,8 +437,7 @@ public class UserController {
         String username = auth.getName();
 
 
-
-        if ((username.equals(userSerivce.getById(userId, UserFormBO.class, UserEntity.class).getUsername())|| authorizationChecker.checkAuthorization(request))) {
+        if ((username.equals(userSerivce.getById(userId, UserFormBO.class, UserEntity.class).getUsername()) || authorizationChecker.checkAuthorization(request))) {
             String invoice = orderService.getInvoiceBaseUrl(userId);
             invoice += System.getProperty("file.separator");
             invoice += invoiceUrl;
@@ -409,8 +454,7 @@ public class UserController {
             } finally {
                 fis.close();
             }
-        }
-        else
+        } else
             return "deniedView";
     }
 

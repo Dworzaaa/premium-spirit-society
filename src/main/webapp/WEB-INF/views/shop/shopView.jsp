@@ -23,7 +23,7 @@
 
 
     <jsp:body>
-  <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
+        <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
                        var="isAuthorized"/>
 
         <div class="row">

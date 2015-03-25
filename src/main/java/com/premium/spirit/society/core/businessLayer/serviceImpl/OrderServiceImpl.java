@@ -35,14 +35,17 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
     private OrderFormBO order;
     private int pageNumber = 0;
 
+    private final String BLUE="C1DAD6";
+    private final String GREY="B2BEB5";
+    private final String WHITE="#FFFFFF";
 
     @Autowired
     private OrderServiceImpl(OrderDAO orderDAO) {
         this.orderDAO = orderDAO;
     }
 
-@Autowired
-private MessageSource messageSource;
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     @Transactional
@@ -78,6 +81,7 @@ private MessageSource messageSource;
         Document doc = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
         PdfWriter docWriter = null;
         initializeFonts();
+        int vat=Integer.parseInt(messageSource.getMessage("VAT", null, locale));
 
         try {
             String path = System.getProperty("user.home")
@@ -140,16 +144,23 @@ private MessageSource messageSource;
             PdfPTable supplierNestedTable = new PdfPTable(1);
             supplierNestedTable.setWidthPercentage(100);
             PdfPCell supplierHeaderCell = new PdfPCell();
-            Paragraph supplierHeaderParagraph = new Paragraph("Supplier:");
-            supplierHeaderParagraph.setAlignment(Element.ALIGN_CENTER);
+            Paragraph supplierHeaderParagraph = new Paragraph("Supplier:\n");
+            supplierHeaderCell.setBackgroundColor(WebColors.getRGBColor(BLUE));
+            supplierHeaderParagraph.setAlignment(Element.ALIGN_LEFT);
             supplierHeaderCell.addElement(supplierHeaderParagraph);
             supplierHeaderCell.setBorder(Rectangle.NO_BORDER);
             supplierNestedTable.addCell(supplierHeaderCell);
             supplierCell.addElement(supplierNestedTable);
 
             Paragraph supplierParagraph = new Paragraph();
-            supplierParagraph.setAlignment(Element.ALIGN_CENTER);
-            Chunk supplierChunk = new Chunk("\nJarda Vomacka\nVaclava Volfa 17\nCeske Budejovice\nCesko\nCeska Republika\n37341\n\n");
+            supplierParagraph.setAlignment(Element.ALIGN_LEFT);
+            Chunk supplierChunk = new Chunk("\n"
+                    + order.getUser().getContact().getFirstName() + "\n"
+                    + order.getUser().getContact().getLastName() + "\n"
+                    + order.getUser().getContact().getAddressStreet() + " " + order.getUser().getContact().getAddressHn() + "\n"
+                    + order.getUser().getContact().getAddressCity() + "\n"
+                    + order.getUser().getContact().getAddressCountry() + "\n"
+                    + order.getUser().getContact().getAddressPostalcode() + "\n\n");
             supplierParagraph.add(supplierChunk);
             supplierCell.addElement(supplierParagraph);
             subjectTable.addCell(supplierCell);
@@ -158,19 +169,22 @@ private MessageSource messageSource;
             PdfPTable customerNestedTable = new PdfPTable(1);
             customerNestedTable.setWidthPercentage(100);
             PdfPCell customerHeaderCell = new PdfPCell();
-            Paragraph customerHeaderParagraph = new Paragraph("Customer:");
-            customerHeaderParagraph.setAlignment(Element.ALIGN_CENTER);
+
+            Paragraph customerHeaderParagraph = new Paragraph("Customer:\n");
+            customerHeaderParagraph.setAlignment(Element.ALIGN_LEFT);
+            customerHeaderCell.setBackgroundColor(WebColors.getRGBColor("#C1DAD6"));
             customerHeaderCell.addElement(customerHeaderParagraph);
             customerHeaderCell.setBorder(Rectangle.NO_BORDER);
             customerNestedTable.addCell(customerHeaderCell);
             customerCell.addElement(customerNestedTable);
 
+
             Paragraph customerParagraph = new Paragraph();
-            customerParagraph.setAlignment(Element.ALIGN_CENTER);
-            Chunk customerChunk = new Chunk("\nJarda Vomacka\nVaclava Volfa 17\nCeske Budejovice\nCesko\nCeska Republika\n37341\n\n");
+            customerParagraph.setAlignment(Element.ALIGN_LEFT);
+            Chunk customerChunk = new Chunk(messageSource.getMessage("SupplierInfo", null, locale));
             customerParagraph.add(customerChunk);
             customerCell.addElement(customerParagraph);
-            customerParagraph.setAlignment(Element.ALIGN_CENTER);
+            customerParagraph.setAlignment(Element.ALIGN_LEFT);
             subjectTable.addCell(customerCell);
             subjectTable.setWidthPercentage(95);
             subjectParagraph.add(subjectTable);
@@ -208,7 +222,7 @@ private MessageSource messageSource;
             PdfPTable productTable = new PdfPTable(8); // 3 columns.
             productTable.setWidthPercentage(95);
 
-            BaseColor headerColor = WebColors.getRGBColor("#C1DAD6");
+            BaseColor headerColor = WebColors.getRGBColor(BLUE);
             PdfPCell headerCell1 = new PdfPCell(new Paragraph("ID"));
             headerCell1.setBackgroundColor(headerColor);
             productTable.addCell(headerCell1);
@@ -235,13 +249,13 @@ private MessageSource messageSource;
             productTable.addCell(headerCell8);
 
             doc.add(new Paragraph("\n"));
-int totalPriceForOrder=0;
+            int totalPriceForOrder = 0;
             for (int i = 0; i != productFormWrapperBOs.size(); i++) {
                 BaseColor myColor;
                 if (i % 2 == 0) {
-                    myColor = WebColors.getRGBColor("#ffffff");
+                    myColor = WebColors.getRGBColor(WHITE);
                 } else {
-                    myColor = WebColors.getRGBColor("#b2beb5");
+                    myColor = WebColors.getRGBColor(GREY);
                 }
                 PdfPCell productId = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getId())));
                 productId.setBackgroundColor(myColor);
@@ -255,9 +269,9 @@ int totalPriceForOrder=0;
                 productPrice.setBackgroundColor(myColor);
                 PdfPCell productAmount = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getAmount())));
                 productAmount.setBackgroundColor(myColor);
-                PdfPCell productVAT = new PdfPCell(new Paragraph(messageSource.getMessage("VAT",null,locale)));
+                PdfPCell productVAT = new PdfPCell(new Paragraph(vat));
                 productVAT.setBackgroundColor(myColor);
-                PdfPCell totalPrice = new PdfPCell(new Paragraph(String.valueOf((Integer.parseInt(messageSource.getMessage("VAT", null, locale))/100+1) * productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount())));
+                PdfPCell totalPrice = new PdfPCell(new Paragraph(String.valueOf((vat / 100 + 1) * productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount())));
                 totalPrice.setBackgroundColor(myColor);
 
                 productTable.addCell(productId);
@@ -269,7 +283,7 @@ int totalPriceForOrder=0;
                 productTable.addCell(productVAT);
                 productTable.addCell(totalPrice);
 
-                totalPriceForOrder+=Integer.parseInt(String.valueOf(productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount()));
+                totalPriceForOrder += Integer.parseInt(String.valueOf(productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount()));
             }
 
             productParagraph.add(productTable);
@@ -314,28 +328,28 @@ int totalPriceForOrder=0;
 
             PdfPCell vatSummaryCell1b = new PdfPCell();
             Paragraph vatSummaryParagraph1b = new Paragraph();
-            Chunk vatSummaryChunk1b = new Chunk(messageSource.getMessage("VAT",null,locale)+"\n");
+            Chunk vatSummaryChunk1b = new Chunk(vat + "\n");
             vatSummaryParagraph1b.add(vatSummaryChunk1b);
             vatSummaryCell1b.addElement(vatSummaryParagraph1b);
             summaryTable.addCell(vatSummaryCell1b);
 
             PdfPCell vatSummaryCell2b = new PdfPCell();
             Paragraph vatSummaryParagraph2b = new Paragraph();
-            Chunk vatSummaryChunk2b = new Chunk(Integer.toString(totalPriceForOrder)+"\n");
+            Chunk vatSummaryChunk2b = new Chunk(Integer.toString(totalPriceForOrder) + "\n");
             vatSummaryParagraph2b.add(vatSummaryChunk2b);
             vatSummaryCell2b.addElement(vatSummaryParagraph2b);
             summaryTable.addCell(vatSummaryCell2b);
 
             PdfPCell vatSummaryCell3b = new PdfPCell();
             Paragraph vatSummaryParagraph3b = new Paragraph();
-            Chunk vatSummaryChunk3b = new Chunk(Double.toString(totalPriceForOrder/100*Integer.parseInt(messageSource.getMessage("VAT",null,locale)))+"\n");
+            Chunk vatSummaryChunk3b = new Chunk(Double.toString(totalPriceForOrder / 100 * vat) + "\n");
             vatSummaryParagraph3b.add(vatSummaryChunk3b);
             vatSummaryCell3b.addElement(vatSummaryParagraph3b);
             summaryTable.addCell(vatSummaryCell3b);
 
             PdfPCell vatSummaryCell4b = new PdfPCell();
             Paragraph vatSummaryParagraph4b = new Paragraph();
-            Chunk vatSummaryChunk4b = new Chunk(Integer.toString((Integer.parseInt(messageSource.getMessage("VAT", null, locale))/100+1) * totalPriceForOrder)+"\n");
+            Chunk vatSummaryChunk4b = new Chunk(Integer.toString((vat / 100 + 1) * totalPriceForOrder) + "\n");
             vatSummaryParagraph4b.add(vatSummaryChunk4b);
             vatSummaryCell4b.addElement(vatSummaryParagraph4b);
             summaryTable.addCell(vatSummaryCell4b);

@@ -30,7 +30,7 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            url: "http://premium-spirit-society.com/product/listInCat-search",
+            url: "http://premium-spirit-society.com:80/product/listInCat-search",
             data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&categoryId=1",
             success: function (response) {
                 var obj = JSON.parse(response);
