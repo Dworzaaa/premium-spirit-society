@@ -17,7 +17,7 @@
     <img src="data:image/jpeg;base64,${picture}"/> <br>
     <c:out value="${productWrappers[loop.index].id}"/> <br>
     <a href="${productWrappers[loop.index].productSubcategory.productCategory.url}/${productWrappers[loop.index].productSubcategory.url}/${productWrappers[loop.index].url}"
-       class="glyphicon-ok-circle">    <c:out value="${productWrappers[loop.index].name}"/> </a>
+       class="glyphicon-ok-circle"> <c:out value="${productWrappers[loop.index].name}"/> </a>
     <br>
 
     <c:out value="${productWrappers[loop.index].description}"/> <br>
@@ -39,6 +39,11 @@
     <input type="submit" value="Odeslat objednavku"></inpit>
 
 </form:form>
+
+
+<form action='expresscheckout' METHOD='POST'>
+    <input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+</form>
 
 </body>
 </html>
