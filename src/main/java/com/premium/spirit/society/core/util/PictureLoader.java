@@ -71,7 +71,7 @@ public class PictureLoader {
 
 
         }
-        System.out.println(pictureFolder);
+        System.out.println(pictureFolder+" :)");
         /*
         else if (this.productString != null) {
             if (this.productString.equals("carousel")) {
@@ -117,8 +117,10 @@ public class PictureLoader {
                 System.out.println("pridavam");
                 String encodedString = new String(encoded);
                 pictureList.add(encodedString);
-                if (onlyFirst)
+                if (onlyFirst) {
+                    System.out.println("koncim");
                     break;
+                }
             }
         }
         else System.out.println("je null");
