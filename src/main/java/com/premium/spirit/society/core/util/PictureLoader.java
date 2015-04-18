@@ -121,6 +121,7 @@ public class PictureLoader {
                     break;
             }
         }
+        else System.out.println("je null");
         return pictureList;
     }
 
