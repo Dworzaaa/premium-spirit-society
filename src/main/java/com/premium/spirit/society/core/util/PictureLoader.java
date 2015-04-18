@@ -53,10 +53,6 @@ public class PictureLoader {
 
     private String productString;
 
-    public PictureLoader(String product) {
-        this.productString = product;
-    }
-
     public List<String> loadPictures() {
         List<String> pictureList = new ArrayList<>();
         String pictureFolder = null;
