@@ -12,7 +12,6 @@ import com.premium.spirit.society.core.dataLayer.entity.ProductSubcategoryEntity
 import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import com.premium.spirit.society.core.util.PictureLoader;
 import com.premium.spirit.society.core.util.paypalfunctions;
-import com.sun.deploy.net.HttpResponse;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
