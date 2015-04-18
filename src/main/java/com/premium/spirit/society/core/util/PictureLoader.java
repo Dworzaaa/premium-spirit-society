@@ -87,9 +87,11 @@ public class PictureLoader {
 
         listOfFiles = f.listFiles();
         if (listOfFiles != null) {
+            System.out.println("neni null");
             int lengthOfListOfFiles = listOfFiles.length;
 
             for (int i = 0; i != lengthOfListOfFiles - 1; i++) {
+                System.out.println("forloop");
                 if (onlySecond){
                     onlyFirst=true;
                     onlySecond=false;
@@ -112,6 +114,7 @@ public class PictureLoader {
 
                 byte[] encoded = org.apache.commons.codec.binary.Base64
                         .encodeBase64(arr);
+                System.out.println("pridavam");
                 String encodedString = new String(encoded);
                 pictureList.add(encodedString);
                 if (onlyFirst)
