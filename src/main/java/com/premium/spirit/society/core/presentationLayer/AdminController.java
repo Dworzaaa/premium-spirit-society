@@ -52,16 +52,4 @@ public class AdminController {
         model.addAttribute("maxResult", maxResults);
         return "admin/customerListView";
     }
-
-    @RequestMapping(value = "/admin/orders", method = RequestMethod.GET)
-    public String ordersGET(Model model, HttpServletRequest request) {
-        return "admin/orderListView";
-    }
-
-    @RequestMapping(value = "/admin/products", method = RequestMethod.GET)
-    public String productsGET(Model model, HttpServletRequest request) {
-        return "admin/productListView";
-    }
-
-
 }
