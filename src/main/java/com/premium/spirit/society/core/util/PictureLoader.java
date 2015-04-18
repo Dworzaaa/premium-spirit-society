@@ -67,7 +67,7 @@ public class PictureLoader {
 
 
         }
-        System.out.println(pictureFolder+" :)");
+        System.out.println(pictureFolder);
         /*
         else if (this.productString != null) {
             if (this.productString.equals("carousel")) {
@@ -85,7 +85,7 @@ public class PictureLoader {
         if (listOfFiles != null) {
             System.out.println("neni null");
             int lengthOfListOfFiles = listOfFiles.length;
-
+System.out.println("List of files: "+lengthOfListOfFiles);
             for (int i = 0; i != lengthOfListOfFiles - 1; i++) {
                 System.out.println("forloop");
                 if (onlySecond){
