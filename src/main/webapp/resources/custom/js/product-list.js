@@ -30,8 +30,8 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            url: "http://premium-spirit-society.com:80/product/list-search",
-           // url: "http://localhost:8080/product/list-search",
+          //  url: "http://premium-spirit-society.com:80/product/list-search",
+            url: "http://localhost:8080/product/list-search",
             data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
             success: function (response) {
                 var obj = JSON.parse(response);
