@@ -27,11 +27,12 @@ public class PictureLoader {
         this.product = product;
     }
 
-    public PictureLoader(ProductDisplayBO product, boolean onlyFirst,boolean onlySecond) {
+    public PictureLoader(ProductDisplayBO product, boolean onlyFirst, boolean onlySecond) {
         this.onlyFirst = onlyFirst;
-        this.onlySecond=onlySecond;
+        this.onlySecond = onlySecond;
         this.product = product;
     }
+
     public PictureLoader(ProductDisplayBO product) {
         onlyFirst = true;
         this.product = product;
@@ -83,14 +84,11 @@ public class PictureLoader {
 
         listOfFiles = f.listFiles();
         if (listOfFiles != null) {
-            System.out.println("neni null");
             int lengthOfListOfFiles = listOfFiles.length;
-System.out.println("List of files: "+lengthOfListOfFiles);
-            for (int i = 0; i != lengthOfListOfFiles - 1; i++) {
-                System.out.println("forloop");
-                if (onlySecond){
-                    onlyFirst=true;
-                    onlySecond=false;
+            for (int i = 0; i != lengthOfListOfFiles ; i++) {
+                if (onlySecond) {
+                    onlyFirst = true;
+                    onlySecond = false;
                     continue;
                 }
                 byte[] arr = new byte[0];
@@ -110,16 +108,13 @@ System.out.println("List of files: "+lengthOfListOfFiles);
 
                 byte[] encoded = org.apache.commons.codec.binary.Base64
                         .encodeBase64(arr);
-                System.out.println("pridavam");
                 String encodedString = new String(encoded);
                 pictureList.add(encodedString);
                 if (onlyFirst) {
-                    System.out.println("koncim");
                     break;
                 }
             }
         }
-        else System.out.println("je null");
         return pictureList;
     }
 
@@ -143,9 +138,9 @@ System.out.println("List of files: "+lengthOfListOfFiles);
             if (listOfFiles != null) {
                 int lengthOfListOfFiles = listOfFiles.length;
 
-                for (int i = 0; i != lengthOfListOfFiles - 1; i++) {
+                for (int i = 0; i != lengthOfListOfFiles ; i++) {
 
-                    if (!listOfFiles[i].getName().equals(category.getUrl()+".jpg"))
+                    if (!listOfFiles[i].getName().equals(category.getUrl() + ".jpg"))
                         continue;
                     byte[] arr = new byte[0];
                     try {
