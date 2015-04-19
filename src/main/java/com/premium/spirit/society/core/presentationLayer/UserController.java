@@ -389,6 +389,13 @@ public class UserController {
         }
 
         if (user != null) {
+            user.getOrders().sort(new Comparator<OrderFormBO>() {
+                @Override
+                public int compare(OrderFormBO o1, OrderFormBO o2) {
+                    return o2.getId() - o1.getId();
+                }
+            });
+
             for (OrderFormBO order : user.getOrders()) {
                 productFormWrapperBOs = new ArrayList<>();
                 for (ProductFormBO productFormBO : order.getProducts()) {
@@ -410,16 +417,16 @@ public class UserController {
             }
 
 
-            for (List<ProductFormWrapperBO> productFormWrapperBO:listOfProductFormWrappers){
+            for (List<ProductFormWrapperBO> productFormWrapperBO : listOfProductFormWrappers) {
                 productFormWrapperBO.sort(new Comparator<ProductFormWrapperBO>() {
                     @Override
                     public int compare(ProductFormWrapperBO o1, ProductFormWrapperBO o2) {
-                        return o2.getOrderId()-o1.getOrderId();
+                        return o2.getOrderId() - o1.getOrderId();
                     }
                 });
             }
 
-            
+
             String invoice = orderService.getInvoiceBaseUrl(user.getId());
             invoice += System.getProperty("file.separator");
             model.addAttribute("invoiceUrl", invoice);
@@ -427,12 +434,7 @@ public class UserController {
             model.addAttribute("user", user);
             model.addAttribute("orders", user.getOrders());
 
-            user.getOrders().sort(new Comparator<OrderFormBO>() {
-                @Override
-                public int compare(OrderFormBO o1, OrderFormBO o2) {
-                    return o2.getId() - o1.getId();
-                }
-            });
+
         }
 
         return "user/ordersView";
