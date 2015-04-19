@@ -361,7 +361,7 @@ public class UserController {
 
                     }
                     if (!wrapperContainsCurrentProduct) {
-                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
                     }
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
@@ -389,6 +389,8 @@ public class UserController {
         }
 
         if (user != null) {
+
+            // sort orders
             user.getOrders().sort(new Comparator<OrderFormBO>() {
                 @Override
                 public int compare(OrderFormBO o1, OrderFormBO o2) {
@@ -410,7 +412,7 @@ public class UserController {
 
                     }
                     if (!wrapperContainsCurrentProduct) {
-                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
                     }
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
