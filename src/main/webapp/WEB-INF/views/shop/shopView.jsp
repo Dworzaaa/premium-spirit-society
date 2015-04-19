@@ -23,6 +23,9 @@
 
 
     <jsp:body>
+        <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
+                       var="isAuthorized"/>
+
         <div class="row">
             <div class="col-xs-6">
                 <h2>
@@ -111,24 +114,10 @@
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.categoryDescription"/>
+                            <spring:message code="label.description"/>
                         </b>
                     </td>
-                    <td>
-                        <b>
-                            <spring:message code="label.birthIdentificationNumber"/>
-                        </b>
-                    </td>
-                    <td>
-                        <b>
-                            <spring:message code="label.address"/>
-                        </b>
-                    </td>
-                    <td>
-                        <b>
-                            <spring:message code="label.addressCity"/>
-                        </b>
-                    </td>
+
                 </tr>
                 </thead>
                 <tbody id="userList">
@@ -183,10 +172,6 @@
             Price:
             <c:out value="${products[loop.index].price}"/>
             <br>
-
-            ADD TO SHOPPING-CART VIA AJAX
-            <br>
-
         </c:forEach>
     </jsp:body>
 </t:menuLVL1>

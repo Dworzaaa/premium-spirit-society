@@ -30,7 +30,7 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            // url: "http://premium-spirit-society.com/product/list-search",
+            //url: "http://premium-spirit-society.com/product/list-search",
             url: "http://localhost:8080/product/list-search",
             data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
             success: function (response) {
@@ -44,17 +44,17 @@ $(document).ready(function () {
                 for (var i = 0; i < countOfusers; i++) {
 
                     var productId = obj.userList[i][0].productId;
-                    var productCat = obj.userList[i][0].productCat;
-                    var productSubcat = obj.userList[i][0].productSubcat;
-                    var productPrice = obj.userList[i][0].productSubcat;
                     var productName = obj.userList[i][0].productName;
+                    var productCatUrl = obj.userList[i][0].productCatUrl;
+                    var productSubcatUrl = obj.userList[i][0].productSubcatUrl;
+                    var productPrice = obj.userList[i][0].productPrice;
                     var productDescription = obj.userList[i][0].productDescription;
                     var productUrl = obj.userList[i][0].productUrl;
 
-                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCat+ "/"+productSubcat+"/"+productName + "'><td>"
+                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCatUrl + "/"+ productSubcatUrl + "/"+productUrl+"'><td>"
                     + productPrice + "</td>" + "<td>"
                     + productName + "</td>" +
-                    "<td>" + productDescription +   "<td>" + productUrl + "</td> </tr>");
+                    "<td>" + productDescription +  "</td> </tr>");
                 }
 
                 //make rows in users list clickable
