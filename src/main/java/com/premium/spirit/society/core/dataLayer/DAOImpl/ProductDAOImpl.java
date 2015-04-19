@@ -29,6 +29,41 @@ public class ProductDAOImpl extends GenericDAOImpl<ProductEntity> implements Pro
     }
 
     @Override
+    public int getCountOfUnhiddenInCat(String searchString, int cat) {
+        Long count;
+        count = ((Long) sessionFactory
+                .getCurrentSession()
+                .createQuery("select count(id) " +
+                        "from ProductEntity" +
+                        " where hidden=0 AND productCategoryID=:catId " +
+                        "AND (name like '" + searchString + "%'" +
+                        " OR id like '" + searchString + "%')")
+                .setParameter("catId", cat)
+                .uniqueResult());
+
+        return count.intValue();
+    }
+
+
+    @Override
+    public int getCountOfUnhiddenInSubcat(String searchString, int subcat) {
+        Long count;
+        count = ((Long) sessionFactory
+                .getCurrentSession()
+                .createQuery("select count(id) " +
+                        "from ProductEntity" +
+                        " where hidden=0 AND productSubcategoryID=:subcatId " +
+                        "AND (name like '" + searchString + "%'" +
+                        " OR id like '" + searchString + "%')")
+                .setParameter("subcatId", subcat)
+                .uniqueResult());
+
+        return count.intValue();
+    }
+
+
+
+    @Override
     public List<ProductEntity> getBySearchStringWithPagination(int maxResults, int pageNumber, String searchString) {
         Query query;
 
@@ -76,15 +111,14 @@ public class ProductDAOImpl extends GenericDAOImpl<ProductEntity> implements Pro
 
 
     @Override
-    public List<ProductEntity> getEverythingBySubcatAndCatWithPagination(int maxResults, int pageNumber, int subcatId, int catId) {
+    public List<ProductEntity> getEverythingBySubcatWithPagination(int maxResults, int pageNumber, int subcatId) {
         Query query;
 
         query = sessionFactory
                 .getCurrentSession()
                 .createQuery("from ProductEntity" +
-                        " where hidden=0 AND productSubcategoryID=:subcatId  AND productCategoryID=:catId ORDER BY id, name")
+                        " where hidden=0 AND productSubcategoryID=:subcatId   ORDER BY id, name")
                 .setParameter("subcatId", subcatId)
-                .setParameter("catId", catId)
                 .setFirstResult(maxResults * (pageNumber - 1))
                 .setMaxResults(maxResults);
 

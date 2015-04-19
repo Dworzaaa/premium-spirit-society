@@ -32,6 +32,16 @@ public class ProductServiceImpl extends GenericServiceImpl<ProductFormBO, Produc
         return productDAO.getCountOfUnhidden(searchString);
     }
 
+    @Override  @Transactional
+    public int getCountOfUnhiddenInCat(String searchString, int cat) {
+        return productDAO.getCountOfUnhiddenInCat(searchString, cat);
+    }
+
+    @Override  @Transactional
+    public int getCountOfUnhiddenInSubcat(String searchString, int subcat) {
+        return productDAO.getCountOfUnhiddenInSubcat(searchString, subcat);
+    }
+
     @Override
     @Transactional
     public List<ProductDisplayBO> getAllUnhidden() {
@@ -95,8 +105,8 @@ public class ProductServiceImpl extends GenericServiceImpl<ProductFormBO, Produc
 
     @Override
     @Transactional
-    public List<ProductDisplayBO> getEverythingBySubcatAndCatWithPagination(int maxResults, int pageNumber, int subcatId, int catId){
-        List<ProductEntity>productList = productDAO.getEverythingBySubcatAndCatWithPagination(maxResults, pageNumber, subcatId, catId);
+    public List<ProductDisplayBO> getEverythingBySubcatWithPagination(int maxResults, int pageNumber, int subcatId){
+        List<ProductEntity>productList = productDAO.getEverythingBySubcatWithPagination(maxResults, pageNumber, subcatId);
         List<ProductDisplayBO> productDisplayVoList = new ArrayList<>();
         for (ProductEntity product : productList) {
             ProductDisplayBO productDisplayBO = dozer.map(product, ProductDisplayBO.class);

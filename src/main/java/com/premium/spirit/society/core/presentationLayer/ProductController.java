@@ -224,10 +224,10 @@ public class ProductController {
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("search") String searchString, HttpServletRequest request,Model model) {
 
-        int userCount = productService.getCountOfUnhidden(searchString);
+        int productCount = productService.getCountOfUnhidden(searchString);
         List<ProductDisplayBO> categories = productService.getBySearchStringWithPagination(maxResults, pageNumber, searchString);
         JSONEncoder e = new JSONEncoder();
-        return e.encodeProduct(categories, userCount);
+        return e.encodeProduct(categories, productCount);
     }
 
     @RequestMapping(value = "/product/listInSubcat-search", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
@@ -238,10 +238,10 @@ public class ProductController {
             @RequestParam("subcategoryId") int subcategoryId,
             @RequestParam("search") String searchString, HttpServletRequest request) {
 
-        int userCount = productService.getCountOfUnhidden(searchString);
-        List<ProductDisplayBO> categories = productService.getEverythingByCatWithPagination(maxResults, pageNumber, subcategoryId);
+        int productCount = productService.getCountOfUnhiddenInSubcat(searchString, subcategoryId);
+        List<ProductDisplayBO> categories = productService.getEverythingBySubcatWithPagination(maxResults, pageNumber, subcategoryId);
         JSONEncoder e = new JSONEncoder();
-        return e.encodeProduct(categories, userCount);
+        return e.encodeProduct(categories, productCount);
     }
 
     @RequestMapping(value = "/product/listInSubcatCat-search", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
@@ -254,7 +254,7 @@ public class ProductController {
             @RequestParam("search") String searchString, HttpServletRequest request) {
 
         int userCount = productService.getCountOfUnhidden(searchString);
-        List<ProductDisplayBO> categories = productService.getEverythingBySubcatAndCatWithPagination(maxResults, pageNumber, subcategoryId, categoryId);
+        List<ProductDisplayBO> categories = productService.getEverythingBySubcatWithPagination(maxResults, pageNumber, subcategoryId);
         JSONEncoder e = new JSONEncoder();
         return e.encodeProduct(categories, userCount);
     }
@@ -267,10 +267,10 @@ public class ProductController {
             @RequestParam("categoryId") int categoryId,
             @RequestParam("search") String searchString, HttpServletRequest request) {
 
-        int userCount = productService.getCountOfUnhidden(searchString);
+        int productCount = productService.getCountOfUnhiddenInCat(searchString, categoryId);
         List<ProductDisplayBO> categories = productService.getEverythingByCatWithPagination(maxResults, pageNumber, categoryId);
         JSONEncoder e = new JSONEncoder();
-        return e.encodeProduct(categories, userCount);
+        return e.encodeProduct(categories, productCount);
     }
 
     @RequestMapping(value = "/product/listAll-search", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")

@@ -8,6 +8,8 @@ $(document).ready(function () {
     //define global variables
     var pageCount = 0;
     var pageNumber = 1;
+    <!--TODO: zjistit hodnotu kategorie -->
+    var catNumber=1;
     var searchString = "";
 
     //called when typing in search bar
@@ -27,6 +29,7 @@ $(document).ready(function () {
         //fill variables
         maxResults = $(this).data("max-results");
         searchString = searchSelector.val();
+
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",

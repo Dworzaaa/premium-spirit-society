@@ -57,7 +57,7 @@ public class ProductSubcategoryController {
                 for (ProductSubcategoryEntity subcategory : productSubcategoryEntities) {
                     if (subcategory.getUrl().equals(subcategoryUrl)) {
 
-                        List<ProductDisplayBO> products = productService.getEverythingBySubcatAndCatWithPagination(maxResults, 1, subcategory.getId(), category.getId());
+                        List<ProductDisplayBO> products = productService.getEverythingBySubcatWithPagination(maxResults, 1, subcategory.getId());
                         List<String> pictureList = new ArrayList<>();
                         List<String> secondPictureList = new ArrayList<>();
                         for (ProductDisplayBO product : products) {

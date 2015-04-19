@@ -4,13 +4,12 @@ $(document).ready(function () {
     var searchSelector = $("#search");
     var userListSelector = $("#userList");
     var nextSelector = $(".next-li");
-var subcategoryId= $("#subcategoryId");
-
     //define global variables
     var pageCount = 0;
     var pageNumber = 1;
     var searchString = "";
-
+    <!--TODO: zjistit hodnotu podkategorie -->
+        var subcategoryId= 1;
     //called when typing in search bar
     searchSelector.keyup(function () {
 
@@ -31,8 +30,8 @@ var subcategoryId= $("#subcategoryId");
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            url: "http://premium-spirit-society.com/product/listInSubcat-search",
-            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&subcategoryId="+subcategoryId.val(),
+            url: "http://premium-spirit-society.com:80/product/listInSubcat-search",
+            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&subcategoryId=1",
             success: function (response) {
                 var obj = JSON.parse(response);
                 var countOfusers = obj.userList.length;

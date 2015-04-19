@@ -10,10 +10,13 @@ import java.util.List;
  */
 public interface ProductDAO extends GenericDAO<ProductEntity> {
     public int getCountOfUnhidden(String searchString);
+    public int getCountOfUnhiddenInCat(String searchString , int cat);
+    public int getCountOfUnhiddenInSubcat(String searchString, int subcat);
+
     public List<ProductEntity> getBySearchStringWithPagination(int maxResults, int pageNumber, String searchString);
     public List<ProductEntity> getEverythingByCatWithPagination(int maxResults, int pageNumber, int catId);
     public List<ProductEntity> getEverythingWithPagination(int maxResults, int pageNumber);
-    public List<ProductEntity> getEverythingBySubcatAndCatWithPagination(int maxResults, int pageNumber, int subcatId, int catId);
+    public List<ProductEntity> getEverythingBySubcatWithPagination(int maxResults, int pageNumber, int subcatId);
     public List<ProductEntity> getPromoted();
 
     public List<ProductEntity> getAllUnhidden();

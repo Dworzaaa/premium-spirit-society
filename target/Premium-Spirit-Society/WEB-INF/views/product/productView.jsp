@@ -49,14 +49,6 @@
 
         <br>
 
-        <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
-            <c:out value="${categories[loop.index].name}"/>
-        </c:forEach>
-        <br>
-        <c:forEach begin="0" end="${fn:length(subcategories)-1}" varStatus="loop">
-            <c:out value="${subcategories[loop.index].name}"/>
-        </c:forEach>
-        <br>
 
         <form:form class="form-horizontal"
                    action="/order/addToCart/${product.id}"
@@ -66,11 +58,11 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="name">
-                    <spring:message code="label.lastname"/>*
+                    <spring:message code="label.productName"/>*
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input id=".name"
+                    <form:input id="name"
                                 class=" form-control input-sm"
                                 type="text"
                                 path="name"/>
@@ -81,8 +73,8 @@
 
             <div class="form-group">
                 <label class="col-xs-3 control-label"
-                       for="contact.firstName">
-                    <spring:message code="label.firstname"/>*
+                       for="description">
+                    <spring:message code="label.productDescription"/>*
                 </label>
 
                 <div class="col-xs-8">
@@ -94,58 +86,61 @@
                                  cssClass="text-danger"/>
                 </div>
             </div>
-
+            <!-- zakaznikovi nezobrazovat
             <div class="form-group">
             <label class="col-xs-3 control-label"
-                   for="hidden">
-                <spring:message code="label.email"/>*
+            for="hidden">
+            <spring:message code="label.email"/>*
             </label>
 
             <div class="col-xs-8">
-                <form:input id="hidden"
-                            class="form-control input-sm"
-                            path="hidden"/>
-                <form:errors path="hidden"
-                             cssClass="text-danger"/>
+            <form:input id="hidden"
+                        class="form-control input-sm"
+                        path="hidden"/>
+            <form:errors path="hidden"
+                         cssClass="text-danger"/>
 
             </div>
 
             <div class="form-group">
             <label class="col-xs-3 control-label"
-                   for="productSubcategoryID">
-                <spring:message code="label.email"/>*
+            for="productSubcategoryID">
+            <spring:message code="label.email"/>*
             </label>
 
             <div class="col-xs-8">
-                <form:input id="productSubcategoryID"
-                            class="form-control input-sm"
-                            path="productSubcategoryID"/>
-                <form:errors path="productSubcategoryID"
-                             cssClass="text-danger"/>
+            <form:input id="productSubcategoryID"
+                        class="form-control input-sm"
+                        path="productSubcategoryID"/>
+            <form:errors path="productSubcategoryID"
+                         cssClass="text-danger"/>
 
             </div>
 
 
             <div class="form-group">
-                <label class="col-xs-3 control-label"
-                       for="url">
-                    <spring:message code="label.username"/>*
-                </label>
+            <label class="col-xs-3 control-label"
+            for="url">
+            <spring:message code="label.username"/>*
+            </label>
 
-                <div class="col-xs-8">
-                    <form:input id="url"
-                                class="form-control input-sm"
-                                type="text"
-                                path="url"/>
-                    <form:errors path="url"
-                                 cssClass="text-danger"/>
-                </div>
+            <div class="col-xs-8">
+            <form:input id="url"
+                        class="form-control input-sm"
+                        type="text"
+                        path="url"/>
+            <form:errors path="url"
+                         cssClass="text-danger"/>
             </div>
+            </div>
+            -->
 
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="count">
-                    <spring:message code="label.username"/>*
+                    <spring:message code="label.countAvailable"/>
+                    <!--TODO: ukazovat jen 5+ nebo predanou hodnotu -->
+
                 </label>
 
                 <div class="col-xs-8">
@@ -162,7 +157,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="price">
-                    <spring:message code="label.username"/>*
+                    <spring:message code="label.price"/>*
                 </label>
 
                 <div class="col-xs-8">
@@ -178,7 +173,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="volume">
-                    <spring:message code="label.username"/>*
+                    <spring:message code="label.volume"/>*
                 </label>
 
                 <div class="col-xs-8">
@@ -194,7 +189,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="ethanolVolume">
-                    <spring:message code="label.username"/>*
+                    <spring:message code="label.ethanolVolume"/>*
                 </label>
 
                 <div class="col-xs-8">

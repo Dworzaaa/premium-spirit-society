@@ -346,9 +346,9 @@ public class UserController {
 
         }
         if (uri.equals("/users/orders")) {
-            List<OrderFormBO> orders=orderService.getAll(OrderFormBO.class, OrderEntity.class);
-            List<String> listOfInvoices= new ArrayList<>();
-            for (OrderFormBO order :orders) {
+            List<OrderFormBO> orders = orderService.getAll(OrderFormBO.class, OrderEntity.class);
+            List<String> listOfInvoices = new ArrayList<>();
+            for (OrderFormBO order : orders) {
                 productFormWrapperBOs = new ArrayList<>();
                 for (ProductFormBO productFormBO : order.getProducts()) {
                     boolean wrapperContainsCurrentProduct = false;
@@ -367,8 +367,8 @@ public class UserController {
                 listOfProductFormWrappers.add(productFormWrapperBOs);
                 String invoice = orderService.getInvoiceBaseUrl(order.getUserID());
                 invoice += System.getProperty("file.separator");
-                invoice+= order.getInvoice();
-                invoice+=".pdf";
+                invoice += order.getInvoice();
+                invoice += ".pdf";
                 listOfInvoices.add(invoice);
             }
 
@@ -381,9 +381,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext()
                 .getAuthentication();
         String username = auth.getName();
-
+        user = userService.getUserByUsername(username);
         if (!authorizationChecker.checkAuthorization(request)) {
-            user = userService.getUserByUsername(username);
             model.addAttribute("isAdmin", false);
         } else {
             model.addAttribute("isAdmin", true);
@@ -418,7 +417,7 @@ public class UserController {
             user.getOrders().sort(new Comparator<OrderFormBO>() {
                 @Override
                 public int compare(OrderFormBO o1, OrderFormBO o2) {
-                    return  o2.getId()-o1.getId();
+                    return o2.getId() - o1.getId();
                 }
             });
         }
