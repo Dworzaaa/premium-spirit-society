@@ -347,6 +347,14 @@ public class UserController {
         }
         if (uri.equals("/users/orders")) {
             List<OrderFormBO> orders = orderService.getAll(OrderFormBO.class, OrderEntity.class);
+
+            // sort orders
+            orders.sort(new Comparator<OrderFormBO>() {
+                @Override
+                public int compare(OrderFormBO o1, OrderFormBO o2) {
+                    return o2.getId() - o1.getId();
+                }
+            });
             List<String> listOfInvoices = new ArrayList<>();
             for (OrderFormBO order : orders) {
                 productFormWrapperBOs = new ArrayList<>();
@@ -371,11 +379,19 @@ public class UserController {
                 invoice += ".pdf";
                 listOfInvoices.add(invoice);
             }
-
+            for (List<ProductFormWrapperBO> productFormWrapperBO : listOfProductFormWrappers) {
+                productFormWrapperBO.sort(new Comparator<ProductFormWrapperBO>() {
+                    @Override
+                    public int compare(ProductFormWrapperBO o1, ProductFormWrapperBO o2) {
+                        return o2.getOrderId() - o1.getOrderId();
+                    }
+                });
+            }
             model.addAttribute("listOfInvoices", listOfInvoices);
             model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
             model.addAttribute("orders", orders);
             // TODO: presmerovavat na jinou adresu
+            return "user/ordersView";
         }
 
         Authentication auth = SecurityContextHolder.getContext()
