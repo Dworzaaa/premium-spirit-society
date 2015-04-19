@@ -43,12 +43,15 @@ $(document).ready(function () {
                 for (var i = 0; i < countOfusers; i++) {
 
                     var productId = obj.userList[i][0].productId;
+                    var productCat = obj.userList[i][0].productCat;
+                    var productSubcat = obj.userList[i][0].productSubcat;
+                    var productPrice = obj.userList[i][0].productSubcat;
                     var productName = obj.userList[i][0].productName;
                     var productDescription = obj.userList[i][0].productDescription;
                     var productUrl = obj.userList[i][0].productUrl;
 
-                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/product/" + productId + "'><td>"
-                    + productId + "</td>" + "<td>"
+                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCat+ "/"+productSubcat+"/"+productName + "'><td>"
+                    + productPrice + "</td>" + "<td>"
                     + productName + "</td>" +
                     "<td>" + productDescription +   "<td>" + productUrl + "</td> </tr>");
                 }

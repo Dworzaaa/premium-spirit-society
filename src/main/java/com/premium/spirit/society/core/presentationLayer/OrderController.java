@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.Order;
 import javax.servlet.http.HttpServletRequest;
 import  javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -37,7 +38,7 @@ import java.util.Locale;
 @Scope("request")
 public class OrderController {
 
-    private final OrderFormBO order;
+    public final OrderFormBO order;
     private List<ProductFormWrapperBO> productFormWrapperBOs;
 
     private final ProductService productService;
@@ -58,7 +59,6 @@ public class OrderController {
         this.mailService = mailService;
         this.dozer = dozer;
     }
-
 
     @RequestMapping(value = "/order/addToCart/{productId}", method = RequestMethod.POST)
     public String orderAddToCartPOST(@PathVariable("productId") int productId, @ModelAttribute("product") @Valid ProductFormBO product, HttpServletRequest request, Model model) {

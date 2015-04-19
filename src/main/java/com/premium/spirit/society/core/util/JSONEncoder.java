@@ -126,6 +126,9 @@ public class JSONEncoder {
             JSONArray userInfoJSON = new JSONArray();
             JSONObject userContactInfoJSON = new JSONObject();
             userContactInfoJSON.put("productId", product.getId());
+            userContactInfoJSON.put("productCat", product.getProductSubcategory().getProductCategory());
+            userContactInfoJSON.put("productSubcat", product.getProductSubcategory());
+            userContactInfoJSON.put("productPrice", product.getPrice());
             userContactInfoJSON.put("productName", product.getName());
             userContactInfoJSON.put("productDescription", product.getDescription());
             userContactInfoJSON.put("productUrl", product.getUrl());

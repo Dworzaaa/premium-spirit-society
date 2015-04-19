@@ -23,9 +23,6 @@
 
 
     <jsp:body>
-        <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
-                       var="isAuthorized"/>
-
         <div class="row">
             <div class="col-xs-6">
                 <h2>
@@ -104,17 +101,17 @@
                 <tr>
                     <td>
                         <b>
-                            <spring:message code="label.id"/>
+                            <spring:message code="label.price"/>
                         </b>
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.lastname"/>
+                            <spring:message code="label.name"/>
                         </b>
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.firstname"/>
+                            <spring:message code="label.categoryDescription"/>
                         </b>
                     </td>
                     <td>

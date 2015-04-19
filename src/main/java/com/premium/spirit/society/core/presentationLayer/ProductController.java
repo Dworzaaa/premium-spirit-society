@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.Order;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -98,6 +99,7 @@ public class ProductController {
             return "deniedView";
             // Neexistujici product
         }
+
         model.addAttribute("product", product);
         return "product/overviewView";
 
