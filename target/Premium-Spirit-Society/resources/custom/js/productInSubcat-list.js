@@ -30,7 +30,7 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            url: "http://localhost:8080/product/listInSubcat-search",
+            url: "http://premium-spirit-society.com:80/product/listInSubcat-search",
             data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&subcategoryId=1",
             success: function (response) {
                 var obj = JSON.parse(response);
@@ -78,8 +78,8 @@ $(document).ready(function () {
                     searchSelector.keyup();
                 });
             },
-            error: function (/*e*/) {
-                alert("Error occured" /*+ e*/);
+            error: function (e) {
+                alert("Error occured" +e);
             }
         });
     });
