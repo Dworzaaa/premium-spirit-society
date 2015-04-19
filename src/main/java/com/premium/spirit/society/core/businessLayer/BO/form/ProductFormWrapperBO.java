@@ -4,8 +4,9 @@ package com.premium.spirit.society.core.businessLayer.BO.form;
  * Created by Martin on 2. 3. 2015.
  */
 public class ProductFormWrapperBO extends ProductFormBO{
-    public ProductFormWrapperBO(ProductFormBO productFormBO) {
+    public ProductFormWrapperBO(ProductFormBO productFormBO,OrderFormBO order ) {
         this.setId(productFormBO.getId());
+        this.setOrderId(order.getId());
         this.setName(productFormBO.getName());
         this.setDescription(productFormBO.getDescription());
         this.setPrice(productFormBO.getPrice());

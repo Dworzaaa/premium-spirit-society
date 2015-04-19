@@ -138,7 +138,7 @@ public class OrderController {
 
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
             }
         }
         model.addAttribute("order", order);
@@ -162,7 +162,7 @@ public class OrderController {
 
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
             }
         }
         // Just a sample code simulating finish of the order
@@ -207,7 +207,7 @@ public class OrderController {
 
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO));
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
             }
         }
 
