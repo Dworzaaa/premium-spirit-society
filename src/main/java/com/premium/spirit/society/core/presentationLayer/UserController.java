@@ -395,6 +395,7 @@ public class UserController {
                     boolean wrapperContainsCurrentProduct = false;
                     for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                         if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                            productFormWrapperBO.setOrderId(order.getId());
                             wrapperContainsCurrentProduct = true;
                             productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
                             break;
@@ -407,6 +408,18 @@ public class UserController {
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
             }
+
+
+            for (List<ProductFormWrapperBO> productFormWrapperBO:listOfProductFormWrappers){
+                productFormWrapperBO.sort(new Comparator<ProductFormWrapperBO>() {
+                    @Override
+                    public int compare(ProductFormWrapperBO o1, ProductFormWrapperBO o2) {
+                        return o2.getOrderId()-o1.getOrderId();
+                    }
+                });
+            }
+
+            
             String invoice = orderService.getInvoiceBaseUrl(user.getId());
             invoice += System.getProperty("file.separator");
             model.addAttribute("invoiceUrl", invoice);

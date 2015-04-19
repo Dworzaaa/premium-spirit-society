@@ -16,7 +16,17 @@ public class ProductFormWrapperBO extends ProductFormBO{
         this.amount = 1;
     }
 
+    private int orderId;
+
     private int amount;
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
     public int getAmount() {
         return amount;
