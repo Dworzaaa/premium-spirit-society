@@ -78,8 +78,8 @@ $(document).ready(function () {
                     searchSelector.keyup();
                 });
             },
-            error: function (/*e*/) {
-                alert("Error occured" /*+ e*/);
+            error: function (e) {
+                alert("Error occured" +e);
             }
         });
     });
