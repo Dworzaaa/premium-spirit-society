@@ -130,6 +130,7 @@ public class JSONEncoder {
             userContactInfoJSON.put("productSubcatUrl", product.getProductSubcategory().getUrl());
             userContactInfoJSON.put("productPrice", product.getPrice());
             userContactInfoJSON.put("productName", product.getName());
+            userContactInfoJSON.put("productProducer", product.getProducer());
             userContactInfoJSON.put("productDescription", product.getDescription());
             userContactInfoJSON.put("productUrl", product.getUrl());
 
