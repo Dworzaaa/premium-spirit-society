@@ -189,7 +189,6 @@
 
       <c:out value="${products[loop.index].producer}"/>
       <br>
-      Price:
       <c:out value="${products[loop.index].price}"/>
       <br>
 

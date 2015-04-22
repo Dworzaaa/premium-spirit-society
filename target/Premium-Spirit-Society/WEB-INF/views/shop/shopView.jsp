@@ -114,7 +114,7 @@
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.description"/>
+                            <spring:message code="label.producer"/>
                         </b>
                     </td>
 
@@ -169,7 +169,7 @@
 
             <c:out value="${products[loop.index].producer}"/>
             <br>
-            Price:
+
             <c:out value="${products[loop.index].price}"/>
             <br>
         </c:forEach>
