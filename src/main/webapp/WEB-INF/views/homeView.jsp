@@ -47,28 +47,7 @@
 
 
     <ul id="gn-menu" class="gn-menu-main">
-        <li class="gn-trigger">
-            <a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-            <nav class="gn-menu-wrapper">
-                <div class="gn-scroller">
-                    <ul class="gn-menu">
-                        <li class="gn-search-item">
-                            <input placeholder="Search" type="search" class=" gn-icon gn-icon-search form-control">
-                            <a><span>Search</span></a>
-                        </li>
-                        <li>
-                            <a href="#about" class="gn-icon gn-icon-download">About</a>
-                        </li>
-                        <li><a href="#service" class="gn-icon gn-icon-cog">Service</a></li>
-                        <li><a href="#works" class="gn-icon gn-icon-help">Works</a></li>
-                        <li>
-                            <a href="#contact" class="gn-icon gn-icon-archive">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /gn-scroller -->
-            </nav>
-        </li>
+
         <%@include file="/WEB-INF/jspf/menu.jspf" %>
     </ul>
 </div>

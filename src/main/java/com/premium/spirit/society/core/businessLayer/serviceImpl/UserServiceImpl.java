@@ -149,12 +149,10 @@ public class UserServiceImpl extends GenericServiceImpl<UserFormBO, UserEntity> 
     @Override
     @Transactional
     public void changePassword(UserFormBO user) {
-
         user.setPassword(DigestUtils.sha256Hex(user.getPassword()
                 + "{" + user.getUsername() + "}"));
         new ShaPasswordEncoder(256).encodePassword(user.getPassword(), user.getUsername());
         UserEntity userEntity = dozer.map(user, UserEntity.class);
-        System.out.println(userEntity.getPassword());
         userDAO.update(userEntity);
     }
 

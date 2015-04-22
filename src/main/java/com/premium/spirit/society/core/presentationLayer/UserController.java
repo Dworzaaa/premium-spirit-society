@@ -7,12 +7,16 @@ import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormWrapperBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.UserFormBO;
 import com.premium.spirit.society.core.businessLayer.service.*;
+import com.premium.spirit.society.core.dataLayer.entity.ContactEntity;
 import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
 import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import com.premium.spirit.society.core.util.JSONEncoder;
 import com.premium.spirit.society.core.util.PictureLoader;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -265,6 +269,50 @@ public class UserController {
         model.addAttribute("user", userService.getUserByUsername(auth.getName()));
         return "profileView";
     }
+
+
+
+    @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
+    public String resetPasswordGET(Model model, HttpServletRequest request) {
+        model.addAttribute("contact", new ContactEntity());
+        return "/resetPasswordView";
+    }
+
+    @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
+    public String resetPasswordPOST(@ModelAttribute("contact") ContactEntity contact, Model model, Locale locale,HttpServletRequest request) {
+        UserFormBO user = userService.getUserByEmail(contact.getEmail().toString());
+        if (user==null)
+        {
+            //TODO:
+            // send error message
+        }
+        else {
+            String password = RandomStringUtils.randomAlphanumeric(10);
+            user.setPassword(password);
+            userService.changePassword(user);
+            mailService.notifyChangedPassword(user, password, locale);
+        }
+
+        model.addAttribute("categories", productCategoryService.getAllUnhidden());
+        List<ProductDisplayBO> promotedProducts = productService.getPromoted();
+        List<String> promotionTextList = new ArrayList<>();
+        List<String> pictureList = new ArrayList<>();
+        List<String> urlList = new ArrayList<>();
+        List<String> promotionHeaderList = new ArrayList<>();
+        for (ProductDisplayBO product : promotedProducts) {
+            pictureList.add(new PictureLoader(product).loadPictures().get(0));
+            promotionTextList.add(product.getPromotionText());
+            urlList.add(product.getProductSubcategory().getProductCategory().getUrl() + "/" + product.getProductSubcategory().getUrl() + "/" + product.getUrl());
+            promotionHeaderList.add(product.getPromotionHeader());
+        }
+        model.addAttribute("promotionTextList", promotionTextList);
+        model.addAttribute("pictureList", pictureList);
+        model.addAttribute("urlList", urlList);
+        model.addAttribute("promotionHeaderList", promotionHeaderList);
+
+        return "/homeView";
+    }
+
 
     @RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
     public String profileEditGET(Model model, HttpServletRequest request) {

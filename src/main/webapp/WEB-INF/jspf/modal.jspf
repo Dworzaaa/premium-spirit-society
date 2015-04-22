@@ -14,7 +14,7 @@
                         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                     </div>
                     <div class="modal-body">
-                        <h3>Modal Body</h3>
+                        <h3>LOGIN</h3>
                         <input type="text" name="j_username" placeholder="Email"/> <br>
                         <br>
                         <input type="password" name="j_password" placeholder="Password"/> <br>
@@ -32,6 +32,7 @@
                         <button type="submit" class="btn btn-primary">Sign in</button>
                     </div>
                 </form>
+                <a href="/reset-password">Reset password</a>
             </div>
         </div>
     </div>
