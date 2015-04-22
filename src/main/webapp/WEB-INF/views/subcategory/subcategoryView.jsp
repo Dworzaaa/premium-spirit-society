@@ -188,9 +188,8 @@
          class="glyphicon-ok-circle">"${products[loop.index].name}"</a>
       <br>
 
-      <c:out value="${products[loop.index].description}"/>
+      <c:out value="${products[loop.index].producer}"/>
       <br>
-      Price:
       <c:out value="${products[loop.index].price}"/>
       <br>
 

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-/* define static selectors */
+    /* define static selectors */
     var searchSelector = $("#search");
     var userListSelector = $("#userList");
     var nextSelector = $(".next-li");
@@ -29,10 +29,10 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-           url: "http://premium-spirit-society.com/product/list-search",
-          //  url: "http://localhost:8080/product/list-search",
-            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
+            url: "http://premium-spirit-society.com/product/list-search",
+            //  url: "http://localhost:8080/product/list-search",
+            //data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
+            data: "search=" + "" + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
             success: function (response) {
                 var obj = JSON.parse(response);
                 var countOfusers = obj.userList.length;
@@ -51,10 +51,10 @@ $(document).ready(function () {
                     var productDescription = obj.userList[i][0].productDescription;
                     var productUrl = obj.userList[i][0].productUrl;
 
-                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCatUrl + "/"+ productSubcatUrl + "/"+productUrl+"'><td>"
+                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCatUrl + "/" + productSubcatUrl + "/" + productUrl + "'><td>"
                     + productPrice + "</td>" + "<td>"
                     + productName + "</td>" +
-                    "<td>" + productDescription +  "</td> </tr>");
+                    "<td>" + productDescription + "</td> </tr>");
                 }
 
                 //make rows in users list clickable

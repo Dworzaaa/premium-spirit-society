@@ -1,6 +1,6 @@
 $(document).ready(function () {
 /* define static selectors */
-    var searchSelector = $("#search");
+   var searchSelector = $("#search");
     var userListSelector = $("#userList");
     var nextSelector = $(".next-li");
 
@@ -29,10 +29,10 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-            //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            //url: "http://premium-spirit-society.com/product/list-search",
+          // url: "http://premium-spirit-society.com/product/list-search",
             url: "http://localhost:8080/product/list-search",
-            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
+            //data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
+            data: "search=" + "" + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
             success: function (response) {
                 var obj = JSON.parse(response);
                 var countOfusers = obj.userList.length;
