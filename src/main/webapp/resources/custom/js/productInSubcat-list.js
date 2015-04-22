@@ -44,12 +44,12 @@ $(document).ready(function () {
 
                     var productId = obj.userList[i][0].productId;
                     var productName = obj.userList[i][0].productName;
-                    var productDescription = obj.userList[i][0].productDescription;
+                    var productProducer = obj.userList[i][0].productProducer;
 
                     userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/product/" + productId + "'><td>"
                     + productId + "</td>" + "<td>"
                     + productName + "</td>" +
-                    "<td>" + productDescription + "</td> </tr>");
+                    "<td>" + productProducer + "</td> </tr>");
                 }
 
                 //make rows in users list clickable

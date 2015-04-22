@@ -48,13 +48,13 @@ $(document).ready(function () {
                     var productCatUrl = obj.userList[i][0].productCatUrl;
                     var productSubcatUrl = obj.userList[i][0].productSubcatUrl;
                     var productPrice = obj.userList[i][0].productPrice;
-                    var productDescription = obj.userList[i][0].productDescription;
+                    var productProducer = obj.userList[i][0].productProducer;
                     var productUrl = obj.userList[i][0].productUrl;
 
                     userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCatUrl + "/" + productSubcatUrl + "/" + productUrl + "'><td>"
                     + productPrice + "</td>" + "<td>"
                     + productName + "</td>" +
-                    "<td>" + productDescription + "</td> </tr>");
+                    "<td>" + productProducer + "</td> </tr>");
                 }
 
                 //make rows in users list clickable

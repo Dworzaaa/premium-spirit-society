@@ -114,7 +114,7 @@
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.description"/>
+                            <spring:message code="label.producer"/>
                         </b>
                     </td>
 
