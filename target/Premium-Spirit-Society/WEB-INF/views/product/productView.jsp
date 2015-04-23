@@ -60,7 +60,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="name">
-                    <spring:message code="label.productName"/>*
+                    <spring:message code="label.productName"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -76,7 +76,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="description">
-                    <spring:message code="label.productDescription"/>*
+                    <spring:message code="label.productDescription"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -92,7 +92,7 @@
             <div class="form-group">
             <label class="col-xs-3 control-label"
             for="hidden">
-            <spring:message code="label.email"/>*
+            <spring:message code="label.email"/>
             </label>
 
             <div class="col-xs-8">
@@ -107,7 +107,7 @@
             <div class="form-group">
             <label class="col-xs-3 control-label"
             for="productSubcategoryID">
-            <spring:message code="label.email"/>*
+            <spring:message code="label.email"/>
             </label>
 
             <div class="col-xs-8">
@@ -123,7 +123,7 @@
             <div class="form-group">
             <label class="col-xs-3 control-label"
             for="url">
-            <spring:message code="label.username"/>*
+            <spring:message code="label.username"/>
             </label>
 
             <div class="col-xs-8">
@@ -160,7 +160,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="price">
-                    <spring:message code="label.price"/>*
+                    <spring:message code="label.price"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -176,7 +176,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="volume">
-                    <spring:message code="label.volume"/>*
+                    <spring:message code="label.volume"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -192,7 +192,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="ethanolVolume">
-                    <spring:message code="label.ethanolVolume"/>*
+                    <spring:message code="label.ethanolVolume"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -208,7 +208,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="ethanolVolume">
-                    <spring:message code="label.countryOfOrigin"/>*
+                    <spring:message code="label.countryOfOrigin"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -224,7 +224,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="orderAmount">
-                    <spring:message code="label.orderAmount"/>*
+                    <spring:message code="label.orderAmount"/>
                 </label>
 
                 <div class="col-xs-8">
@@ -241,7 +241,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="orderAmount">
-                    <spring:message code="label.producer"/>*
+                    <spring:message code="label.producer"/>
                 </label>
 
                 <div class="col-xs-8">
