@@ -151,7 +151,7 @@
             </ul>
         </div>
         <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
-            <c:out value="${categories[loop.index].name}"/>
+           <a href="<c:out value="${categories[loop.index].url}"/>" ><c:out value="${categories[loop.index].name}"/></a>
             <img src="data:image/jpeg;base64,${categoryPictures[loop.index]}" width="200" height="200"/>
 
 
@@ -164,7 +164,7 @@
 
             <br>
             <a href="${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
-               class="glyphicon-ok-circle">"${products[loop.index].name}"</a>
+           >"${products[loop.index].name}"</a>
             <br>
 
             <c:out value="${products[loop.index].producer}"/>

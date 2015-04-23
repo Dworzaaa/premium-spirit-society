@@ -15,12 +15,9 @@
 <c:forEach var="picture"
            items="${pictureList}" varStatus="loop">
     <img src="data:image/jpeg;base64,${picture}"/> <br>
-    <c:out value="${productWrappers[loop.index].id}"/> <br>
     <a href="${productWrappers[loop.index].productSubcategory.productCategory.url}/${productWrappers[loop.index].productSubcategory.url}/${productWrappers[loop.index].url}"
        class="glyphicon-ok-circle"> <c:out value="${productWrappers[loop.index].name}"/> </a>
     <br>
-
-    <c:out value="${productWrappers[loop.index].description}"/> <br>
     <c:out value="${productWrappers[loop.index].amount}"/><br>
     <c:out value="${productWrappers[loop.index].price}"/><br>
 

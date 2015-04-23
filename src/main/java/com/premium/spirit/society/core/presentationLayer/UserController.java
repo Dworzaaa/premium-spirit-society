@@ -275,7 +275,7 @@ public class UserController {
     @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
     public String resetPasswordGET(Model model, HttpServletRequest request) {
         model.addAttribute("contact", new ContactEntity());
-        return "/resetPasswordView";
+        return "/user/resetPasswordView";
     }
 
     @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
@@ -309,8 +309,7 @@ public class UserController {
         model.addAttribute("pictureList", pictureList);
         model.addAttribute("urlList", urlList);
         model.addAttribute("promotionHeaderList", promotionHeaderList);
-
-        return "/homeView";
+        return "/user/passwordReseted";
     }
 
 
@@ -319,6 +318,7 @@ public class UserController {
 
 
         Authentication auth = SecurityContextHolder.getContext()
+
                 .getAuthentication();
         String username = auth.getName();
 

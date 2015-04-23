@@ -165,7 +165,8 @@
       </ul>
     </div>
     <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
-      <c:out value="${categories[loop.index].name}"/>
+      <a href="/<c:out value="${categories[loop.index].url}"/>" ><c:out value="${categories[loop.index].name}"/></a>
+
       <img src="data:image/jpeg;base64,${categoryPictures[loop.index]}" width="200" height="200"/>
 
 
@@ -174,7 +175,9 @@
 
 
     <c:forEach begin="0" end="${fn:length(subcategories)-1}" varStatus="loop">
-      <c:out value="${subcategories[loop.index].name}"/>
+      <a href="/<c:out value="${subcategories[loop.index].productCategory.url}"/>/<c:out value="${subcategories[loop.index].url}"/>" >      <c:out value="${subcategories[loop.index].name}"/></a>
+
+
     </c:forEach>
     <br>
 

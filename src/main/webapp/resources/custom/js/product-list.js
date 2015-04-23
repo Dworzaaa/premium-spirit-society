@@ -29,8 +29,8 @@ $(document).ready(function () {
 
         $.ajax({
             type: "GET",
-           url: "http://premium-spirit-society.com/product/list-search",
-            //  url: "http://localhost:8080/product/list-search",
+           //url: "http://premium-spirit-society.com/product/list-search",
+              url: "http://localhost:8080/product/list-search",
             //data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
             data: "search=" + "" + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber,
             success: function (response) {

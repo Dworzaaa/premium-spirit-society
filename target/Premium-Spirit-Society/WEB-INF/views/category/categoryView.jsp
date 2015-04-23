@@ -21,180 +21,179 @@
         <script src="<c:url value="/resources/custom/js/productInCat-list.js"/>"></script>
     </jsp:attribute>
 
-  <jsp:body>
-    <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
-                   var="isAuthorized"/>
+    <jsp:body>
+        <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
+                       var="isAuthorized"/>
 
-    <div class="row">
-      <div class="col-xs-6">
-        <h2>
-          <spring:message code="label.cardIndex"/>
-        </h2>
-      </div>
-      <div class="col-xs-6">
-        <c:if test="${isAuthorized}">
-          <h3 class="pull-right">
-            <a href="<c:url value="/admin/createCustomer" />">
-              <spring:message code="label.addPatient"/>
-            </a>
-          </h3>
-        </c:if>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="form-group">
-          <label class="col-xs-2 control-label"
-                 for="search">
-            <spring:message code="label.filter"/>:
-          </label>
-
-          <div class="col-xs-4 input-group">
-            <span class="input-group-addon glyphicon glyphicon-search"></span>
-            <sec:authorize ifAllGranted="ROLE_USER,ROLE_RESEARCHER"
-                           ifNotGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
-                           var="researcherOnly"/>
-            <c:choose>
-              <c:when test="${researcherOnly}">
-                <input type="text" class="form-control" id="search"
-                       placeholder="<spring:message code="label.id"/>"
-                       data-max-results="${maxResult}">
-                %>
-              </c:when>
-              <c:otherwise>
-                <input id="search" class="form-control" type="text"
-                       placeholder="<spring:message code="label.lastname"/>/<spring:message code="label.firstname"/>/<spring:message code="label.nin"/>"
-                       data-max-results="${maxResult}">
-              </c:otherwise>
-            </c:choose>
-          </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <h2>
+                    <spring:message code="label.cardIndex"/>
+                </h2>
+            </div>
+            <div class="col-xs-6">
+                <c:if test="${isAuthorized}">
+                    <h3 class="pull-right">
+                        <a href="<c:url value="/admin/createCustomer" />">
+                            <spring:message code="label.addPatient"/>
+                        </a>
+                    </h3>
+                </c:if>
+            </div>
         </div>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label"
+                           for="search">
+                        <spring:message code="label.filter"/>:
+                    </label>
 
-    <div class="text-center">
-      <ul class="pagination">
-        <li>
-          <a class="start" href="#">
-            &laquo;
-          </a>
-        </li>
-        <li>
-          <a class="prev" href="#">
-            &lsaquo;
-          </a>
-        </li>
-        <li class="next-li">
-          <a class="next" href="#">
-            &rsaquo;
-          </a>
-        </li>
-        <li>
-          <a class="end" href="#">
-            &raquo;
-          </a>
-        </li>
-      </ul>
-    </div>
+                    <div class="col-xs-4 input-group">
+                        <span class="input-group-addon glyphicon glyphicon-search"></span>
+                        <sec:authorize ifAllGranted="ROLE_USER,ROLE_RESEARCHER"
+                                       ifNotGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
+                                       var="researcherOnly"/>
+                        <c:choose>
+                            <c:when test="${researcherOnly}">
+                                <input type="text" class="form-control" id="search"
+                                       placeholder="<spring:message code="label.id"/>"
+                                       data-max-results="${maxResult}">
+                                %>
+                            </c:when>
+                            <c:otherwise>
+                                <input id="search" class="form-control" type="text"
+                                       placeholder="<spring:message code="label.lastname"/>/<spring:message code="label.firstname"/>/<spring:message code="label.nin"/>"
+                                       data-max-results="${maxResult}">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-          <td>
-            <b>
-              <spring:message code="label.id"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.lastname"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.firstname"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.birthIdentificationNumber"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.address"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.addressCity"/>
-            </b>
-          </td>
-        </tr>
-        </thead>
-        <tbody id="userList">
+        <div class="text-center">
+            <ul class="pagination">
+                <li>
+                    <a class="start" href="#">
+                        &laquo;
+                    </a>
+                </li>
+                <li>
+                    <a class="prev" href="#">
+                        &lsaquo;
+                    </a>
+                </li>
+                <li class="next-li">
+                    <a class="next" href="#">
+                        &rsaquo;
+                    </a>
+                </li>
+                <li>
+                    <a class="end" href="#">
+                        &raquo;
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        </tbody>
-      </table>
-    </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <td>
+                        <b>
+                            <spring:message code="label.id"/>
+                        </b>
+                    </td>
+                    <td>
+                        <b>
+                            <spring:message code="label.lastname"/>
+                        </b>
+                    </td>
+                    <td>
+                        <b>
+                            <spring:message code="label.firstname"/>
+                        </b>
+                    </td>
+                    <td>
+                        <b>
+                            <spring:message code="label.birthIdentificationNumber"/>
+                        </b>
+                    </td>
+                    <td>
+                        <b>
+                            <spring:message code="label.address"/>
+                        </b>
+                    </td>
+                    <td>
+                        <b>
+                            <spring:message code="label.addressCity"/>
+                        </b>
+                    </td>
+                </tr>
+                </thead>
+                <tbody id="userList">
 
-    <div class="text-center">
-      <ul class="pagination">
-        <li>
-          <a class="start" href="#">
-            &laquo;
-          </a>
-        </li>
-        <li>
-          <a class="prev" href="#">
-            &lsaquo;
-          </a>
-        </li>
-        <li class="next-li">
-          <a class="next" href="#">
-            &rsaquo;
-          </a>
-        </li>
-        <li>
-          <a class="end" href="#">
-            &raquo;
-          </a>
-        </li>
-      </ul>
-    </div>
-    <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
-      <c:out value="${categories[loop.index].name}"/>
-      <img src="data:image/jpeg;base64,${categoryPictures[loop.index]}" width="200" height="200"/>
+                </tbody>
+            </table>
+        </div>
 
+        <div class="text-center">
+            <ul class="pagination">
+                <li>
+                    <a class="start" href="#">
+                        &laquo;
+                    </a>
+                </li>
+                <li>
+                    <a class="prev" href="#">
+                        &lsaquo;
+                    </a>
+                </li>
+                <li class="next-li">
+                    <a class="next" href="#">
+                        &rsaquo;
+                    </a>
+                </li>
+                <li>
+                    <a class="end" href="#">
+                        &raquo;
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
+            <a href="/<c:out value="${categories[loop.index].url}"/>"><c:out
+                    value="${categories[loop.index].name}"/></a>
+            <img src="data:image/jpeg;base64,${categoryPictures[loop.index]}" width="200" height="200"/>
+        </c:forEach>
+        <br>
 
-    </c:forEach>
-    <br>
+        <c:forEach begin="0" end="${fn:length(subcategories)-1}" varStatus="loop">
+            <a href="/<c:out value="${subcategories[loop.index].productCategory.url}"/>/<c:out value="${subcategories[loop.index].url}"/>">
+                <c:out value="${subcategories[loop.index].name}"/></a>
+        </c:forEach>
+        <br>
 
+        <c:forEach begin="0" end="${fn:length(pictureList)-1}" varStatus="loop">
 
-    <c:forEach begin="0" end="${fn:length(subcategories)-1}" varStatus="loop">
-      <c:out value="${subcategories[loop.index].name}"/>
-    </c:forEach>
-    <br>
+            <img src="data:image/jpeg;base64,${pictureList[loop.index]}" width="200" height="200"/>
+            <img src="data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
 
-    <c:forEach begin="0" end="${fn:length(pictureList)-1}" varStatus="loop">
+            <br>
+            <a href="${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
+               class="glyphicon-ok-circle">"${products[loop.index].name}"</a>
+            <br>
 
-      <img src="data:image/jpeg;base64,${pictureList[loop.index]}" width="200" height="200"/>
-      <img src="data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
+            <c:out value="${products[loop.index].producer}"/>
+            <br>
+            <c:out value="${products[loop.index].price}"/>
+            <br>
 
-      <br>
-      <a href="${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
-         class="glyphicon-ok-circle">"${products[loop.index].name}"</a>
-      <br>
+            ADD TO SHOPPING-CART VIA AJAX
+            <br>
 
-      <c:out value="${products[loop.index].producer}"/>
-      <br>
-      <c:out value="${products[loop.index].price}"/>
-      <br>
-
-      ADD TO SHOPPING-CART VIA AJAX
-      <br>
-
-    </c:forEach>
-  </jsp:body>
+        </c:forEach>
+    </jsp:body>
 </t:menuLVL1>
