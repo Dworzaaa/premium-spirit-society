@@ -12,7 +12,7 @@
     <title>
         <spring:message code="label.loginPage"/>
     </title>
-    <link href="<c:url value="/resources/custom/img/logoIcon.ico" />"
+    <link href="<c:url value="/resources/custom/img/favico.png" />"
           type="image/png"
           rel="icon">
     <link href="<c:url value="/resources/bootstrap/css/bootstrap.css" />"
