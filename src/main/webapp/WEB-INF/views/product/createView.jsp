@@ -220,6 +220,39 @@
               </div>
           </div>
 
+          <div class="form-group">
+              <label class="col-xs-3 control-label"
+                     for="volume">
+                  <spring:message code="label.producer"/>*
+              </label>
+
+              <div class="col-xs-8">
+                  <form:input id="producer"
+                              class="form-control input-sm"
+                              type="text"
+                              path="producer"/>
+                  <form:errors path="producer"
+                               cssClass="text-danger"/>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-xs-3 control-label"
+                     for="volume">
+                  <spring:message code="label.countryOfOrigin"/>*
+              </label>
+
+              <div class="col-xs-8">
+                  <form:input id="countryOfOrigin"
+                              class="form-control input-sm"
+                              type="text"
+                              path="countryOfOrigin"/>
+                  <form:errors path="countryOfOrigin"
+                               cssClass="text-danger"/>
+              </div>
+          </div>
+
+
           <c:forEach var="picture"
                      items="${pictureList}">
               <img src="data:image/jpeg;base64,${picture}" alt="..."/>
