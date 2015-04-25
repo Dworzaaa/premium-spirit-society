@@ -99,7 +99,7 @@ public class ProductDAOImpl extends GenericDAOImpl<ProductEntity> implements Pro
         query = sessionFactory
                 .getCurrentSession()
                 .createQuery("from ProductEntity" +
-                        " where hidden=0 AND productCategoryID=:catId ORDER BY id, name")
+                        " where hidden=0 AND productCategoryID=:catId ORDER BY preference,id, name")
                 .setParameter("catId", catId)
                 .setFirstResult(maxResults * (pageNumber - 1))
                 .setMaxResults(maxResults);
@@ -117,7 +117,7 @@ public class ProductDAOImpl extends GenericDAOImpl<ProductEntity> implements Pro
         query = sessionFactory
                 .getCurrentSession()
                 .createQuery("from ProductEntity" +
-                        " where hidden=0 AND productSubcategoryID=:subcatId   ORDER BY id, name")
+                        " where hidden=0 AND productSubcategoryID=:subcatId   ORDER BY preference,id, name")
                 .setParameter("subcatId", subcatId)
                 .setFirstResult(maxResults * (pageNumber - 1))
                 .setMaxResults(maxResults);
