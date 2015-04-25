@@ -83,37 +83,7 @@
 
         </div>
 
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="userID">
-                <spring:message code="label.firstname"/>*
-            </label>
-
-            <div class="col-xs-8">
-                <form:input id="userID"
-                            class=" form-control input-sm"
-                            type="text"
-                            path="userID"/>
-                <form:errors path="userID"
-                             cssClass="text-danger"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="url">
-                <spring:message code="label.username"/>*
-            </label>
-
-            <div class="col-xs-8">
-                <form:input id="url"
-                            class="form-control input-sm"
-                            type="text"
-                            path="url"/>
-                <form:errors path="url"
-                             cssClass="text-danger"/>
-            </div>
-        </div>
+      
 
       <div class="form-group">
         <div class="col-xs-offset-3 col-xs-8">
