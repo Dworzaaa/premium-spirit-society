@@ -35,50 +35,49 @@
                action="/product/${product.id}/edit"
                method="POST"
                commandName="product">
+        <div class="form-group">
+            <label class="col-xs-3 control-label"
+                   for="name">
+                <spring:message code="label.productName"/>*
+            </label>
 
-      <div class="form-group">
-        <label class="col-xs-3 control-label"
-               for="name">
-          <spring:message code="label.productName"/>*
-        </label>
-
-        <div class="col-xs-8">
-          <form:input id=".name"
-                      class=" form-control input-sm"
-                      type="text"
-                      path="name"/>
-          <form:errors path="name"
-                       cssClass="text-danger"/>
+            <div class="col-xs-8">
+                <form:input id=".name"
+                            class=" form-control input-sm"
+                            type="text"
+                            path="name"/>
+                <form:errors path="name"
+                             cssClass="text-danger"/>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group">
-          <label>
-          <spring:message code="label.description"/>*
-        </label>
+        <div class="form-group">
+            <label>
+                <spring:message code="label.description"/>*
+            </label>
 
-        <div class="col-xs-8">
-          <form:input id="description"
-                      class=" form-control input-sm"
-                      type="text"
-                      path="description"/>
-          <form:errors path="description"
-                       cssClass="text-danger"/>
+            <div class="col-xs-8">
+                <form:input id="description"
+                            class=" form-control input-sm"
+                            type="text"
+                            path="description"/>
+                <form:errors path="description"
+                             cssClass="text-danger"/>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group">
+        <div class="form-group">
         <label class="col-xs-3 control-label"
                for="hidden">
-          <spring:message code="label.hidden"/>*
+            <spring:message code="label.hidden"/>*
         </label>
 
         <div class="col-xs-8">
-          <form:input id="hidden"
-                      class="form-control input-sm"
-                      path="hidden"/>
-          <form:errors path="hidden"
-                       cssClass="text-danger"/>
+            <form:input id="hidden"
+                        class="form-control input-sm"
+                        path="hidden"/>
+            <form:errors path="hidden"
+                         cssClass="text-danger"/>
 
         </div>
 
@@ -230,23 +229,6 @@
         <div class="form-group">
             <label class="col-xs-3 control-label"
                    for="volume">
-                <spring:message code="label.countryOfOrigin"/>*
-            </label>
-
-            <div class="col-xs-8">
-                <form:input id="countryOfOrigin"
-                            class="form-control input-sm"
-                            type="text"
-                            path="countryOfOrigin"/>
-                <form:errors path="countryOfOrigin"
-                             cssClass="text-danger"/>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="volume">
                 <spring:message code="label.producer"/>*
             </label>
 
@@ -256,6 +238,22 @@
                             type="text"
                             path="producer"/>
                 <form:errors path="producer"
+                             cssClass="text-danger"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-3 control-label"
+                   for="volume">
+                <spring:message code="label.countryOfOrigin"/>*
+            </label>
+
+            <div class="col-xs-8">
+                <form:input id="countryOfOrigin"
+                            class="form-control input-sm"
+                            type="text"
+                            path="countryOfOrigin"/>
+                <form:errors path="countryOfOrigin"
                              cssClass="text-danger"/>
             </div>
         </div>
