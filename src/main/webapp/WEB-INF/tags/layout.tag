@@ -50,7 +50,7 @@
             </button>
             <a class="navbar-brand"
                href="<c:url value="/" />">
-                <img src="<c:url value="/resources/custom/img/favico.png" />">GENEPI
+                <img src="<c:url value="/resources/custom/img/logo.png" />">
             </a>
         </div>
 
