@@ -17,166 +17,204 @@
 
     </jsp:attribute>
 
-  <jsp:body>
+    <jsp:body>
 
-    <h2>
-      <spring:message code="label.editUser"/>
-      <c:choose>
-        <c:when test="${isAdmin}">
-          <a href="<c:url value="/user/${user.username}" />">${user.username}</a>
-        </c:when>
-        <c:otherwise>
-          <a href="<c:url value="/profile" />">${user.username}</a>
-        </c:otherwise>
-      </c:choose>
-    </h2>
+        <h2>
+            <spring:message code="label.editUser"/>
+            <c:choose>
+                <c:when test="${isAdmin}">
+                    <a href="<c:url value="/user/${user.username}" />">${user.username}</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="<c:url value="/profile" />">${user.username}</a>
+                </c:otherwise>
+            </c:choose>
+        </h2>
 
-    <form:form class="form-horizontal"
-               action="/profile/edit"
-               method="POST"
-               commandName="user">
+        <form:form class="form-horizontal"
+                   action="/profile/edit"
+                   method="POST"
+                   commandName="user">
 
-      <div class="form-group">
-        <label class="col-xs-3 control-label"
-               for="contact.lastName">
-          <spring:message code="label.lastname"/>*
-        </label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.firstName">
+                    <spring:message code="label.firstname"/>*
+                </label>
 
-        <div class="col-xs-8">
-          <form:input id="contact.lastName"
-                      class=" form-control input-sm"
-                      type="text"
-                      path="contact.lastName"/>
-          <form:errors path="contact.lastName"
-                       cssClass="text-danger"/>
-        </div>
-      </div>
+                <div class="col-xs-8">
+                    <form:input id="contact.firstName"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.firstName"/>
+                    <form:errors path="contact.firstName"
+                                 cssClass="text-danger"/>
+                </div>
+            </div>
 
-      <div class="form-group">
-        <label class="col-xs-3 control-label"
-               for="contact.firstName">
-          <spring:message code="label.firstname"/>*
-        </label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.lastName">
+                    <spring:message code="label.lastname"/>*
+                </label>
 
-        <div class="col-xs-8">
-          <form:input id="contact.firstName"
-                      class=" form-control input-sm"
-                      type="text"
-                      path="contact.firstName"/>
-          <form:errors path="contact.firstName"
-                       cssClass="text-danger"/>
-        </div>
-      </div>
+                <div class="col-xs-8">
+                    <form:input id="contact.lastName"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.lastName"/>
+                    <form:errors path="contact.lastName"
+                                 cssClass="text-danger"/>
+                </div>
+            </div>
 
-      <div class="form-group">
-        <label class="col-xs-3 control-label"
-               for="contact.email">
-          <spring:message code="label.email"/>*
-        </label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.email">
+                    <spring:message code="label.email"/>*
+                </label>
 
-        <div class="col-xs-8">
-          <form:input id="contact.email"
-                      class="form-control input-sm"
-                      type="email"
-                      path="contact.email"/>
-          <form:errors path="contact.email"
-                       cssClass="text-danger"/>
-          <c:if test="${not uniqueEmail}">
+                <div class="col-xs-8">
+                    <form:input id="contact.email"
+                                class="form-control input-sm"
+                                type="email"
+                                path="contact.email"/>
+                    <form:errors path="contact.email"
+                                 cssClass="text-danger"/>
+                    <c:if test="${not uniqueEmail}">
                         <span class="text-danger">
                             <spring:message code="label.nonUnique"/>
                         </span>
-          </c:if>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-xs-3 control-label"
-               for="contact.phoneNumber">
-          <spring:message code="label.telephone"/>
-        </label>
-
-        <div class="col-xs-8">
-          <form:input id="contact.phoneNumber"
-                      class=" form-control input-sm"
-                      type="text"
-                      path="contact.phoneNumber"/>
-          <form:errors path="contact.phoneNumber"
-                       cssClass="text-danger"/>
-        </div>
-      </div>
-
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="contact.phoneNumber">
-                <spring:message code="label.street"/>
-            </label>
-
-            <div class="col-xs-8">
-                <form:input id="contact.addressStreet"
-                            class=" form-control input-sm"
-                            type="text"
-                            path="contact.addressStreet"/>
-                <form:errors path="contact.addressStreet"
-                             cssClass="text-danger"/>
+                    </c:if>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="contact.phoneNumber">
-                <spring:message code="label.addressHn"/>
-            </label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.phoneNumber">
+                    <spring:message code="label.telephone"/>
+                </label>
 
-            <div class="col-xs-8">
-                <form:input id="contact.addressHn"
-                            class=" form-control input-sm"
-                            type="text"
-                            path="contact.addressHn"/>
-                <form:errors path="contact.addressHn"
-                             cssClass="text-danger"/>
+                <div class="col-xs-8">
+                    <form:input id="contact.phoneNumber"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.phoneNumber"/>
+                    <form:errors path="contact.phoneNumber"
+                                 cssClass="text-danger"/>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="contact.phoneNumber">
-                <spring:message code="label.addressCity"/>
-            </label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.phoneNumber">
+                    <spring:message code="label.street"/>
+                </label>
 
-            <div class="col-xs-8">
-                <form:input id="contact.addressHn"
-                            class=" form-control input-sm"
-                            type="text"
-                            path="contact.addressCity"/>
-                <form:errors path="contact.addressCity"
-                             cssClass="text-danger"/>
+                <div class="col-xs-8">
+                    <form:input id="contact.addressStreet"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.addressStreet"/>
+                    <form:errors path="contact.addressStreet"
+                                 cssClass="text-danger"/>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-xs-3 control-label"
-                   for="contact.phoneNumber">
-                <spring:message code="label.addressPostalcode"/>
-            </label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.phoneNumber">
+                    <spring:message code="label.addressHn"/>
+                </label>
 
-            <div class="col-xs-8">
-                <form:input id="contact.addressHn"
-                            class=" form-control input-sm"
-                            type="text"
-                            path="contact.addressPostalcode"/>
-                <form:errors path="contact.addressPostalcode"
-                             cssClass="text-danger"/>
+                <div class="col-xs-8">
+                    <form:input id="contact.addressHn"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.addressHn"/>
+                    <form:errors path="contact.addressHn"
+                                 cssClass="text-danger"/>
+                </div>
             </div>
-        </div>
 
-      <div class="form-group">
-        <div class="col-xs-offset-3 col-xs-8">
-          <button class="btn btn-small btn-primary"
-                  type="submit">
-            <spring:message code="label.save"/>
-          </button>
-        </div>
-      </div>
-    </form:form>
-  </jsp:body>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.phoneNumber">
+                    <spring:message code="label.addressCity"/>
+                </label>
+
+                <div class="col-xs-8">
+                    <form:input id="contact.addressCity"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.addressCity"/>
+                    <form:errors path="contact.addressCity"
+                                 cssClass="text-danger"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.addressCountry">
+                    <spring:message code="label.addressCountry"/>
+                </label>
+
+                <div class="col-xs-8">
+                    <form:input id="contact.addressCountry"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.addressCountry"/>
+                    <form:errors path="contact.addressCountry"
+                                 cssClass="text-danger"/>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="contact.phoneNumber">
+                    <spring:message code="label.addressPostalcode"/>
+                </label>
+
+                <div class="col-xs-8">
+                    <form:input id="contact.addressPostalcode"
+                                class=" form-control input-sm"
+                                type="text"
+                                path="contact.addressPostalcode"/>
+                    <form:errors path="contact.addressPostalcode"
+                                 cssClass="text-danger"/>
+                </div>
+            </div>
+
+
+            <br><br>
+
+            Dorucovaci udaje:<br>
+
+            <spring:message code="label.name"/>: <form:input path="contact.shippingFirstName" type="text"/><br>
+            <spring:message code="label.lastname"/>: <form:input path="contact.shippingLastName" type="text"/><br>
+            <spring:message code="label.street"/>: <form:input path="contact.shippingAddressStreet" type="text"/><br>
+            <spring:message code="label.addressHn"/>: <form:input path="contact.shippingAddressHn" type="text"/><br>
+            <spring:message code="label.addressCity"/>: <form:input path="contact.shippingAddressCity" type="text"/><br>
+            <spring:message code="label.addressCountry"/>:            <form:input path="contact.shippingAddressCountry" type="text"/><br>
+            <spring:message code="label.addressPostalcode"/>:      <form:input path="contact.shippingAddressPostalCode" type="text"/><br>
+
+            <br><br>
+
+            Nazev firmy: <form:input path="contact.companyName" type="text"/><br>
+            IC:<form:input path="contact.companyId" type="text"/><br>
+            DIC:<form:input path="contact.vatId" type="text"/><br>
+            <br><br>
+
+            <div class="form-group">
+                <div class="col-xs-offset-3 col-xs-8">
+                    <button class="btn btn-small btn-primary"
+                            type="submit">
+                        <spring:message code="label.save"/>
+                    </button>
+                </div>
+            </div>
+        </form:form>
+    </jsp:body>
 </t:menuLVL1>

@@ -68,6 +68,13 @@ public class ContactFormBO {
     private String email;
 
     @Size(max = 100)
+    private String shippingFirstName;
+
+
+    @Size(max = 100)
+    private String shippingLastName;
+
+    @Size(max = 100)
     private String shippingAddressStreet;
 
     @Size(max = 10)
@@ -130,6 +137,22 @@ public class ContactFormBO {
 
     public void setShippingAddressCountry(String shippingAddressCountry) {
         this.shippingAddressCountry = shippingAddressCountry;
+    }
+
+    public String getShippingFirstName() {
+        return shippingFirstName;
+    }
+
+    public void setShippingFirstName(String shippingFirstName) {
+        this.shippingFirstName = shippingFirstName;
+    }
+
+    public String getShippingLastName() {
+        return shippingLastName;
+    }
+
+    public void setShippingLastName(String shippingLastName) {
+        this.shippingLastName = shippingLastName;
     }
 
     public String getCompanyName() {

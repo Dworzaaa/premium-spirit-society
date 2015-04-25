@@ -41,6 +41,22 @@
                        for="contact.lastName">
                     <spring:message code="label.lastname"/>*
                 </label>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label"
+                           for="contact.firstName">
+                        <spring:message code="label.firstname"/>*
+                    </label>
+
+                    <div class="col-xs-8">
+                        <form:input id="contact.firstName"
+                                    class=" form-control input-sm"
+                                    type="text"
+                                    path="contact.firstName"/>
+                        <form:errors path="contact.firstName"
+                                     cssClass="text-danger"/>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-8">
                     <form:input id="contact.lastName"
@@ -52,23 +68,23 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-xs-3 control-label"
-                       for="contact.firstName">
-                    <spring:message code="label.firstname"/>*
-                </label>
 
-                <div class="col-xs-8">
-                    <form:input id="contact.firstName"
-                                class=" form-control input-sm"
-                                type="text"
-                                path="contact.firstName"/>
-                    <form:errors path="contact.firstName"
-                                 cssClass="text-danger"/>
-                </div>
-            </div>
 
-            <div class="form-group">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             <div class="form-group">
                 <label class="col-xs-3 control-label"
                        for="contact.email">
                     <spring:message code="label.email"/>*

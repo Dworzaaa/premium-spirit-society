@@ -15,6 +15,7 @@ import com.premium.spirit.society.core.util.paypalfunctions;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -111,6 +112,14 @@ public class OrderController {
 
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
     public String shoppingCartGET(HttpServletRequest request, Model model) {
+        Authentication auth = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String username = auth.getName();
+        UserFormBO user = userService.getUserByUsername(username);
+if (user!=null) {
+    order.setUser(dozer.map(user, UserEntity.class));
+    order.setUserID(user.getId());
+}
         List<String> pictureList = new ArrayList<>();
 
         if (order.getProducts() != null)
@@ -141,7 +150,8 @@ public class OrderController {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
             }
         }
-        model.addAttribute("order", order);
+
+          model.addAttribute("order", order);
         model.addAttribute("pictureList", pictureList);
         model.addAttribute("productWrappers", productFormWrapperBOs);
         return "order/shoppingCartView";

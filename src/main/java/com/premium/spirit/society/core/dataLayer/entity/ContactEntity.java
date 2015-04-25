@@ -128,19 +128,26 @@ public class ContactEntity {
     @Column(name = "EMAIL", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "SHIPPING_ADDRESS_HN", length = 100, nullable = false)
+
+    @Column(name = "SHIPPING_ADDRESS_FIRST_NAME", length = 100, nullable = true)
+    private String shippingFirstName;
+
+    @Column(name = "SHIPPING_ADDRESS_LAST_NAME", length = 100, nullable = true)
+    private String shippingLastName;
+
+    @Column(name = "SHIPPING_ADDRESS_HN", length = 100, nullable = true)
     private String shippingAddressHn;
 
-    @Column(name = "SHIPPING_ADDRESS_STREET", length = 100, nullable = false)
+    @Column(name = "SHIPPING_ADDRESS_STREET", length = 100, nullable = true)
     private String shippingAddressStreet;
 
-    @Column(name = "SHIPPING_ADDRESS_CITY", length = 100, nullable = false)
+    @Column(name = "SHIPPING_ADDRESS_CITY", length = 100, nullable = true)
     private String shippingAddressCity;
 
-    @Column(name = "SHIPPING_ADDRESS_POSTALCODE", length = 100, nullable = false)
+    @Column(name = "SHIPPING_ADDRESS_POSTALCODE", length = 100, nullable = true)
     private String shippingAddressPostalcode;
 
-    @Column(name = "SHIPPING_ADDRESS_COUNTRY", length = 100, nullable = false)
+    @Column(name = "SHIPPING_ADDRESS_COUNTRY", length = 100, nullable = true)
     private String shippingAddressCountry;
 
     @Column(name = "COMPANY_NAME", length = 100, nullable = true)
@@ -338,5 +345,21 @@ public class ContactEntity {
 
     public void setShippingAddressStreet(String shippingAddressStreet) {
         this.shippingAddressStreet = shippingAddressStreet;
+    }
+
+    public String getShippingFirstName() {
+        return shippingFirstName;
+    }
+
+    public void setShippingFirstName(String shippingFirstName) {
+        this.shippingFirstName = shippingFirstName;
+    }
+
+    public String getShippingLastName() {
+        return shippingLastName;
+    }
+
+    public void setShippingLastName(String shippingLastName) {
+        this.shippingLastName = shippingLastName;
     }
 }

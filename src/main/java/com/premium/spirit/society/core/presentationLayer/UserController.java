@@ -12,11 +12,9 @@ import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
 import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import com.premium.spirit.society.core.util.JSONEncoder;
 import com.premium.spirit.society.core.util.PictureLoader;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -267,7 +265,7 @@ public class UserController {
                 .getAuthentication();
 
         model.addAttribute("user", userService.getUserByUsername(auth.getName()));
-        return "profileView";
+        return "user/profileView";
     }
 
 
@@ -329,6 +327,7 @@ public class UserController {
 
             model.addAttribute("user", userService.getUserByUsername(username));
             model.addAttribute("uniqueUsername", true);
+            model.addAttribute("uniqueEmail", true);
             model.addAttribute("isAdmin", authorizationChecker.isAdmin());
             return "user/profileEditView";
         }
