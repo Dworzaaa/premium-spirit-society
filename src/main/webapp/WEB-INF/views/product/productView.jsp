@@ -51,7 +51,12 @@
 
         <br>
 
-<a href="/${categoryUrl}"}>${categoryName}</a>><a href="/${categoryUrl}/${subcategoryUrl}"}>${subcategoryName}</a>></a>><a href="/${categoryUrl}/${subcategoryUrl}/${product.url}"}>${product.name}</a>
+        <a href="/${categoryUrl}"}>
+                ${categoryName}</a>>
+        <a href="/${categoryUrl}/${subcategoryUrl}"}>
+                 ${subcategoryName}</a>>
+        <a href="/${categoryUrl}/${subcategoryUrl}/${product.url}"}>
+        ${product.name}</a>
         <form:form class="form-horizontal"
                    action="/order/addToCart/${product.id}"
                    method="POST"
@@ -64,7 +69,7 @@
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input  disabled="${'true'}"  id="name"
+                    <form:input disabled="${'true'}" id="name"
                                 class=" form-control input-sm"
                                 type="text"
                                 path="name"/>
@@ -80,7 +85,7 @@
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input  disabled="${'true'}"  id="description"
+                    <form:input disabled="${'true'}" id="description"
                                 class=" form-control input-sm"
                                 type="text"
                                 path="description"/>
@@ -96,7 +101,7 @@
             </label>
 
             <div class="col-xs-8">
-            <form:input  disabled="${'true'}"  id="hidden"
+            <form:input disabled="${'true'}" id="hidden"
                         class="form-control input-sm"
                         path="hidden"/>
             <form:errors path="hidden"
@@ -111,7 +116,7 @@
             </label>
 
             <div class="col-xs-8">
-            <form:input  disabled="${'true'}"  id="productSubcategoryID"
+            <form:input disabled="${'true'}" id="productSubcategoryID"
                         class="form-control input-sm"
                         path="productSubcategoryID"/>
             <form:errors path="productSubcategoryID"
@@ -127,7 +132,7 @@
             </label>
 
             <div class="col-xs-8">
-            <form:input  disabled="${'true'}"  id="url"
+            <form:input disabled="${'true'}" id="url"
                         class="form-control input-sm"
                         type="text"
                         path="url"/>
@@ -147,7 +152,7 @@
             </label>
 
             <div class="col-xs-8">
-            <form:input  disabled="${'true'}"  id="ethanolVolume"
+            <form:input disabled="${'true'}" id="ethanolVolume"
                         class="form-control input-sm"
                         type="text"
                         path="count"/>
@@ -164,7 +169,7 @@
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input  disabled="${'true'}"  id="price"
+                    <form:input disabled="${'true'}" id="price"
                                 class="form-control input-sm"
                                 type="text"
                                 path="price"/>
@@ -180,7 +185,7 @@
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input  disabled="${'true'}"  id="volume"
+                    <form:input disabled="${'true'}" id="volume"
                                 class="form-control input-sm"
                                 type="text"
                                 path="volume"/>
@@ -196,7 +201,7 @@
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input  disabled="${'true'}"  id="ethanolVolume"
+                    <form:input disabled="${'true'}" id="ethanolVolume"
                                 class="form-control input-sm"
                                 type="text"
                                 path="ethanolVolume"/>
@@ -212,7 +217,7 @@
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input  disabled="${'true'}"  id="countryOfOrigin"
+                    <form:input disabled="${'true'}" id="countryOfOrigin"
                                 class="form-control input-sm"
                                 type="text"
                                 path="countryOfOrigin"/>
@@ -257,6 +262,7 @@
                 </div>
             </div>
             <br>
+
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-8">
                     <button class="btn btn-small btn-primary"
@@ -273,8 +279,6 @@
                    items="${pictureList}">
             <img src="data:image/jpeg;base64,${picture}"/>
         </c:forEach>
-
-
 
 
     </jsp:body>
