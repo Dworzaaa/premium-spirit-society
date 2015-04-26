@@ -31,7 +31,7 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            url: "http://premium-spirit-society.com/product/listInSubcat-search",
+            url: "/product/listInSubcat-search",
             data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&subcategoryId="+subcatId,
             success: function (response) {
                 var obj = JSON.parse(response);

@@ -60,7 +60,6 @@
                                 <input type="text" class="form-control" id="search"
                                        placeholder="<spring:message code="label.id"/>"
                                        data-max-results="${maxResult}">
-                                %>
                             </c:when>
                             <c:otherwise>
                                 <input id="search" class="form-control" type="text"
@@ -151,7 +150,7 @@
             </ul>
         </div>
         <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
-           <a href="<c:out value="${categories[loop.index].url}"/>" ><c:out value="${categories[loop.index].name}"/></a>
+            <a href="<c:out value="${categories[loop.index].url}"/>"><c:out value="${categories[loop.index].name}"/></a>
             <img src="data:image/jpeg;base64,${categoryPictures[loop.index]}" width="200" height="200"/>
 
 
@@ -160,11 +159,11 @@
         <c:forEach begin="0" end="${fn:length(pictureList)-1}" varStatus="loop">
 
             <img src="data:image/jpeg;base64,${pictureList[loop.index]}" width="200" height="200"/>
-            <img src="data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
+            <img src="<data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
 
             <br>
             <a href="/${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
-           >"${products[loop.index].name}"</a>
+                    >"${products[loop.index].name}"</a>
             <br>
 
             <c:out value="${products[loop.index].producer}"/>

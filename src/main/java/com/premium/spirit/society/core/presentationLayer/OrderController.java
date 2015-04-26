@@ -135,21 +135,23 @@ public class OrderController {
 
 
         productFormWrapperBOs = new ArrayList<>();
+
+        productFormWrapperBOs = new ArrayList<>();
         for (ProductFormBO productFormBO : products) {
             boolean wrapperContainsCurrentProduct = false;
             for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                 if (productFormWrapperBO.getId() == productFormBO.getId()) {
                     wrapperContainsCurrentProduct = true;
-                    productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                    productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
                     break;
                 }
 
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
+                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).getOrderAmount() + 1);
             }
         }
-
         model.addAttribute("order", order);
         model.addAttribute("pictureList", pictureList);
         model.addAttribute("productWrappers", productFormWrapperBOs);
@@ -165,7 +167,7 @@ public class OrderController {
             for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                 if (productFormWrapperBO.getId() == productFormBO.getId()) {
                     wrapperContainsCurrentProduct = true;
-                    productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                    productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
                     break;
                 }
 
@@ -210,7 +212,7 @@ public class OrderController {
             for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                 if (productFormWrapperBO.getId() == productFormBO.getId()) {
                     wrapperContainsCurrentProduct = true;
-                    productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                    productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
                     break;
                 }
 
@@ -226,5 +228,73 @@ public class OrderController {
         this.order.setProducts(new ArrayList<ProductFormBO>());
 
         return "/order/thanksView";
+    }
+
+
+    @RequestMapping(value = "/orderChange/{productId}/{amount}", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String orderChangePOST(@PathVariable("productId") int productId, @PathVariable("amount") int amount, Model model) {
+        Authentication auth = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String username = auth.getName();
+        UserFormBO user = userService.getUserByUsername(username);
+        if (user != null) {
+            order.setUser(dozer.map(user, UserEntity.class));
+            order.setUserID(user.getId());
+        }
+        List<String> pictureList = new ArrayList<>();
+        List<ProductFormBO> products = new ArrayList<>();
+
+        if (order.getProducts() != null)
+            for (int i = 0; i != order.getProducts().size(); i++) {
+
+
+                ProductFormBO product = productService.getById(order.getProducts().get(i).getId(), ProductFormBO.class, ProductEntity.class);
+                order.getProducts().get(i).setProductSubcategory(dozer.map(product.getProductSubcategory(), ProductSubcategoryEntity.class));
+                if (!products.contains(product))
+                    products.add(product);
+                if (!pictureList.contains(new PictureLoader(dozer.map(product, ProductDisplayBO.class), true).loadPictures().get(0)))
+                    pictureList.add(new PictureLoader(dozer.map(product, ProductDisplayBO.class), true).loadPictures().get(0));
+            }
+        else
+            order.setProducts(new ArrayList<ProductFormBO>());
+
+
+        productFormWrapperBOs = new ArrayList<>();
+        for (ProductFormBO productFormBO : products) {
+            boolean wrapperContainsCurrentProduct = false;
+            for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                    if (productFormWrapperBO.getId() == productId) {
+                        wrapperContainsCurrentProduct = true;
+                        productFormWrapperBO.setOrderAmount(amount);
+                        break;
+                    }
+                    wrapperContainsCurrentProduct = true;
+                    productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
+                    break;
+                }
+
+
+            }
+            if (!wrapperContainsCurrentProduct) {
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
+                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).getOrderAmount() + 1);
+            }
+        }
+
+        order.setProducts(new ArrayList<ProductFormBO>());
+        for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+            for (int i = 0; i != productFormWrapperBO.getOrderAmount(); i++) {
+                ProductFormBO productFormBO = dozer.map(productFormWrapperBO, ProductFormBO.class);
+                order.getProducts().add(productFormBO);
+            }
+        }
+
+        model.addAttribute("order", order);
+        model.addAttribute("pictureList", pictureList);
+        model.addAttribute("productWrappers", productFormWrapperBOs);
+        return "123";
     }
 }

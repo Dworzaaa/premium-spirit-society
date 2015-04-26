@@ -51,12 +51,12 @@
 
         <br>
 
-        <a href="/${categoryUrl}"}>
+        <a href="/${categoryUrl}" }>
                 ${categoryName}</a>>
-        <a href="/${categoryUrl}/${subcategoryUrl}"}>
-                 ${subcategoryName}</a>>
-        <a href="/${categoryUrl}/${subcategoryUrl}/${product.url}"}>
-        ${product.name}</a>
+        <a href="/${categoryUrl}/${subcategoryUrl}" }>
+                ${subcategoryName}</a>>
+        <a href="/${categoryUrl}/${subcategoryUrl}/${product.url}" }>
+                ${product.name}</a>
         <form:form class="form-horizontal"
                    action="/order/addToCart/${product.id}"
                    method="POST"
@@ -152,12 +152,14 @@
             </label>
 
             <div class="col-xs-8">
-            <form:input disabled="${'true'}" id="ethanolVolume"
-                        class="form-control input-sm"
-                        type="text"
-                        path="count"/>
-            <form:errors path="count"
-                         cssClass="text-danger"/>
+            <c:if test="${count.value == '0'}">
+                <form:input disabled="${'true'}" id="ethanolVolume"
+                            class="form-control input-sm"
+                            type="text"
+                            path="count"/>
+                <form:errors path="count"
+                             cssClass="text-danger"/>
+            </c:if>
             </div>
             </div>
             -->
@@ -177,22 +179,23 @@
                                  cssClass="text-danger"/>
                 </div>
             </div>
+            <c:if test="${count.value == '0'}">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label"
+                           for="volume">
+                        <spring:message code="label.volume"/>
+                    </label>
 
-            <div class="form-group">
-                <label class="col-xs-3 control-label"
-                       for="volume">
-                    <spring:message code="label.volume"/>
-                </label>
-
-                <div class="col-xs-8">
-                    <form:input disabled="${'true'}" id="volume"
-                                class="form-control input-sm"
-                                type="text"
-                                path="volume"/>
-                    <form:errors path="volume"
-                                 cssClass="text-danger"/>
+                    <div class="col-xs-8">
+                        <form:input disabled="${'true'}" id="volume"
+                                    class="form-control input-sm"
+                                    type="text"
+                                    path="volume"/>
+                        <form:errors path="volume"
+                                     cssClass="text-danger"/>
+                    </div>
                 </div>
-            </div>
+            </c:if>
 
             <div class="form-group">
                 <label class="col-xs-3 control-label"
@@ -229,12 +232,12 @@
 
             <div class="form-group">
                 <label class="col-xs-3 control-label"
-                       for="orderAmount">
+                       for="producer">
                     <spring:message code="label.producer"/>
                 </label>
 
                 <div class="col-xs-8">
-                    <form:input id="orderAmount"
+                    <form:input id="producer"
                                 class="form-control input-sm"
                                 type="text"
                                 path="producer"/>

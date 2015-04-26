@@ -9,18 +9,75 @@
 
 <html>
 <head>
-    <title></title>
+
+
+    <link href="<c:url value="/resources/custom/css/loadingCircle.csss" />"
+          rel="stylesheet">
+    <script type="text/javascript"
+            src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(":button").click(function (event) {
+                var elementId = event.target.id;
+                $('#loading' + elementId).fadeIn(200);
+                var searchSelector = $('#search' + elementId);
+                var searchString = "";
+                searchString = searchSelector.val();
+                $(searchSelector).fadeOut(200);
+                if (searchString < 1) {
+                    $(searchSelector).fadeOut(200);
+                    var searchString = "";
+
+                    searchString = searchSelector.val();
+                    var myUrl = 'orderChange/' + elementId + '/' + searchString;
+                    $.ajax({
+                        url: myUrl,
+                        type: "POST",
+                        success: function (data) {
+                            $('#loading' + elementId).fadeOut(200);
+                            $(searchSelector).fadeIn(200);
+                            location.reload();
+                        }
+                    });
+
+                } else {
+
+                    var myUrl = 'orderChange/' + elementId + '/' + searchString;
+                    $.ajax({
+                        url: myUrl,
+                        type: "POST",
+                        success: function (data) {
+                            $('#loading' + elementId).fadeOut(200);
+                            $(searchSelector).fadeIn(200);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-
 <c:forEach var="picture"
            items="${pictureList}" varStatus="loop">
     <img src="data:image/jpeg;base64,${picture}"/> <br>
     <a href="${productWrappers[loop.index].productSubcategory.productCategory.url}/${productWrappers[loop.index].productSubcategory.url}/${productWrappers[loop.index].url}"
        class="glyphicon-ok-circle"> <c:out value="${productWrappers[loop.index].name}"/> </a>
     <br>
-    <c:out value="${productWrappers[loop.index].amount}"/><br>
+
+    <div id="loading<c:out value="${productWrappers[loop.index].id}"/>">
+        <p><img src="<c:url value="/resources/custom/img/loader.gif" />"/></p>
+        <script>
+            $('#loading' + <c:out value="${productWrappers[loop.index].id}"/>).fadeOut(1);
+        </script>
+    </div>
+    <input id="search<c:out value="${productWrappers[loop.index].id}"/>" class="form-control" type="text"
+           value="<c:out value="${productWrappers[loop.index].orderAmount}"/>"/> <br>
+
     <c:out value="${productWrappers[loop.index].price}"/><br>
+
+    <input id="<c:out value="${productWrappers[loop.index].id}"/>" type="button" value="update"/>
+    <br>
 
 </c:forEach>
 <form:form action="/finishOrder"
@@ -29,27 +86,42 @@
     <br>
     <br>
     <br>
+
+
+    <sec:authorize ifAnyGranted="ROLE_USER"
+                   var="isAuthorized"/>
+    <c:if test="${not isAuthorized}">
+        UZIVATEL NENI PRIHLASEN!!!!
+    </c:if>
+
+
     Faturacni udaje::<br>
-    <spring:message code="label.name"/>: <form:input disabled="${'true'}" path="user.contact.firstName" type="text"/><br>
+    <spring:message code="label.name"/>: <form:input disabled="${'true'}" path="user.contact.firstName"
+                                                     type="text"/><br>
     <form:errors path="user.contact.firstName" cssClass="text-danger"/>
 
     <spring:message code="label.lastname"/>: <form:input disabled="${'true'}" path="user.contact.lastName" type="text"/><br>
     <form:errors path="user.contact.lastName" cssClass="text-danger"/>
 
-    <spring:message code="label.street"/>: <form:input disabled="${'true'}" path="user.contact.addressStreet" type="text"/><br>
+    <spring:message code="label.street"/>: <form:input disabled="${'true'}" path="user.contact.addressStreet"
+                                                       type="text"/><br>
     <form:errors path="user.contact.addressStreet" cssClass="text-danger"/>
 
-    <spring:message code="label.addressHn"/>: <form:input disabled="${'true'}" path="user.contact.addressHn" type="text"/><br>
+    <spring:message code="label.addressHn"/>: <form:input disabled="${'true'}" path="user.contact.addressHn"
+                                                          type="text"/><br>
     <form:errors path="user.contact.addressHn" cssClass="text-danger"/>
 
-    <spring:message code="label.addressCity"/>: <form:input disabled="${'true'}" path="user.contact.addressCity" type="text"/><br>
+    <spring:message code="label.addressCity"/>: <form:input disabled="${'true'}" path="user.contact.addressCity"
+                                                            type="text"/><br>
     <form:errors path="user.contact.addressCity" cssClass="text-danger"/>
 
-    <spring:message code="label.addressPostalcode"/>: <form:input disabled="${'true'}" path="user.contact.addressPostalcode"
+    <spring:message code="label.addressPostalcode"/>: <form:input disabled="${'true'}"
+                                                                  path="user.contact.addressPostalcode"
                                                                   type="text"/><br>
     <form:errors path="user.contact.lastName" cssClass="text-danger"/>
 
-    <spring:message code="label.addressCountry"/>: <form:input disabled="${'true'}" path="user.contact.addressCountry" type="text"/><br>
+    <spring:message code="label.addressCountry"/>: <form:input disabled="${'true'}" path="user.contact.addressCountry"
+                                                               type="text"/><br>
     <form:errors path="user.contact.addressPostalcode" cssClass="text-danger"/>
 
     <br><br>
@@ -84,15 +156,12 @@
     <input type="submit" value="Odeslat objednavku"></input>
 </form:form>
 
-<sec:authorize ifAnyGranted="ROLE_USER"
-               var="isAuthorized"/>
-<c:if test="${not isAuthorized}">
-    uzivatel neni prihlasen
-</c:if>
+
 <form action='expresscheckout' METHOD='POST'>
     <input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0'
            align='top' alt='Check out with PayPal'/>
 </form>
-
 </body>
+
+
 </html>

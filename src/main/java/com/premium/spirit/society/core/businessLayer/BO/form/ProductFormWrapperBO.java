@@ -16,7 +16,6 @@ public class ProductFormWrapperBO extends ProductFormBO{
         this.setEthanolVolume(productFormBO.getEthanolVolume());
         this.amount = 1;
     }
-
     private int orderId;
 
     private int amount;

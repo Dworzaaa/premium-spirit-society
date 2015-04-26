@@ -2,7 +2,6 @@ package com.premium.spirit.society.core.businessLayer.BO.form;
 
 import com.premium.spirit.society.core.dataLayer.entity.ProductSubcategoryEntity;
 
-import javax.persistence.Column;
 import java.io.Serializable;
 
 /**
@@ -10,6 +9,7 @@ import java.io.Serializable;
  */
 
 public class ProductFormBO implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
     private int id;
@@ -30,7 +30,7 @@ public class ProductFormBO implements Serializable {
 
     private int ethanolVolume;
 
-    private ProductSubcategoryEntity  productSubcategory;
+    private ProductSubcategoryEntity productSubcategory;
 
     private int productSubcategoryID;
 
