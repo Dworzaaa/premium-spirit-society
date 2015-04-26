@@ -72,7 +72,7 @@
                     <td>
                         <a class="navbar-brand"
                            href="<c:url value="/invoices/${order.userID}/${order.invoice}" />">
-                            <img src="<c:url value="/resources/custom/img/pdf.ico" />">
+                            <img width="120" height="120" src="<c:url value="/resources/custom/img/pdf.ico" />">
                         </a>
 
 

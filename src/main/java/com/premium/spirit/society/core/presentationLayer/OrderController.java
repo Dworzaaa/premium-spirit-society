@@ -11,7 +11,6 @@ import com.premium.spirit.society.core.dataLayer.entity.ProductEntity;
 import com.premium.spirit.society.core.dataLayer.entity.ProductSubcategoryEntity;
 import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import com.premium.spirit.society.core.util.PictureLoader;
-import com.premium.spirit.society.core.util.paypalfunctions;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,9 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.Order;
 import javax.servlet.http.HttpServletRequest;
-import  javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -116,18 +114,19 @@ public class OrderController {
                 .getAuthentication();
         String username = auth.getName();
         UserFormBO user = userService.getUserByUsername(username);
-if (user!=null) {
-    order.setUser(dozer.map(user, UserEntity.class));
-    order.setUserID(user.getId());
-}
+        if (user != null) {
+            order.setUser(dozer.map(user, UserEntity.class));
+            order.setUserID(user.getId());
+        }
         List<String> pictureList = new ArrayList<>();
-
+        List<ProductFormBO> products = new ArrayList<>();
         if (order.getProducts() != null)
             for (int i = 0; i != order.getProducts().size(); i++) {
 
                 ProductFormBO product = productService.getById(order.getProducts().get(i).getId(), ProductFormBO.class, ProductEntity.class);
                 order.getProducts().get(i).setProductSubcategory(dozer.map(product.getProductSubcategory(), ProductSubcategoryEntity.class));
-
+                if (!products.contains(product))
+                    products.add(product);
                 if (!pictureList.contains(new PictureLoader(dozer.map(product, ProductDisplayBO.class), true).loadPictures().get(0)))
                     pictureList.add(new PictureLoader(dozer.map(product, ProductDisplayBO.class), true).loadPictures().get(0));
             }
@@ -136,7 +135,7 @@ if (user!=null) {
 
 
         productFormWrapperBOs = new ArrayList<>();
-        for (ProductFormBO productFormBO : order.getProducts()) {
+        for (ProductFormBO productFormBO : products) {
             boolean wrapperContainsCurrentProduct = false;
             for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                 if (productFormWrapperBO.getId() == productFormBO.getId()) {
@@ -147,11 +146,11 @@ if (user!=null) {
 
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
             }
         }
 
-          model.addAttribute("order", order);
+        model.addAttribute("order", order);
         model.addAttribute("pictureList", pictureList);
         model.addAttribute("productWrappers", productFormWrapperBOs);
         return "order/shoppingCartView";
@@ -172,7 +171,7 @@ if (user!=null) {
 
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
             }
         }
         // Just a sample code simulating finish of the order
@@ -217,7 +216,7 @@ if (user!=null) {
 
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
+                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
             }
         }
 
