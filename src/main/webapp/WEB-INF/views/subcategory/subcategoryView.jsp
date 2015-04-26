@@ -32,7 +32,7 @@
         </h2>
         <br>
         <h4>
-            ${products[0].productSubcategory.name}
+            ${products[0].productSubcategory.name} id: ${subcategoryId}
         </h4>
       </div>
       <div class="col-xs-6">
@@ -62,13 +62,14 @@
               <c:when test="${researcherOnly}">
                 <input type="text" class="form-control" id="search"
                        placeholder="<spring:message code="label.id"/>"
-                       data-max-results="${maxResult}">
+                       data-subcategory-id="${subcategoryId}"  data-max-results="${maxResult}">
                 %>
               </c:when>
               <c:otherwise>
                 <input id="search" class="form-control" type="text"
                        placeholder="<spring:message code="label.lastname"/>/<spring:message code="label.firstname"/>/<spring:message code="label.nin"/>"
-                       data-max-results="${maxResult}">
+                       data-subcategory-id="${subcategoryId}" data-max-results="${maxResult}">
+
               </c:otherwise>
             </c:choose>
           </div>
@@ -100,41 +101,26 @@
         </li>
       </ul>
     </div>
-
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
         <tr>
           <td>
             <b>
-              <spring:message code="label.id"/>
+              <spring:message code="label.price"/>
             </b>
           </td>
           <td>
             <b>
-              <spring:message code="label.lastname"/>
+              <spring:message code="label.name"/>
             </b>
           </td>
           <td>
             <b>
-              <spring:message code="label.firstname"/>
+              <spring:message code="label.producer"/>
             </b>
           </td>
-          <td>
-            <b>
-              <spring:message code="label.birthIdentificationNumber"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.address"/>
-            </b>
-          </td>
-          <td>
-            <b>
-              <spring:message code="label.addressCity"/>
-            </b>
-          </td>
+
         </tr>
         </thead>
         <tbody id="userList">

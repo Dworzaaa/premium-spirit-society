@@ -62,6 +62,8 @@ public class ProductCategoryController {
                 model.addAttribute("secondPictureList", secondPictureList);
                 model.addAttribute("categories", productCategoryDisplayBOs);
                 model.addAttribute("categoryId", category.getId());
+                model.addAttribute("categoryUrl",category.getUrl());
+                model.addAttribute("categoryName",category.getName());
                 model.addAttribute("subcategories", category.getProductSubcategoriesList());
                 return "category/categoryView";
             }

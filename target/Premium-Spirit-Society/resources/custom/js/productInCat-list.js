@@ -9,7 +9,7 @@ $(document).ready(function () {
     var pageCount = 0;
     var pageNumber = 1;
     <!--TODO: zjistit hodnotu kategorie -->
-    var categoryId= $("${products[0].productSubcategory.productCategory.id}");
+
     var searchString = "";
 
     //called when typing in search bar
@@ -20,7 +20,7 @@ $(document).ready(function () {
 
         /*define variables */
         var maxResults;
-
+        var catId;
         //reset pageNumber if searchString has changed
         if (searchString != searchSelector.val()) {
             pageNumber = 1;
@@ -28,13 +28,14 @@ $(document).ready(function () {
 
         //fill variables
         maxResults = $(this).data("max-results");
+        catId = $(this).data("category-id");
         searchString = searchSelector.val();
 
         $.ajax({
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
-            url: "http://premium-spirit-society.com/product/listInCat-search",
-            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&categoryId=1",
+            url: "http://localhost:8080/product/listInCat-search",
+            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&categoryId="+catId,
             success: function (response) {
                 var obj = JSON.parse(response);
                 var countOfusers = obj.userList.length;
@@ -47,10 +48,14 @@ $(document).ready(function () {
 
                     var productId = obj.userList[i][0].productId;
                     var productName = obj.userList[i][0].productName;
+                    var productCatUrl = obj.userList[i][0].productCatUrl;
+                    var productSubcatUrl = obj.userList[i][0].productSubcatUrl;
+                    var productPrice = obj.userList[i][0].productPrice;
                     var productProducer = obj.userList[i][0].productProducer;
+                    var productUrl = obj.userList[i][0].productUrl;
 
-                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/product/" + productId + "'><td>"
-                    + productId + "</td>" + "<td>"
+                    userListSelector.html(userListSelector.html() + "<tr class='clickable-row' data-href='/" + productCatUrl + "/" + productSubcatUrl + "/" + productUrl + "'><td>"
+                    + productPrice + "</td>" + "<td>"
                     + productName + "</td>" +
                     "<td>" + productProducer + "</td> </tr>");
                 }

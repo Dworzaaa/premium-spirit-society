@@ -58,13 +58,13 @@
                             <c:when test="${researcherOnly}">
                                 <input type="text" class="form-control" id="search"
                                        placeholder="<spring:message code="label.id"/>"
-                                       data-max-results="${maxResult}">
+                                       data-max-results="${maxResult}" data-category-id=="${categoryId}">
                                 %>
                             </c:when>
                             <c:otherwise>
                                 <input id="search" class="form-control" type="text"
                                        placeholder="<spring:message code="label.lastname"/>/<spring:message code="label.firstname"/>/<spring:message code="label.nin"/>"
-                                       data-max-results="${maxResult}">
+                                       data-category-id="${categoryId}"  data-max-results="${maxResult}">
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -103,34 +103,20 @@
                 <tr>
                     <td>
                         <b>
-                            <spring:message code="label.id"/>
+                            <spring:message code="label.price"/>
                         </b>
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.lastname"/>
+                            <spring:message code="label.name"/>
                         </b>
                     </td>
                     <td>
                         <b>
-                            <spring:message code="label.firstname"/>
+                            <spring:message code="label.producer"/>
                         </b>
                     </td>
-                    <td>
-                        <b>
-                            <spring:message code="label.birthIdentificationNumber"/>
-                        </b>
-                    </td>
-                    <td>
-                        <b>
-                            <spring:message code="label.address"/>
-                        </b>
-                    </td>
-                    <td>
-                        <b>
-                            <spring:message code="label.addressCity"/>
-                        </b>
-                    </td>
+
                 </tr>
                 </thead>
                 <tbody id="userList">
@@ -138,6 +124,7 @@
                 </tbody>
             </table>
         </div>
+
 
         <div class="text-center">
             <ul class="pagination">

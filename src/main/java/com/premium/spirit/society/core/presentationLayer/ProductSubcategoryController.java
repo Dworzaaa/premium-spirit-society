@@ -71,7 +71,11 @@ public class ProductSubcategoryController {
                         model.addAttribute("secondPictureList", secondPictureList);
                         model.addAttribute("categories", productCategoryDisplayBOs);
                         model.addAttribute("categoryId", category.getId());
+                        model.addAttribute("categoryUrl",category.getUrl());
+                        model.addAttribute("categoryName",category.getName());
                         model.addAttribute("subcategoryId", subcategory.getId());
+                        model.addAttribute("subcategoryUrl",subcategory.getUrl());
+                        model.addAttribute("subcategoryName",subcategory.getName());
                         model.addAttribute("subcategories", productSubcategoryEntities);
                         return "subcategory/subcategoryView";
                     }

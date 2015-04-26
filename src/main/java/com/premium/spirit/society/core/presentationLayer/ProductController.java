@@ -69,6 +69,15 @@ public class ProductController {
                                 model.addAttribute("pictureList", pictureList);
                                 model.addAttribute("categories", productCategoryDisplayBOs);
                                 model.addAttribute("subcategories", productSubcategoryEntities);
+
+
+                                model.addAttribute("categoryUrl",category.getUrl());
+                                model.addAttribute("categoryName",category.getName());
+                                model.addAttribute("subcategoryUrl",subcategory.getUrl());
+                                model.addAttribute("subcategoryName",subcategory.getName());
+
+
+
                                 model.addAttribute("categoryPictures",new PictureLoader(productCategoryDisplayBOs).loadCategoryPictures());
                                 return "product/productView";
                             }

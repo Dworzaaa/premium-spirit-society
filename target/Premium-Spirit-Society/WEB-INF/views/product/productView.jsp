@@ -51,7 +51,7 @@
 
         <br>
 
-
+<a href="/${categoryUrl}"}>${categoryName}</a>><a href="/${categoryUrl}/${subcategoryUrl}"}>${subcategoryName}</a>></a>><a href="/${categoryUrl}/${subcategoryUrl}/${product.url}"}>${product.name}</a>
         <form:form class="form-horizontal"
                    action="/order/addToCart/${product.id}"
                    method="POST"
