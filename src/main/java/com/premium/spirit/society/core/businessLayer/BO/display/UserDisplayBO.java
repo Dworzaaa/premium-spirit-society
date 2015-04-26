@@ -20,6 +20,8 @@ public class UserDisplayBO {
 
     private boolean hidden;
 
+    private boolean newsletter;
+
     public int getId() {
         return id;
     }
@@ -74,5 +76,13 @@ public class UserDisplayBO {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public boolean isNewsletter() {
+        return newsletter;
+    }
+
+    public void setNewsletter(boolean newsletter) {
+        this.newsletter = newsletter;
     }
 }

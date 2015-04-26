@@ -26,6 +26,8 @@ public class UserFormBO {
 
     private boolean enabled;
 
+    private boolean newsletter;
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -109,6 +111,11 @@ public class UserFormBO {
         this.customer = customer;
     }
 
+    public boolean isNewsletter() {
+        return newsletter;
+    }
 
-
+    public void setNewsletter(boolean newsletter) {
+        this.newsletter = newsletter;
+    }
 }

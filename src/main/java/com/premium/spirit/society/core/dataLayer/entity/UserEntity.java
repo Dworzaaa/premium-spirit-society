@@ -43,6 +43,8 @@ public class UserEntity {
     @Column(name = "HIDDEN")
     private boolean hidden;
 
+    @Column(name="NEWSLETTER")
+    private boolean newsletter;
     /**
      * The contact.
      */
@@ -180,5 +182,13 @@ public class UserEntity {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public boolean isNewsletter() {
+        return newsletter;
+    }
+
+    public void setNewsletter(boolean newsletter) {
+        this.newsletter = newsletter;
     }
 }
