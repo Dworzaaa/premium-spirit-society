@@ -18,7 +18,7 @@
     </jsp:attribute>
 
 	<jsp:attribute name="script">
-        <script src="<c:url value="/resources/custom/js/productInCat-list.js"/>"></script>
+        <script src="<c:url value="/resources/custom/js/productInSubcat-list.js"/>"></script>
     </jsp:attribute>
 
   <jsp:body>

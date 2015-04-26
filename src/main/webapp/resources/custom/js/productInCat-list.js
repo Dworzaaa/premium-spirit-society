@@ -9,7 +9,7 @@ $(document).ready(function () {
     var pageCount = 0;
     var pageNumber = 1;
     <!--TODO: zjistit hodnotu kategorie -->
-    var categoryId=1;
+    var categoryId= $("${products[0].productSubcategory.productCategory.id}");
     var searchString = "";
 
     //called when typing in search bar
