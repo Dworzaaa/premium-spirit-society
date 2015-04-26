@@ -9,7 +9,7 @@ $(document).ready(function () {
     var pageCount = 0;
     var pageNumber = 1;
     <!--TODO: zjistit hodnotu kategorie -->
-    var categoryId= $("${products[0].productSubcategory.productCategory.id}");
+    var categoryId=  $(this).data("categoryId");
     var searchString = "";
 
     //called when typing in search bar
@@ -34,7 +34,7 @@ $(document).ready(function () {
             type: "GET",
             //url: "http://isarg.feld.cvut.cz:2001/GENEPI/user/list-search",
             url: "http://premium-spirit-society.com/product/listInCat-search",
-            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&categoryId=1",
+            data: "search=" + searchString + "&maxResults=" + maxResults + "&pageNumber=" + pageNumber+"&categoryId="+categoryId,
             success: function (response) {
                 var obj = JSON.parse(response);
                 var countOfusers = obj.userList.length;
