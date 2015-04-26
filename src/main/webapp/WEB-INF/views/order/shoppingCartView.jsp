@@ -33,23 +33,23 @@
     <spring:message code="label.name"/>: <form:input disabled="${'true'}" path="user.contact.firstName" type="text"/><br>
     <form:errors path="user.contact.firstName" cssClass="text-danger"/>
 
-    <spring:message code="label.lastname"/>: <form:input path="user.contact.lastName" type="text"/><br>
+    <spring:message code="label.lastname"/>: <form:input disabled="${'true'}" path="user.contact.lastName" type="text"/><br>
     <form:errors path="user.contact.lastName" cssClass="text-danger"/>
 
-    <spring:message code="label.street"/>: <form:input path="user.contact.addressStreet" type="text"/><br>
+    <spring:message code="label.street"/>: <form:input disabled="${'true'}" path="user.contact.addressStreet" type="text"/><br>
     <form:errors path="user.contact.addressStreet" cssClass="text-danger"/>
 
-    <spring:message code="label.addressHn"/>: <form:input path="user.contact.addressHn" type="text"/><br>
+    <spring:message code="label.addressHn"/>: <form:input disabled="${'true'}" path="user.contact.addressHn" type="text"/><br>
     <form:errors path="user.contact.addressHn" cssClass="text-danger"/>
 
-    <spring:message code="label.addressCity"/>: <form:input path="user.contact.addressCity" type="text"/><br>
+    <spring:message code="label.addressCity"/>: <form:input disabled="${'true'}" path="user.contact.addressCity" type="text"/><br>
     <form:errors path="user.contact.addressCity" cssClass="text-danger"/>
 
-    <spring:message code="label.addressPostalcode"/>: <form:input path="user.contact.addressPostalcode"
+    <spring:message code="label.addressPostalcode"/>: <form:input disabled="${'true'}" path="user.contact.addressPostalcode"
                                                                   type="text"/><br>
     <form:errors path="user.contact.lastName" cssClass="text-danger"/>
 
-    <spring:message code="label.addressCountry"/>: <form:input path="user.contact.addressCountry" type="text"/><br>
+    <spring:message code="label.addressCountry"/>: <form:input disabled="${'true'}" path="user.contact.addressCountry" type="text"/><br>
     <form:errors path="user.contact.addressPostalcode" cssClass="text-danger"/>
 
     <br><br>
