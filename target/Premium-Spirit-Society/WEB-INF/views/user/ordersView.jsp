@@ -69,7 +69,13 @@
                         </c:forEach>
                     </td>
                     <td> ${order.state}</td>
-                    <td> <a href ="/invoices/${order.userID}/${order.invoice}"> ${invoiceUrl}${order.invoice}</a></td>
+                    <td>
+                        <a class="navbar-brand"
+                           href="<c:url value="/invoices/${order.userID}/${order.invoice}" />">
+                            <img src="<c:url value="/resources/custom/img/pdf.ico" />">
+                        </a>
+
+
                 </tr>
             </c:forEach>
 

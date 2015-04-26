@@ -158,7 +158,7 @@ if (user!=null) {
     }
 
 
-    @RequestMapping(value = "/order/finishOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "/finishOrder", method = RequestMethod.POST)
     public String orderFinsihOrderPOST(HttpServletRequest request, Locale locale, Model model, @ModelAttribute("order") @Valid OrderFormBO order, HttpSession session, HttpServletResponse response) {
         productFormWrapperBOs = new ArrayList<>();
         for (ProductFormBO productFormBO : this.order.getProducts()) {

@@ -138,22 +138,22 @@
             -->
 
             <div class="form-group">
-                <!--
-                <label class="col-xs-3 control-label"
-                       for="count">
-                    <spring:message code="label.countAvailable"/>
+            <!--
+            <label class="col-xs-3 control-label"
+            for="count">
+            <spring:message code="label.countAvailable"/>
 
 
-                </label>
+            </label>
 
-                <div class="col-xs-8">
-                    <form:input id="ethanolVolume"
-                                class="form-control input-sm"
-                                type="text"
-                                path="count"/>
-                    <form:errors path="count"
-                                 cssClass="text-danger"/>
-                </div>
+            <div class="col-xs-8">
+            <form:input id="ethanolVolume"
+                        class="form-control input-sm"
+                        type="text"
+                        path="count"/>
+            <form:errors path="count"
+                         cssClass="text-danger"/>
+            </div>
             </div>
             -->
 
@@ -221,22 +221,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-xs-3 control-label"
-                       for="orderAmount">
-                    <spring:message code="label.orderAmount"/>
-                </label>
-
-                <div class="col-xs-8">
-                    <form:input id="orderAmount"
-                                class="form-control input-sm"
-                                type="text"
-                                path="orderAmount"/>
-                    <form:errors path="orderAmount"
-                                 cssClass="text-danger"/>
-                </div>
-            </div>
-
 
             <div class="form-group">
                 <label class="col-xs-3 control-label"
@@ -254,11 +238,25 @@
                 </div>
             </div>
 
-            <c:forEach var="picture"
-                       items="${pictureList}">
-                <img src="data:image/jpeg;base64,${picture}"/>
-            </c:forEach>
+            <br> <br>
+            <br>
 
+            <div class="form-group">
+                <label class="col-xs-3 control-label"
+                       for="orderAmount">
+                    <spring:message code="label.orderAmount"/>
+                </label>
+
+                <div class="col-xs-8">
+                    <form:input id="orderAmount"
+                                class="form-control input-sm"
+                                type="text"
+                                path="orderAmount"/>
+                    <form:errors path="orderAmount"
+                                 cssClass="text-danger"/>
+                </div>
+            </div>
+            <br>
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-8">
                     <button class="btn btn-small btn-primary"
@@ -271,6 +269,14 @@
             <form:input type="hidden" id="id" path="id"/>
 
         </form:form>
+        <c:forEach var="picture"
+                   items="${pictureList}">
+            <img src="data:image/jpeg;base64,${picture}"/>
+        </c:forEach>
+
+
+
+
     </jsp:body>
 
 </t:menuLVL1>

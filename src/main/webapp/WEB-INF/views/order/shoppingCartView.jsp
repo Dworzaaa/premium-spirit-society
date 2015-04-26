@@ -23,14 +23,14 @@
     <c:out value="${productWrappers[loop.index].price}"/><br>
 
 </c:forEach>
-<form:form action="/order/finishOrder"
+<form:form action="/finishOrder"
            method="POST" commandName="order">
 
     <br>
     <br>
     <br>
     Faturacni udaje::<br>
-    <spring:message code="label.name"/>: <form:input path="user.contact.firstName" type="text"/><br>
+    <spring:message code="label.name"/>: <form:input disabled="${'true'}" path="user.contact.firstName" type="text"/><br>
     <form:errors path="user.contact.firstName" cssClass="text-danger"/>
 
     <spring:message code="label.lastname"/>: <form:input path="user.contact.lastName" type="text"/><br>
@@ -45,7 +45,8 @@
     <spring:message code="label.addressCity"/>: <form:input path="user.contact.addressCity" type="text"/><br>
     <form:errors path="user.contact.addressCity" cssClass="text-danger"/>
 
-    <spring:message code="label.addressPostalcode"/>: <form:input path="user.contact.addressPostalcode" type="text"/><br>
+    <spring:message code="label.addressPostalcode"/>: <form:input path="user.contact.addressPostalcode"
+                                                                  type="text"/><br>
     <form:errors path="user.contact.lastName" cssClass="text-danger"/>
 
     <spring:message code="label.addressCountry"/>: <form:input path="user.contact.addressCountry" type="text"/><br>
@@ -61,8 +62,10 @@
     <spring:message code="label.street"/>: <form:input path="user.contact.shippingAddressStreet" type="text"/><br>
     <spring:message code="label.addressHn"/>: <form:input path="user.contact.shippingAddressHn" type="text"/><br>
     <spring:message code="label.addressCity"/>: <form:input path="user.contact.shippingAddressCity" type="text"/><br>
-    <spring:message code="label.addressPostalcode"/>: <form:input path="user.contact.shippingAddressPostalcode" type="text"/><br>
-    <spring:message code="label.addressCountry"/>: <form:input path="user.contact.shippingAddressCountry" type="text"/><br>
+    <spring:message code="label.addressPostalcode"/>: <form:input path="user.contact.shippingAddressPostalcode"
+                                                                  type="text"/><br>
+    <spring:message code="label.addressCountry"/>: <form:input path="user.contact.shippingAddressCountry"
+                                                               type="text"/><br>
     <br><br>
     Nazev firmy: <form:input path="user.contact.companyName" type="text"/><br>
     IC:<form:input path="user.contact.companyId" type="text"/><br>
@@ -77,7 +80,7 @@
     <form:radiobutton path="paymentMethod" value="mastercard"/>bankovni prevod
     <form:radiobutton path="paymentMethod" value="paypal"/>paypal
     <form:radiobutton path="paymentMethod" value="dobirka"/>dobirka
-
+    <br>
     <input type="submit" value="Odeslat objednavku"></input>
 </form:form>
 
