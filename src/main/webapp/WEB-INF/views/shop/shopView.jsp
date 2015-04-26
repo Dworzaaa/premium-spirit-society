@@ -163,7 +163,7 @@
             <img src="data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
 
             <br>
-            <a href="${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
+            <a href="/${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
            >"${products[loop.index].name}"</a>
             <br>
 
