@@ -26,31 +26,35 @@
            method="POST"
            commandName="contact">
 
-  <div class="form-group">
-    <label class="col-xs-3 control-label"
-           for="email">
-      <spring:message code="label.email"/>*
-    </label>
+    <div class="form-group">
+        <label class="col-xs-3 control-label"
+               for="email">
+            <spring:message code="label.email"/>*
+        </label>
 
-    <div class="col-xs-8">
-      <form:input id="email"
-                  class=" form-control input-sm"
-                  type="text"
-                  path="email"/>
-      <form:errors path="email"
-                   cssClass="text-danger"/>
+        <div class="col-xs-8">
+            <form:input id="email"
+                        class=" form-control input-sm"
+                        type="text"
+                        path="email"/>
+
+            <c:if test="${mailInvalid}">
+                        <span class="text-danger">
+                            <spring:message code="label.nonExistingMail"/>
+                        </span>
+            </c:if>
+        </div>
     </div>
-  </div>
 
 
-  <div class="form-group">
-    <div class="col-xs-offset-3 col-xs-8">
-      <button class="btn btn-small btn-primary"
-              type="submit">
-       Reset password
-      </button>
+    <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-8">
+            <button class="btn btn-small btn-primary"
+                    type="submit">
+                Reset password
+            </button>
+        </div>
     </div>
-  </div>
 
 
 </form:form>

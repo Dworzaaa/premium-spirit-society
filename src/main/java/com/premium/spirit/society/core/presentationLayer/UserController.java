@@ -281,8 +281,8 @@ public class UserController {
         UserFormBO user = userService.getUserByEmail(contact.getEmail().toString());
         if (user==null)
         {
-            //TODO:
-            // send error message
+            model.addAttribute("mailInvalid", true);
+            return "/user/resetPasswordView";
         }
         else {
             String password = RandomStringUtils.randomAlphanumeric(10);
@@ -324,7 +324,6 @@ public class UserController {
             return "deniedView";
 
         } else {
-
             model.addAttribute("user", userService.getUserByUsername(username));
             model.addAttribute("uniqueUsername", true);
             model.addAttribute("uniqueEmail", true);

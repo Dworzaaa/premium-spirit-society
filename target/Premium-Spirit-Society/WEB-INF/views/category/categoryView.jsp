@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-xs-6">
                 <h2>
-                    <spring:message code="label.cardIndex"/>
+                   ${products[0].productSubcategory.productCategory.name}
                 </h2>
             </div>
             <div class="col-xs-6">
@@ -189,10 +189,7 @@
             <c:out value="${products[loop.index].producer}"/>
             <br>
             <c:out value="${products[loop.index].price}"/>
-            <br>
-
-            ADD TO SHOPPING-CART VIA AJAX
-            <br>
+            <br>            <br>
 
         </c:forEach>
     </jsp:body>

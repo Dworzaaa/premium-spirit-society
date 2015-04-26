@@ -18,9 +18,8 @@
     </jsp:attribute>
 
 	<jsp:attribute name="script">
-        <script src="<c:url value="/resources/custom/js/productInSubcat-list.js"/>"></script>
+        <script src="<c:url value="/resources/custom/js/productInCat-list.js"/>"></script>
     </jsp:attribute>
-
 
   <jsp:body>
     <sec:authorize ifAnyGranted="ROLE_DOCTOR,ROLE_SUPER_DOCTOR,ROLE_ADMIN"
@@ -29,8 +28,12 @@
     <div class="row">
       <div class="col-xs-6">
         <h2>
-          <spring:message code="label.cardIndex"/>
+            ${products[0].productSubcategory.productCategory.name}
         </h2>
+        <br>
+        <h4>
+            ${products[0].productSubcategory.name}
+        </h4>
       </div>
       <div class="col-xs-6">
         <c:if test="${isAuthorized}">
@@ -165,19 +168,15 @@
       </ul>
     </div>
     <c:forEach begin="0" end="${fn:length(categories)-1}" varStatus="loop">
-      <a href="/<c:out value="${categories[loop.index].url}"/>" ><c:out value="${categories[loop.index].name}"/></a>
-
+      <a href="/<c:out value="${categories[loop.index].url}"/>"><c:out
+              value="${categories[loop.index].name}"/></a>
       <img src="data:image/jpeg;base64,${categoryPictures[loop.index]}" width="200" height="200"/>
-
-
     </c:forEach>
     <br>
 
-
     <c:forEach begin="0" end="${fn:length(subcategories)-1}" varStatus="loop">
-      <a href="/<c:out value="${subcategories[loop.index].productCategory.url}"/>/<c:out value="${subcategories[loop.index].url}"/>" >      <c:out value="${subcategories[loop.index].name}"/></a>
-
-
+      <a href="/<c:out value="${subcategories[loop.index].productCategory.url}"/>/<c:out value="${subcategories[loop.index].url}"/>">
+        <c:out value="${subcategories[loop.index].name}"/></a>
     </c:forEach>
     <br>
 
@@ -187,17 +186,14 @@
       <img src="data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
 
       <br>
-      <a href="/${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
+      <a href="${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"
          class="glyphicon-ok-circle">"${products[loop.index].name}"</a>
       <br>
 
       <c:out value="${products[loop.index].producer}"/>
       <br>
       <c:out value="${products[loop.index].price}"/>
-      <br>
-
-      ADD TO SHOPPING-CART VIA AJAX
-      <br>
+      <br>            <br>
 
     </c:forEach>
   </jsp:body>
