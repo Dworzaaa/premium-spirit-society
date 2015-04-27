@@ -16,7 +16,8 @@
     <script type="text/javascript"
             src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {upd
+        $(document).ready(function () {
+
             $(":button").click(function (event) {
                 var elementId = event.target.id;
                 $('#loading' + elementId).fadeIn(200);
