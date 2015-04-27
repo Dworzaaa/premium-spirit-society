@@ -16,47 +16,7 @@
     <script type="text/javascript"
             src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-$(".updateInput").keypress(function(event) {
- 
-    if (event.which == 13) {
-        event.preventDefault();
-         var elementId = event.target.id;
-                $('#loading' + elementId).fadeIn(200);
-                var searchSelector = $('#search' + elementId);
-                var searchString = "";
-                searchString = searchSelector.val();
-                $(searchSelector).fadeOut(200);
-                if (searchString < 1) {
-                    $(searchSelector).fadeOut(200);
-                    var searchString = "";
-
-                    searchString = searchSelector.val();
-                    var myUrl = 'orderChange/' + elementId + '/' + searchString;
-                    $.ajax({
-                        url: myUrl,
-                        type: "POST",
-                        success: function (data) {
-                            $('#loading' + elementId).fadeOut(200);
-                            $(searchSelector).fadeIn(200);
-                            location.reload();
-                        }
-                    });
-
-                } else {
-
-                    var myUrl = 'orderChange/' + elementId + '/' + searchString;
-                    $.ajax({
-                        url: myUrl,
-                        type: "POST",
-                        success: function (data) {
-                            $('#loading' + elementId).fadeOut(200);
-                            $(searchSelector).fadeIn(200);
-                        }
-                    });
-                }
-    }
-});
+        $(document).ready(function () {upd
             $(":button").click(function (event) {
                 var elementId = event.target.id;
                 $('#loading' + elementId).fadeIn(200);
@@ -110,7 +70,7 @@ $(".updateInput").keypress(function(event) {
             $('#loading' + <c:out value="${productWrappers[loop.index].id}"/>).fadeOut(1);
         </script>
     </div>
-    <input class="updateInput" id="search<c:out value="${productWrappers[loop.index].id}"/>" class="form-control" type="text"
+    <input id="search<c:out value="${productWrappers[loop.index].id}"/>" class="form-control" type="text"
            value="<c:out value="${productWrappers[loop.index].orderAmount}"/>"/> <br>
 
     <c:out value="${productWrappers[loop.index].price}"/><br>
