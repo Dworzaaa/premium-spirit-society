@@ -30,7 +30,7 @@
 
 
 
-        <security:form-login login-page="/" authentication-failure-url="/denied" default-target-url="/"/>
+        <security:form-login login-page="/" authentication-failure-url="/login-failed" default-target-url="/"/>
         <security:logout logout-success-url="/"/>
         <security:remember-me key="some!Key$#To7Generate1Password0" token-validity-seconds="1209600"/>
     </security:http>

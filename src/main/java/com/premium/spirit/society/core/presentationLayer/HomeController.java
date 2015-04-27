@@ -93,6 +93,10 @@ public class HomeController {
         return "shop/shopView";
     }
 
+    @RequestMapping(value = "/login-failed", method = RequestMethod.GET)
+    public String loginFailedGET(Model model, HttpServletRequest request) {
+        return "loginFailedView";
+    }
 
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
     public String contactGET(Model model, HttpServletRequest request) {
