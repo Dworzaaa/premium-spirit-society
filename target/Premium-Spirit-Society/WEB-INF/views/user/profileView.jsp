@@ -235,7 +235,7 @@ Dodaci udaje:
 
 
 
-
+                tady dodelat checkbox na newsletter
 
 
 

@@ -193,7 +193,6 @@ public class OrderController {
         order.setState(1);
         order.setUser(dozer.map(user, UserEntity.class));
         order.setUserID(user.getId());
-        System.out.println(request.getHeader("paymentMethod"));
         order.setProducts(this.order.getProducts());
         String pdfFilename = orderService.createFileName(user.getUsername(), orderNumber) + ".pdf";
         order.setInvoice(pdfFilename);
@@ -224,10 +223,12 @@ public class OrderController {
 
 
         mailService.notifyOrderCreated(user, productFormWrapperBOs, pdfFilename, locale);
-
+        //TODO: fixnout productFormWrapperBOs
+        model.addAttribute("productFormWrapperBOs",productFormWrapperBOs);
+        model.addAttribute("order",order);
         this.order.setProducts(new ArrayList<ProductFormBO>());
 
-        return "/order/thanksView";
+        return "order/finishOrder";
     }
 
 

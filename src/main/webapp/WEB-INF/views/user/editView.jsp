@@ -129,6 +129,15 @@
                     </button>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="col-xs-4 control-label"
+                       for="contact.email">
+                    Odebirat novinky:
+                </label>
+
+                tady dodelat checkbox na newsletter
+            </div>
         </form:form>
     </jsp:body>
 </t:menuLVL1>
