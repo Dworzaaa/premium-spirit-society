@@ -66,61 +66,6 @@ public class ContactEntity {
     @Column(name = "PHONE_NUMBER", length = 20, nullable = true)
     private String phoneNumber;
 
-    public String getShippingAddressHn() {
-        return shippingAddressHn;
-    }
-
-    public void setShippingAddressHn(String shippingAddressHn) {
-        this.shippingAddressHn = shippingAddressHn;
-    }
-
-    public String getShippingAddressCity() {
-        return shippingAddressCity;
-    }
-
-    public void setShippingAddressCity(String shippingAddressCity) {
-        this.shippingAddressCity = shippingAddressCity;
-    }
-
-    public String getShippingAddressPostalcode() {
-        return shippingAddressPostalcode;
-    }
-
-    public void setShippingAddressPostalcode(String shippingAddressPostalcode) {
-        this.shippingAddressPostalcode = shippingAddressPostalcode;
-    }
-
-    public String getShippingAddressCountry() {
-        return shippingAddressCountry;
-    }
-
-    public void setShippingAddressCountry(String shippingAddressCountry) {
-        this.shippingAddressCountry = shippingAddressCountry;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getVatId() {
-        return vatId;
-    }
-
-    public void setVatId(String vatId) {
-        this.vatId = vatId;
-    }
 
     /**
      * The email.
@@ -361,5 +306,61 @@ public class ContactEntity {
 
     public void setShippingLastName(String shippingLastName) {
         this.shippingLastName = shippingLastName;
+    }
+
+    public String getShippingAddressHn() {
+        return shippingAddressHn;
+    }
+
+    public void setShippingAddressHn(String shippingAddressHn) {
+        this.shippingAddressHn = shippingAddressHn;
+    }
+
+    public String getShippingAddressCity() {
+        return shippingAddressCity;
+    }
+
+    public void setShippingAddressCity(String shippingAddressCity) {
+        this.shippingAddressCity = shippingAddressCity;
+    }
+
+    public String getShippingAddressPostalcode() {
+        return shippingAddressPostalcode;
+    }
+
+    public void setShippingAddressPostalcode(String shippingAddressPostalcode) {
+        this.shippingAddressPostalcode = shippingAddressPostalcode;
+    }
+
+    public String getShippingAddressCountry() {
+        return shippingAddressCountry;
+    }
+
+    public void setShippingAddressCountry(String shippingAddressCountry) {
+        this.shippingAddressCountry = shippingAddressCountry;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getVatId() {
+        return vatId;
+    }
+
+    public void setVatId(String vatId) {
+        this.vatId = vatId;
     }
 }

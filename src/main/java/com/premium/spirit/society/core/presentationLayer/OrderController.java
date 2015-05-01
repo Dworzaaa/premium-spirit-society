@@ -176,23 +176,24 @@ public class OrderController {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
             }
         }
-        // Just a sample code simulating finish of the order
+
         String name = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
         UserFormBO user = userService.getUserByUsername(name);
+        order.setUser(dozer.map(user, UserEntity.class));
+        order.setUserID(user.getId());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         sdf.format(new Date()).toString();
         long dateLong = Long.parseLong(sdf.format(new Date()).toString());
-        dateLong = dateLong * 100000;
+        dateLong = dateLong * 100;
         int orderCount = user.getOrders().size() + 1;
-        String orderNumber = Long.toString(dateLong) + Long.toString(order.getUserID()) + Long.toString(orderCount);
+        String orderNumber =  Integer.toString( order.getUserID() ) + Long.toString(dateLong) +Long.toString(orderCount);
         order.setOrderNumber(orderNumber);
-
         order.setDate(new Date());
         order.setState(1);
-        order.setUser(dozer.map(user, UserEntity.class));
-        order.setUserID(user.getId());
+        // TODO: dat do konfiguraku
+        order.setShippingPrice(123);
         order.setProducts(this.order.getProducts());
         String pdfFilename = orderService.createFileName(user.getUsername(), orderNumber) + ".pdf";
         order.setInvoice(pdfFilename);
@@ -202,11 +203,23 @@ public class OrderController {
         else
             orderService.merge(order, OrderEntity.class);
 
+        List<ProductFormBO> products = new ArrayList<>();
 
-        orderService.createPdf(pdfFilename, productFormWrapperBOs, order, locale);
+        if (order.getProducts() != null)
+            for (int i = 0; i != order.getProducts().size(); i++) {
+
+
+                ProductFormBO product = productService.getById(order.getProducts().get(i).getId(), ProductFormBO.class, ProductEntity.class);
+                order.getProducts().get(i).setProductSubcategory(dozer.map(product.getProductSubcategory(), ProductSubcategoryEntity.class));
+                if (!products.contains(product))
+                    products.add(product);
+            }
+        else
+            order.setProducts(new ArrayList<ProductFormBO>());
+
 
         productFormWrapperBOs = new ArrayList<>();
-        for (ProductFormBO productFormBO : order.getProducts()) {
+        for (ProductFormBO productFormBO : products) {
             boolean wrapperContainsCurrentProduct = false;
             for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                 if (productFormWrapperBO.getId() == productFormBO.getId()) {
@@ -215,17 +228,24 @@ public class OrderController {
                     break;
                 }
 
+
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
             }
         }
 
-
+        for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+            for (int i = 0; i != productFormWrapperBO.getOrderAmount(); i++) {
+                ProductFormBO productFormBO = dozer.map(productFormWrapperBO, ProductFormBO.class);
+                order.getProducts().add(productFormBO);
+            }
+        }
+        orderService.createPdf(pdfFilename, productFormWrapperBOs, order, locale);
+        order.setProducts(new ArrayList<ProductFormBO>());
         mailService.notifyOrderCreated(user, productFormWrapperBOs, pdfFilename, locale);
-        //TODO: fixnout productFormWrapperBOs
-        model.addAttribute("productFormWrapperBOs",productFormWrapperBOs);
-        model.addAttribute("order",order);
+        model.addAttribute("productFormWrapperBOs", productFormWrapperBOs);
+        model.addAttribute("order", order);
         this.order.setProducts(new ArrayList<ProductFormBO>());
 
         return "order/finishOrder";
@@ -249,8 +269,6 @@ public class OrderController {
 
         if (order.getProducts() != null)
             for (int i = 0; i != order.getProducts().size(); i++) {
-
-
                 ProductFormBO product = productService.getById(order.getProducts().get(i).getId(), ProductFormBO.class, ProductEntity.class);
                 order.getProducts().get(i).setProductSubcategory(dozer.map(product.getProductSubcategory(), ProductSubcategoryEntity.class));
                 if (!products.contains(product))
@@ -277,11 +295,17 @@ public class OrderController {
                     break;
                 }
 
-
             }
             if (!wrapperContainsCurrentProduct) {
-                productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
-                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).getOrderAmount() + 1);
+                ProductFormWrapperBO productFormWrapperBO = new ProductFormWrapperBO(productFormBO, order);
+                if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                    if (productFormWrapperBO.getId() == productId) {
+                        productFormWrapperBO.setOrderAmount(amount);
+                    } else
+                        productFormWrapperBO.setOrderAmount(1);
+                    productFormWrapperBOs.add(productFormWrapperBO);
+
+                }
             }
         }
 
@@ -296,6 +320,6 @@ public class OrderController {
         model.addAttribute("order", order);
         model.addAttribute("pictureList", pictureList);
         model.addAttribute("productWrappers", productFormWrapperBOs);
-        return "123";
+        return "";
     }
 }

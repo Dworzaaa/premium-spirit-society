@@ -62,66 +62,55 @@ public class OrderEntity {
     private String orderNumber;
 
 
-    @Column(name = "shippingType", nullable = false)
+    @Column(name = "shipping_type", nullable = false)
     private String shippingType;
 
     @Column(name = "paymentMethod", nullable = false)
     private String paymentMethod;
 
-    public String getInvoice() {
-        return invoice;
+
+    @Column(name="shipping_price", nullable = false)
+    private int shippingPrice;
+
+
+    public int getId() {
+        return id;
     }
 
-    public void setInvoice(String invoice) {
-        this.invoice = invoice;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getShippingType() {
-        return shippingType;
+    public boolean isHidden() {
+        return hidden;
     }
 
-    public void setShippingType(String shippingType) {
-        this.shippingType = shippingType;
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public int getState() {
+        return state;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setState(int state) {
+        this.state = state;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public Date getDate() {
+        return date;
     }
 
-    public void setOrderNumber(String orderId) {
-        this.orderNumber = orderId;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
+    public String getNote() {
+        return note;
     }
 
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int productCategoryID) {
-        this.userID = productCategoryID;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getShippingAddressHn() {
@@ -164,44 +153,67 @@ public class OrderEntity {
         this.shippingAddressCountry = shippingAddressCountry;
     }
 
-    public String getNote() {
-        return note;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
-    public int getState() {
-        return state;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public Date getDate() {
-        return date;
+    public String getInvoice() {
+        return invoice;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
     }
 
-    public boolean isHidden() {
-        return hidden;
+    public List<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
-    public int getId() {
-        return id;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
+    public String getShippingType() {
+        return shippingType;
+    }
+
+    public void setShippingType(String shippingType) {
+        this.shippingType = shippingType;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public int getShippingPrice() {
+        return shippingPrice;
+    }
+
+    public void setShippingPrice(int shippingPrice) {
+        this.shippingPrice = shippingPrice;
+    }
 }

@@ -37,7 +37,9 @@
             <th align="center">id objednavky</th>
             <th align="center">datum objednavky</th>
             <th align="center">produkty</th>
-            <th align="center">produkty naformatovany</th>
+            <th align="center">typ dopravy</th>
+            <th align="center">cena dopravy</th>
+            <th align="center">cena celkem</th>
             <th align="center">stav</th>
             <th align="center">faktura</th>
             </tr>
@@ -48,33 +50,44 @@
                        items="${orders}" varStatus="loop">
                 <tr>
 
-                    <td> ${order.id}</td>
+                    <td> ${order.orderNumber}</td>
                     <td> ${order.date}</td>
-                    <td>
+                    <!--<td>
                         <c:forEach var="product" items="${order.products}">
                             ${product.id}<br>
                             ${product.name}<br>
                             ${product.price}<br>
                         </c:forEach>
-                    </td>
+                    </td> -->
                     <td>
 
                         <c:forEach var="test" items="${listOfProductFormWrappers[loop.index]}" varStatus="wrapperLoop">
-                            id prduktu:    ${listOfProductFormWrappers[loop.index][wrapperLoop.index].id} <br>
-                            jmeno produktu:    ${listOfProductFormWrappers[loop.index][wrapperLoop.index].name} <br>
+                            jmeno produktu: <a href="/${listOfProductFormWrappers[loop.index][wrapperLoop.index].productSubcategory.productCategory.url}/${listOfProductFormWrappers[loop.index][wrapperLoop.index].productSubcategory.url}/${listOfProductFormWrappers[loop.index][wrapperLoop.index].url}">${listOfProductFormWrappers[loop.index][wrapperLoop.index].name}</a> <br>
                             cena produktu:  ${listOfProductFormWrappers[loop.index][wrapperLoop.index].price} <br>
                             mnozstvi produktu: ${listOfProductFormWrappers[loop.index][wrapperLoop.index].amount} <br>
+
                             ===============================================
                             <br>
                         </c:forEach>
                     </td>
-                    <td> ${order.state}</td>
+
+                    <td>
+                            ${order.shippingType}
+                    </td>
+                    <td>
+                            ${order.shippingPrice}
+                    </td>
+                    <td>
+                        spocitat js
+                    </td>
+                    <td>    <spring:message code="label.state.${order.state}"/></td>
                     <td>
                         <a class="navbar-brand"
                            href="<c:url value="/invoices/${order.userID}/${order.invoice}" />">
                             <img width="120" height="120" src="<c:url value="/resources/custom/img/pdf.ico" />">
                         </a>
 
+                    </td>
 
                 </tr>
             </c:forEach>

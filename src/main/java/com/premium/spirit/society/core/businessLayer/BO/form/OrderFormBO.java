@@ -52,36 +52,54 @@ public class OrderFormBO implements Serializable{
 
     private String invoice;
 
-    public String getInvoice() {
-        return invoice;
+    private int shippingPrice;
+
+    public int getId() {
+        return id;
     }
 
-    public void setInvoice(String invoice) {
-        this.invoice = invoice;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getShippingType() {
-        return shippingType;
+    public String getNote() {
+        return note;
     }
 
-    public void setShippingType(String shippingType) {
-        this.shippingType = shippingType;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public boolean isHidden() {
+        return hidden;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public int getState() {
+        return state;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public List<ProductFormBO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductFormBO> products) {
+        this.products = products;
     }
 
     public String getShippingAddressHn() {
@@ -124,11 +142,6 @@ public class OrderFormBO implements Serializable{
         this.shippingAddressCountry = shippingAddressCountry;
     }
 
-
-    public List<ProductFormBO> getProducts() {
-        return products;
-    }
-
     public UserEntity getUser() {
         return user;
     }
@@ -145,47 +158,43 @@ public class OrderFormBO implements Serializable{
         this.userID = userID;
     }
 
-    public void setProducts(List<ProductFormBO> products) {
-        this.products = products;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    public int getState() {
-        return state;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public String getShippingType() {
+        return shippingType;
     }
 
-    public Date getDate() {
-        return date;
+    public void setShippingType(String shippingType) {
+        this.shippingType = shippingType;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public boolean isHidden() {
-        return hidden;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    public String getInvoice() {
+        return invoice;
     }
 
-    public int getId() {
-        return id;
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getShippingPrice() {
+        return shippingPrice;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
+    public void setShippingPrice(int shippingPrice) {
+        this.shippingPrice = shippingPrice;
     }
 }
