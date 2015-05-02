@@ -28,13 +28,14 @@
     <!-- Squad theme CSS -->
     <link href="/resources/css/style.css" rel="stylesheet">
     <link href="/resources/color/default.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script>
     /*! Fades out the whole page when clicking links */
     $('a').click(function(e) {
         e.preventDefault();
         newLocation = this.href;
-        $('body').fadeOut('slow', newpage);
+        $('body').fadeOut(1500, newpage);
     });
     function newpage() {
         window.location = newLocation;
@@ -44,7 +45,7 @@
 
         /*! Fades in whole page on load */
         $('body').css('display', 'none');
-        $('body').fadeIn(500);
+        $('body').fadeIn(1500);
 
     });
 
