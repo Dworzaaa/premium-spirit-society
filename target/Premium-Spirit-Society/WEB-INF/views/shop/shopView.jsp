@@ -159,7 +159,8 @@
         <c:forEach begin="0" end="${fn:length(pictureList)-1}" varStatus="loop">
 
             <img src="data:image/jpeg;base64,${pictureList[loop.index]}" width="200" height="200"/>
-            <img src="<data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
+            <img src="
+            data:image/jpeg;base64,${secondPictureList[loop.index]}" width="200" height="200"/>
 
             <br>
             <a href="/${products[loop.index].productSubcategory.productCategory.url}/${products[loop.index].productSubcategory.url}/${products[loop.index].url}"

@@ -31,17 +31,18 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script>
-    /*! Fades out the whole page when clicking links */
-    $('a').click(function(e) {
-        e.preventDefault();
-        newLocation = this.href;
-        $('body').fadeOut(1500, newpage);
-    });
-    function newpage() {
-        window.location = newLocation;
-    }
 
     $(document).ready(function(){
+        /*! Fades out the whole page when clicking links */
+        $('a').click(function(e) {
+            e.preventDefault();
+            newLocation = this.href;
+            $('body').fadeOut(1500, newpage);
+        });
+
+        function newpage() {
+            window.location = newLocation;
+        }
 
         /*! Fades in whole page on load */
         $('body').css('display', 'none');
