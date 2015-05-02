@@ -409,7 +409,7 @@ public class UserController {
                     for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                         if (productFormWrapperBO.getId() == productFormBO.getId()) {
                             wrapperContainsCurrentProduct = true;
-                            productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                            productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
                             break;
                         }
 
@@ -468,7 +468,7 @@ public class UserController {
                         if (productFormWrapperBO.getId() == productFormBO.getId()) {
                             productFormWrapperBO.setOrderId(order.getId());
                             wrapperContainsCurrentProduct = true;
-                            productFormWrapperBO.setAmount(productFormWrapperBO.getAmount() + 1);
+                            productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
                             break;
                         }
 

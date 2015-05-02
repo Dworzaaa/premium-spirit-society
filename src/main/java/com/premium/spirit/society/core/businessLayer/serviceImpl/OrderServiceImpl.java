@@ -120,11 +120,10 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             PdfContentByte cb = docWriter.getDirectContent();
             doc.newPage();
 
-            String imageUrl = "http://www.kissedbutts.com/wpkb-content/uploads/3500-0191-ass-fucking.jpg";
-            Image image2 = Image.getInstance(new URL(imageUrl));
-            image2.scalePercent(30f);
+            String imageUrl = "http://jenkov.com/images/" +
+                    "20081123-20081123-3E1W7902-small-portrait.jpg";
 
-            image2.setAbsolutePosition(700, 0);
+            Image image2 = Image.getInstance(new URL(imageUrl));
             doc.add(image2);
 
             doc.add(new Paragraph("\n"));
@@ -154,13 +153,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             Paragraph supplierParagraph = new Paragraph();
             supplierParagraph.setAlignment(Element.ALIGN_LEFT);
-            Chunk supplierChunk = new Chunk("\n"
-                    + order.getUser().getContact().getFirstName() + "\n"
-                    + order.getUser().getContact().getLastName() + "\n"
-                    + order.getUser().getContact().getAddressStreet() + " " + order.getUser().getContact().getAddressHn() + "\n"
-                    + order.getUser().getContact().getAddressCity() + "\n"
-                    + order.getUser().getContact().getAddressCountry() + "\n"
-                    + order.getUser().getContact().getAddressPostalcode() + "\n\n");
+            Chunk supplierChunk = new Chunk(messageSource.getMessage("SupplierInfo", null, locale));
             supplierParagraph.add(supplierChunk);
             supplierCell.addElement(supplierParagraph);
             subjectTable.addCell(supplierCell);
@@ -181,7 +174,13 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             Paragraph customerParagraph = new Paragraph();
             customerParagraph.setAlignment(Element.ALIGN_LEFT);
-            Chunk customerChunk = new Chunk(messageSource.getMessage("SupplierInfo", null, locale));
+            Chunk customerChunk = new Chunk("\n"
+                    + order.getUser().getContact().getFirstName() + "\n"
+                    + order.getUser().getContact().getLastName() + "\n"
+                    + order.getUser().getContact().getAddressStreet() + " " + order.getUser().getContact().getAddressHn() + "\n"
+                    + order.getUser().getContact().getAddressCity() + "\n"
+                    + order.getUser().getContact().getAddressCountry() + "\n"
+                    + order.getUser().getContact().getAddressPostalcode() + "\n\n");
             customerParagraph.add(customerChunk);
             customerCell.addElement(customerParagraph);
             customerParagraph.setAlignment(Element.ALIGN_LEFT);
@@ -267,11 +266,11 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
                 productEthanolVolume.setBackgroundColor(myColor);
                 PdfPCell productPrice = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getPrice())));
                 productPrice.setBackgroundColor(myColor);
-                PdfPCell productAmount = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getAmount())));
+                PdfPCell productAmount = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getOrderAmount())));
                 productAmount.setBackgroundColor(myColor);
                 PdfPCell productVAT = new PdfPCell(new Paragraph(vat));
                 productVAT.setBackgroundColor(myColor);
-                PdfPCell totalPrice = new PdfPCell(new Paragraph(String.valueOf((vat / 100 + 1) * productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount())));
+                PdfPCell totalPrice = new PdfPCell(new Paragraph(String.valueOf((vat / 100 + 1) * productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getOrderAmount())));
                 totalPrice.setBackgroundColor(myColor);
 
                 productTable.addCell(productId);
@@ -283,7 +282,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
                 productTable.addCell(productVAT);
                 productTable.addCell(totalPrice);
 
-                totalPriceForOrder += Integer.parseInt(String.valueOf(productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getAmount()));
+                totalPriceForOrder += Integer.parseInt(String.valueOf(productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getOrderAmount()));
             }
 
             productParagraph.add(productTable);
@@ -335,7 +334,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             PdfPCell vatSummaryCell2b = new PdfPCell();
             Paragraph vatSummaryParagraph2b = new Paragraph();
-            Chunk vatSummaryChunk2b = new Chunk(Integer.toString(totalPriceForOrder) + "\n");
+            Chunk vatSummaryChunk2b = new Chunk(Double.toString(totalPriceForOrder/100*(100-vat)) + "\n");
             vatSummaryParagraph2b.add(vatSummaryChunk2b);
             vatSummaryCell2b.addElement(vatSummaryParagraph2b);
             summaryTable.addCell(vatSummaryCell2b);

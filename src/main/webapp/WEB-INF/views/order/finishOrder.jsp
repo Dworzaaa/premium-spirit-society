@@ -63,7 +63,7 @@ orderNumber: ${order.orderNumber}<br>
                     jmeno produktu: <a                        href="/${productFormWrapperBOs[wrapperLoop.index].productSubcategory.productCategory.url}/${productFormWrapperBOs[wrapperLoop.index].productSubcategory.url}/${productFormWrapperBOs[wrapperLoop.index].url}">${productFormWrapperBOs[wrapperLoop.index].name}</a>
                     <br>
                     cena produktu:  ${productFormWrapperBOs[wrapperLoop.index].price} <br>
-                    mnozstvi produktu: ${productFormWrapperBOs[wrapperLoop.index].amount} <br>
+                    mnozstvi produktu: ${productFormWrapperBOs[wrapperLoop.index].orderAmount} <br>
 
                     ===============================================
                     <br>

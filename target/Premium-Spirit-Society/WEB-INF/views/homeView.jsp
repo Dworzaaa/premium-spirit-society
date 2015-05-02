@@ -37,7 +37,7 @@
         $('a').click(function(e) {
             e.preventDefault();
             newLocation = this.href;
-            $('body').fadeOut(1500, newpage);
+            $('body').fadeOut(1000, newpage);
         });
 
         function newpage() {
@@ -46,7 +46,7 @@
 
         /*! Fades in whole page on load */
         $('body').css('display', 'none');
-        $('body').fadeIn(1500);
+        $('body').fadeIn(1000);
 
     });
 
