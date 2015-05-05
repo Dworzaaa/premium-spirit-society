@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface OrderDAO extends GenericDAO<OrderEntity> {
     public List<OrderEntity> getOrdersByUserId(int id);
+
+   public OrderEntity getByOrderNumber(String orderNumber);
 }

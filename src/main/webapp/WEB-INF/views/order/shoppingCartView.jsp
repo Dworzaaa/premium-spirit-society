@@ -148,11 +148,13 @@
 
     <br>
 
-    <form:radiobutton path="paymentMethod" value="mastercard"/>mastercard
-    <form:radiobutton path="paymentMethod" value="mastercard"/>bankovni prevod
-    <form:radiobutton path="paymentMethod" value="paypal"/>paypal
-    <form:radiobutton path="paymentMethod" value="dobirka"/>dobirka
+    <form:radiobutton path="paymentMethod" value="cashOnDelivery"/><spring:message code="label.paymentMethod.1"/>
+    <form:radiobutton path="paymentMethod" value="bankTransfer"/><spring:message code="label.paymentMethod.2"/>
+    <form:radiobutton path="paymentMethod" value="creditCard"/><spring:message code="label.paymentMethod.3"/>
+    <form:radiobutton path="paymentMethod" value="paypal"/><spring:message code="label.paymentMethod.4"/>
     <br>
+    <form:textarea rows="4" cols="50" name="comment" path="note" placeholder="Poznamka"/>
+
     <input type="submit" value="Odeslat objednavku"></input>
 </form:form>
 

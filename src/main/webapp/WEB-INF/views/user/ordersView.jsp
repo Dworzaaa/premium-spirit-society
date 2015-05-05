@@ -41,6 +41,7 @@
             <th align="center">cena dopravy</th>
             <th align="center">cena celkem</th>
             <th align="center">stav</th>
+            <th align="center">uhradit</th>
             <th align="center">faktura</th>
             </tr>
             </thead>
@@ -62,7 +63,9 @@
                     <td>
 
                         <c:forEach var="test" items="${listOfProductFormWrappers[loop.index]}" varStatus="wrapperLoop">
-                            jmeno produktu: <a href="/${listOfProductFormWrappers[loop.index][wrapperLoop.index].productSubcategory.productCategory.url}/${listOfProductFormWrappers[loop.index][wrapperLoop.index].productSubcategory.url}/${listOfProductFormWrappers[loop.index][wrapperLoop.index].url}">${listOfProductFormWrappers[loop.index][wrapperLoop.index].name}</a> <br>
+                            jmeno produktu: <a
+                                href="/${listOfProductFormWrappers[loop.index][wrapperLoop.index].productSubcategory.productCategory.url}/${listOfProductFormWrappers[loop.index][wrapperLoop.index].productSubcategory.url}/${listOfProductFormWrappers[loop.index][wrapperLoop.index].url}">${listOfProductFormWrappers[loop.index][wrapperLoop.index].name}</a>
+                            <br>
                             cena produktu:  ${listOfProductFormWrappers[loop.index][wrapperLoop.index].price} <br>
                             mnozstvi produktu: ${listOfProductFormWrappers[loop.index][wrapperLoop.index].amount} <br>
 
@@ -80,7 +83,23 @@
                     <td>
                         spocitat js
                     </td>
-                    <td>    <spring:message code="label.state.${order.state}"/></td>
+                    <td><spring:message code="label.state.${order.state}"/></td>
+
+
+                    <c:choose>
+                        <c:when test="${order.state =='1'}">
+                            <td><a class="navbar-brand"
+                                   href="<c:url value="/invoices/${order.userID}/payorder/${order.orderNumber}" />">
+                                Zaplatit
+                            </a>
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            Uhrazeno
+
+                        </c:otherwise>
+                    </c:choose>
+
                     <td>
                         <a class="navbar-brand"
                            href="<c:url value="/invoices/${order.userID}/${order.invoice}" />">

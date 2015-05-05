@@ -149,7 +149,7 @@ public class OrderController {
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
-                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).getOrderAmount() + 1);
+                productFormWrapperBOs.get(productFormWrapperBOs.size()-1).setOrderAmount(1);
             }
         }
         model.addAttribute("order", order);
@@ -174,6 +174,7 @@ public class OrderController {
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
+                productFormWrapperBOs.get(productFormWrapperBOs.size()-1).setOrderAmount(1);
             }
         }
 
@@ -232,6 +233,7 @@ public class OrderController {
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
+                productFormWrapperBOs.get(productFormWrapperBOs.size()-1).setOrderAmount(1);
             }
         }
 
@@ -248,9 +250,8 @@ public class OrderController {
         model.addAttribute("order", order);
         this.order.setProducts(new ArrayList<ProductFormBO>());
 
-        return "order/finishOrder";
+        return "order/finishOrderView";
     }
-
 
     @RequestMapping(value = "/orderChange/{productId}/{amount}", method = RequestMethod.POST)
     public

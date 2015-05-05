@@ -18,4 +18,5 @@ public interface OrderService extends GenericService<OrderFormBO, OrderEntity> {
     public String createFileName(String username,String orderNumber);
     public void createPdf(String pdfFilename, List<ProductFormWrapperBO> productFormWrapperBOs,OrderFormBO order,Locale locale);
     public String getInvoiceBaseUrl(int userId);
+    public OrderFormBO getByOrderNumber(String orderNumber);
 }

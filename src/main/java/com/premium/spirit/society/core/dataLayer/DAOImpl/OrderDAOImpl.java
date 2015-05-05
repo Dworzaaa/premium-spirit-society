@@ -3,6 +3,7 @@ package com.premium.spirit.society.core.dataLayer.DAOImpl;
 import com.premium.spirit.society.core.dataLayer.DAO.OrderDAO;
 import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
 import com.premium.spirit.society.core.dataLayer.entity.ProductCategoryEntity;
+import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +26,15 @@ public class OrderDAOImpl extends GenericDAOImpl<OrderEntity> implements OrderDA
         .setParameter("userID", id);
 
         return (List<OrderEntity>) query.list();
+    }
+
+    @Override
+    public OrderEntity getByOrderNumber(String orderNumber) {
+        Query query = sessionFactory
+                .getCurrentSession()
+                .createQuery("from OrderEntity where orderNumber = :orderNumber")
+                .setParameter("orderNumber", orderNumber);
+
+        return (OrderEntity) query.uniqueResult();
     }
 }

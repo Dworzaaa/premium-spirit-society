@@ -74,6 +74,13 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
         return folder.getPath();
     }
 
+    @Override
+    @Transactional
+    public OrderFormBO getByOrderNumber(String orderNumber) {
+      OrderEntity orderEntity = orderDAO.getByOrderNumber(orderNumber);
+        return dozer.map(orderEntity,OrderFormBO.class);
+    }
+
 
     @Override
     public void createPdf(String pdfFilename, List<ProductFormWrapperBO> productFormWrapperBOs, OrderFormBO order, Locale locale) {

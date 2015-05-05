@@ -15,16 +15,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <SCRIPT type="text/javascript">
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }
+    </SCRIPT>
     <title></title>
 </head>
-<body>
-Diky za objednavku<br>
-volume: ${productFormWrapperBOs[0].volume}<br>
-orderNumber: ${order.orderNumber}<br>
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
 <form action='expresscheckout' METHOD='POST'>
-    <input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0'
-           align='top' alt='Check out with PayPal'/>
 
 
     <br>
@@ -60,7 +61,8 @@ orderNumber: ${order.orderNumber}<br>
             <td>
 
                 <c:forEach var="test" items="${productFormWrapperBOs}" varStatus="wrapperLoop">
-                    jmeno produktu: <a                        href="/${productFormWrapperBOs[wrapperLoop.index].productSubcategory.productCategory.url}/${productFormWrapperBOs[wrapperLoop.index].productSubcategory.url}/${productFormWrapperBOs[wrapperLoop.index].url}">${productFormWrapperBOs[wrapperLoop.index].name}</a>
+                    jmeno produktu: <a
+                        href="/${productFormWrapperBOs[wrapperLoop.index].productSubcategory.productCategory.url}/${productFormWrapperBOs[wrapperLoop.index].productSubcategory.url}/${productFormWrapperBOs[wrapperLoop.index].url}">${productFormWrapperBOs[wrapperLoop.index].name}</a>
                     <br>
                     cena produktu:  ${productFormWrapperBOs[wrapperLoop.index].price} <br>
                     mnozstvi produktu: ${productFormWrapperBOs[wrapperLoop.index].orderAmount} <br>
@@ -92,6 +94,33 @@ orderNumber: ${order.orderNumber}<br>
         </tbody>
 
     </table>
+    Zpusob platby: <br>
+    <c:if test="${order.paymentMethod == 'cashOnDelivery'}">
+        <spring:message code="label.paymentMethod.1"/>
+    </c:if>
+    <c:if test="${order.paymentMethod == 'bankTransfer'}">
+        <spring:message code="label.paymentMethod.2"/>
+        IBAN: XXXXXXXXXXXXXXXX <br>
+        BIC: XXXXXXXXX<br>
+        Variabilni symbol: ${order.orderNumber}
+    </c:if>
+    <c:if test="${order.paymentMethod == 'creditCard'}">
+        <spring:message code="label.paymentMethod.3"/>
+        <input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0'
+               align='top' alt='Check out with PayPal'/>
+    </c:if>
+    <c:if test="${order.paymentMethod == 'paypal'}">
+        <spring:message code="label.paymentMethod.4"/>
+        <input type='image' name='submit' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0'
+               align='top' alt='Check out with PayPal'/>
+    </c:if>
+
+    <br>
+    <br>
+    ${order.note}
+
+    <br>
+    Dodaci adresa...
 
 </form>
 

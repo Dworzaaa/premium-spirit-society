@@ -7,12 +7,11 @@ import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormWrapperBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.UserFormBO;
 import com.premium.spirit.society.core.businessLayer.service.*;
-import com.premium.spirit.society.core.dataLayer.entity.ContactEntity;
-import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
-import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
+import com.premium.spirit.society.core.dataLayer.entity.*;
 import com.premium.spirit.society.core.util.JSONEncoder;
 import com.premium.spirit.society.core.util.PictureLoader;
 import org.apache.commons.lang.RandomStringUtils;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,8 +50,11 @@ public class UserController {
     private final ProductCategoryService productCategoryService;
     private final UserService userSerivce;
 
+    private final Mapper dozer;
+
+
     @Autowired
-    public UserController(UserService userService, AuthorizationChecker authorizationChecker, MailService mailService, OrderService orderService, ProductService productService, ProductCategoryService productCategoryService, UserService userSerivce) {
+    public UserController(UserService userService, AuthorizationChecker authorizationChecker, MailService mailService, OrderService orderService, ProductService productService, ProductCategoryService productCategoryService, UserService userSerivce, Mapper dozer) {
         this.userService = userService;
         this.authorizationChecker = authorizationChecker;
         this.mailService = mailService;
@@ -60,6 +62,7 @@ public class UserController {
         this.productService = productService;
         this.productCategoryService = productCategoryService;
         this.userSerivce = userSerivce;
+        this.dozer = dozer;
     }
 
     @RequestMapping(value = "/user/users", method = RequestMethod.GET)
@@ -269,7 +272,6 @@ public class UserController {
     }
 
 
-
     @RequestMapping(value = "/reset-password", method = RequestMethod.GET)
     public String resetPasswordGET(Model model, HttpServletRequest request) {
         model.addAttribute("contact", new ContactEntity());
@@ -277,14 +279,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/reset-password", method = RequestMethod.POST)
-    public String resetPasswordPOST(@ModelAttribute("contact") ContactEntity contact, Model model, Locale locale,HttpServletRequest request) {
+    public String resetPasswordPOST(@ModelAttribute("contact") ContactEntity contact, Model model, Locale locale, HttpServletRequest request) {
         UserFormBO user = userService.getUserByEmail(contact.getEmail().toString());
-        if (user==null)
-        {
+        if (user == null) {
             model.addAttribute("mailInvalid", true);
             return "/user/resetPasswordView";
-        }
-        else {
+        } else {
             String password = RandomStringUtils.randomAlphanumeric(10);
             user.setPassword(password);
             userService.changePassword(user);
@@ -415,7 +415,7 @@ public class UserController {
 
                     }
                     if (!wrapperContainsCurrentProduct) {
-                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
+                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
                     }
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
@@ -474,7 +474,7 @@ public class UserController {
 
                     }
                     if (!wrapperContainsCurrentProduct) {
-                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO,order));
+                        productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
                     }
                 }
                 listOfProductFormWrappers.add(productFormWrapperBOs);
@@ -504,6 +504,66 @@ public class UserController {
         return "user/ordersView";
     }
 
+
+    @RequestMapping(value = "/invoices/{userId}/payorder/{orderNumber}", method = RequestMethod.GET)
+    public String showPaymentGET(@PathVariable("userId") int userId, @PathVariable("orderNumber") String orderNum, HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+        FileInputStream fis = null;
+        OrderFormBO order = new OrderFormBO();
+        order = orderService.getByOrderNumber(orderNum);
+
+        Authentication auth = SecurityContextHolder.getContext()
+                .getAuthentication();
+        String username = auth.getName();
+
+        List<ProductFormWrapperBO> productFormWrapperBOs;
+
+        List<ProductFormBO> products = new ArrayList<>();
+        if ((username.equals(userSerivce.getById(userId, UserFormBO.class, UserEntity.class).getUsername()) || authorizationChecker.checkAuthorization(request))) {
+
+            if (order.getProducts() != null) {
+                for (int i = 0; i != order.getProducts().size(); i++) {
+
+
+                    ProductFormBO product = productService.getById(order.getProducts().get(i).getId(), ProductFormBO.class, ProductEntity.class);
+                    order.getProducts().get(i).setProductSubcategory(dozer.map(product.getProductSubcategory(), ProductSubcategoryEntity.class));
+                    if (!products.contains(product))
+                        products.add(product);
+                }
+            } else
+                order.setProducts(new ArrayList<ProductFormBO>());
+
+
+            productFormWrapperBOs = new ArrayList<>();
+            for (ProductFormBO productFormBO : products) {
+                boolean wrapperContainsCurrentProduct = false;
+                for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                    if (productFormWrapperBO.getId() == productFormBO.getId()) {
+                        wrapperContainsCurrentProduct = true;
+                        productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
+                        break;
+                    }
+
+
+                }
+                if (!wrapperContainsCurrentProduct) {
+                    productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
+                }
+            }
+
+            for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                for (int i = 0; i != productFormWrapperBO.getOrderAmount(); i++) {
+                    ProductFormBO productFormBO = dozer.map(productFormWrapperBO, ProductFormBO.class);
+                    order.getProducts().add(productFormBO);
+                }
+            }
+            model.addAttribute("productFormWrapperBOs", productFormWrapperBOs);
+            model.addAttribute("order", order);
+
+
+            return "user/payOrderView";
+        } else
+            return "deniedView";
+    }
 
     @RequestMapping(value = "/invoices/{userId}/{invoiceUrl}", method = RequestMethod.GET)
     public String showInvoiceGET(@PathVariable("userId") int userId, @PathVariable("invoiceUrl") String invoiceUrl, HttpServletResponse response, HttpServletRequest request) throws IOException {
