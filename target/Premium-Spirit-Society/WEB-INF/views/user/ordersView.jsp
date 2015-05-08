@@ -41,7 +41,7 @@
             <th align="center">cena dopravy</th>
             <th align="center">cena celkem</th>
             <th align="center">stav</th>
-                <th align="center">uhradit</th>
+            <th align="center">uhradit</th>
             <th align="center">faktura</th>
             </tr>
             </thead>
@@ -95,7 +95,8 @@
                             </td>
                         </c:when>
                         <c:otherwise>
-                        Uhrazeno
+                            Uhrazeno
+
                         </c:otherwise>
                     </c:choose>
 

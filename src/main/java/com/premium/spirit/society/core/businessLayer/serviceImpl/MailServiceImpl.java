@@ -169,7 +169,7 @@ public class MailServiceImpl implements MailService {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             mex.printStackTrace(pw);
-            logger.info(reportDate + " Error when attemting to send an email: "
+            logger.info(reportDate + " Error when attempting to send an email: "
                     + sw.toString());
 
             mex.printStackTrace();

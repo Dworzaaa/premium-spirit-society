@@ -54,6 +54,45 @@
                     });
                 }
             });
+
+
+            $(".delete").click(function (event) {
+                alert("delete");
+                var elementId = event.target.id;
+                $('#loading' + elementId).fadeIn(200);
+                var searchSelector = $('#search' + elementId);
+                var searchString = "";
+                searchString = 0;
+                $(searchSelector).fadeOut(200);
+                if (searchString < 1) {
+                    $(searchSelector).fadeOut(200);
+                    var searchString = "";
+
+                    searchString =0
+                    var myUrl = 'orderChange/' + elementId + '/' + searchString;
+                    $.ajax({
+                        url: myUrl,
+                        type: "POST",
+                        success: function (data) {
+                            $('#loading' + elementId).fadeOut(200);
+                            $(searchSelector).fadeIn(200);
+                            location.reload();
+                        }
+                    });
+
+                } else {
+
+                    var myUrl = 'orderChange/' + elementId + '/' + searchString;
+                    $.ajax({
+                        url: myUrl,
+                        type: "POST",
+                        success: function (data) {
+                            $('#loading' + elementId).fadeOut(200);
+                            $(searchSelector).fadeIn(200);
+                        }
+                    });
+                }
+            });
         });
     </script>
 </head>
@@ -77,6 +116,7 @@
     <c:out value="${productWrappers[loop.index].price}"/><br>
 
     <input id="<c:out value="${productWrappers[loop.index].id}"/>" type="button" value="update"/>
+    <input id="<c:out value="${productWrappers[loop.index].id}"/>" type="button"  class="delete"  value="delete"/>
     <br>
 
 </c:forEach>

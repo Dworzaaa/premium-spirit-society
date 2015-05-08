@@ -10,6 +10,7 @@ import com.premium.spirit.society.core.businessLayer.service.OrderService;
 import com.premium.spirit.society.core.dataLayer.DAO.OrderDAO;
 import com.premium.spirit.society.core.dataLayer.entity.OrderEntity;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,9 +38,9 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
     private OrderFormBO order;
     private int pageNumber = 0;
 
-    private final String BLUE="C1DAD6";
-    private final String GREY="B2BEB5";
-    private final String WHITE="#FFFFFF";
+    private final String BLUE = "C1DAD6";
+    private final String GREY = "B2BEB5";
+    private final String WHITE = "#FFFFFF";
 
     @Autowired
     private OrderServiceImpl(OrderDAO orderDAO) {
@@ -77,8 +80,8 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
     @Override
     @Transactional
     public OrderFormBO getByOrderNumber(String orderNumber) {
-      OrderEntity orderEntity = orderDAO.getByOrderNumber(orderNumber);
-        return dozer.map(orderEntity,OrderFormBO.class);
+        OrderEntity orderEntity = orderDAO.getByOrderNumber(orderNumber);
+        return dozer.map(orderEntity, OrderFormBO.class);
     }
 
 
@@ -88,7 +91,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
         Document doc = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
         PdfWriter docWriter = null;
         initializeFonts();
-        int vat=Integer.parseInt(messageSource.getMessage("VAT", null, locale));
+        int vat = Integer.parseInt(messageSource.getMessage("VAT", null, locale));
 
         try {
             String path = System.getProperty("user.home")
@@ -207,17 +210,27 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             PdfPCell paymentCell1 = new PdfPCell();
             paymentCell1.setBorder(Rectangle.NO_BORDER);
             Paragraph paymentParagraph1 = new Paragraph();
-            paymentParagraph1.add(new Chunk("Forma uhrady: blahblah\nBanka: neco\nCislo uctu: neco jinyho\nVariabilni symbol:zase neco\n"));
+
+            String paymentMethod = "Forma uhrady:" + order.getPaymentMethod() + "\n";
+            if (order.getPaymentMethod().equals("bankTransfer")) {
+                paymentMethod += "   IBAN: XXXXXXXXXXXXXXXX <br>\n" +
+                        "        BIC: XXXXXXXXX<br>\n" +
+                        "        Variabilni symbol: " + order.getOrderNumber()+"\n";
+            }
+            paymentParagraph1.add(new Chunk(paymentMethod));
             paymentParagraph1.setAlignment(Element.ALIGN_CENTER);
             paymentCell1.addElement(paymentParagraph1);
 
             PdfPCell paymentCell2 = new PdfPCell();
             paymentCell2.setBorder(Rectangle.NO_BORDER);
             Paragraph paymentParagraph2 = new Paragraph();
-            paymentParagraph2.add(new Chunk("Datum vystaveni: blahblah\nDatum zdanitelneho plneni: xxxxx\nDatum splatnosti: neco\n"));
+            DateTime issueOfInvoice = new DateTime();
+            DateTime paymentDate= issueOfInvoice.plusDays(31);
+            paymentParagraph2.add(new Chunk("Datum vystaveni: " + issueOfInvoice.toString("dd.MM.yyyy")
+                    + "\nDatum splatnosti:" + paymentDate.toString("dd.MM.yyyy")+"\n"
+            ));
             paymentParagraph2.setAlignment(Element.ALIGN_CENTER);
             paymentCell2.addElement(paymentParagraph2);
-
 
             innerPaymentTable.addCell(paymentCell1);
             innerPaymentTable.addCell(paymentCell2);
@@ -241,7 +254,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             PdfPCell headerCell4 = new PdfPCell(new Paragraph("ethanol volume"));
             headerCell4.setBackgroundColor(headerColor);
             productTable.addCell(headerCell4);
-            PdfPCell headerCell5 = new PdfPCell(new Paragraph("price"));
+            PdfPCell headerCell5 = new PdfPCell(new Paragraph("price without VAT"));
             headerCell5.setBackgroundColor(headerColor);
             productTable.addCell(headerCell5);
             PdfPCell headerCell6 = new PdfPCell(new Paragraph("amount"));
@@ -341,7 +354,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             PdfPCell vatSummaryCell2b = new PdfPCell();
             Paragraph vatSummaryParagraph2b = new Paragraph();
-            Chunk vatSummaryChunk2b = new Chunk(Double.toString(totalPriceForOrder/100*(100-vat)) + "\n");
+            Chunk vatSummaryChunk2b = new Chunk(Double.toString(totalPriceForOrder / 100 * (100 - vat)) + "\n");
             vatSummaryParagraph2b.add(vatSummaryChunk2b);
             vatSummaryCell2b.addElement(vatSummaryParagraph2b);
             summaryTable.addCell(vatSummaryCell2b);
