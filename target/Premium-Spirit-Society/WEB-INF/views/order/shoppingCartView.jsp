@@ -56,8 +56,7 @@
             });
 
 
-            $(".delete").click(function (event) {
-                alert("delete");
+            $(".remove").click(function (event) {
                 var elementId = event.target.id;
                 $('#loading' + elementId).fadeIn(200);
                 var searchSelector = $('#search' + elementId);
@@ -116,7 +115,7 @@
     <c:out value="${productWrappers[loop.index].price}"/><br>
 
     <input id="<c:out value="${productWrappers[loop.index].id}"/>" type="button" value="update"/>
-    <input id="<c:out value="${productWrappers[loop.index].id}"/>" type="button"  class="delete"  value="delete"/>
+    <input id="<c:out value="${productWrappers[loop.index].id}"/>" type="button"  class="remove"  value="remove"/>
     <br>
 
 </c:forEach>
@@ -194,7 +193,7 @@
     <form:radiobutton path="paymentMethod" value="paypal"/><spring:message code="label.paymentMethod.4"/>
     <br>
     <form:textarea rows="4" cols="50" name="comment" path="note" placeholder="Poznamka"/>
-
+<br>
     <input type="submit" value="Odeslat objednavku"></input>
 </form:form>
 
