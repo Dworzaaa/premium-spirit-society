@@ -66,47 +66,11 @@ public class OrderController {
         for (int i = 0; i != product.getOrderAmount(); i++)
             order.getProducts().add(product);
 
-        String referer = request.getHeader("Referer");
-        return "redirect:" + referer;
+        //String referer = request.getHeader("Referer");
+        //return "redirect:" + referer;
+        return "/shopping-cart";
     }
 
-    @RequestMapping(value = "/order/addToCartAjax/{productId}", method = RequestMethod.POST)
-    public void orderAddToCartAjaxPOST(@PathVariable("productId") int productId, @ModelAttribute("product") @Valid ProductFormBO product, HttpServletRequest request, Model model,
-                                       @RequestParam("amount") int amount) {
-        if (order.getProducts() == null)
-            order.setProducts(new ArrayList<ProductFormBO>());
-        for (int i = 0; i != product.getOrderAmount(); i++)
-            order.getProducts().add(product);
-    }
-
-
-    @RequestMapping(value = "/order/removeFromCartAjax/{productId}", method = RequestMethod.POST)
-    public void removeFromCartAjaxPOST(@PathVariable("productId") int productId, @ModelAttribute("product") @Valid ProductFormBO product, HttpServletRequest request, Model model,
-                                       @RequestParam("amount") int amount) {
-        if (order.getProducts() == null)
-            order.setProducts(new ArrayList<ProductFormBO>());
-
-        for (int i = 0; i != product.getOrderAmount(); i++) {
-            if (order.getProducts().get(i).getId() == productId) {
-                order.getProducts().remove(i);
-                break;
-            }
-        }
-    }
-
-
-    @RequestMapping(value = "/order/removeAllFromCartAjax/{productId}", method = RequestMethod.POST)
-    public void removeAllFromCartAjaxPOST(@PathVariable("productId") int productId, @ModelAttribute("product") @Valid ProductFormBO product, HttpServletRequest request, Model model,
-                                          @RequestParam("amount") int amount) {
-        if (order.getProducts() == null)
-            order.setProducts(new ArrayList<ProductFormBO>());
-
-        for (int i = 0; i != product.getOrderAmount(); i++) {
-            if (order.getProducts().get(i).getId() == productId) {
-                order.getProducts().remove(i);
-            }
-        }
-    }
 
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
     public String shoppingCartGET(HttpServletRequest request, Model model) {
