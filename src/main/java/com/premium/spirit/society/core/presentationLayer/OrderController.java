@@ -68,7 +68,7 @@ public class OrderController {
 
         //String referer = request.getHeader("Referer");
         //return "redirect:" + referer;
-        return "/shopping-cart";
+        return "/order/shoppingCartView";
     }
 
 
