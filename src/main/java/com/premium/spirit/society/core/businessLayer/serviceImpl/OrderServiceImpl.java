@@ -18,11 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URL;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -130,11 +127,13 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             PdfContentByte cb = docWriter.getDirectContent();
             doc.newPage();
 
-            String imageUrl = "http://jenkov.com/images/" +
-                    "20081123-20081123-3E1W7902-small-portrait.jpg";
-
-            Image image2 = Image.getInstance(new URL(imageUrl));
-            doc.add(image2);
+            String pictureFolder = System.getProperty("user.home")
+                    + System.getProperty("file.separator") + "PremiumSpiritSociety"
+                    + System.getProperty("file.separator") + "graphic"
+                    + System.getProperty("file.separator");
+            String filename = pictureFolder + "logoSmall.jpg";
+            Image image = Image.getInstance(filename);
+            doc.add(image);
 
             doc.add(new Paragraph("\n"));
 
@@ -211,11 +210,11 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             paymentCell1.setBorder(Rectangle.NO_BORDER);
             Paragraph paymentParagraph1 = new Paragraph();
 
-            String paymentMethod = "Forma uhrady:" + order.getPaymentMethod() + "\n";
+            String paymentMethod = "Forma uhrady: " + order.getPaymentMethod() + "\n";
             if (order.getPaymentMethod().equals("bankTransfer")) {
-                paymentMethod += "   IBAN: XXXXXXXXXXXXXXXX <br>\n" +
-                        "        BIC: XXXXXXXXX<br>\n" +
-                        "        Variabilni symbol: " + order.getOrderNumber()+"\n";
+                paymentMethod += "   IBAN: XXXXXXXXXXXXXXXX \n" +
+                        "        BIC: XXXXXXXXX\n" +
+                        "        Variabilni symbol: " + order.getOrderNumber() + "\n";
             }
             paymentParagraph1.add(new Chunk(paymentMethod));
             paymentParagraph1.setAlignment(Element.ALIGN_CENTER);
@@ -225,9 +224,9 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             paymentCell2.setBorder(Rectangle.NO_BORDER);
             Paragraph paymentParagraph2 = new Paragraph();
             DateTime issueOfInvoice = new DateTime();
-            DateTime paymentDate= issueOfInvoice.plusDays(31);
+            DateTime paymentDate = issueOfInvoice.plusDays(31);
             paymentParagraph2.add(new Chunk("Datum vystaveni: " + issueOfInvoice.toString("dd.MM.yyyy")
-                    + "\nDatum splatnosti:" + paymentDate.toString("dd.MM.yyyy")+"\n"
+                    + "\nDatum splatnosti: " + paymentDate.toString("dd.MM.yyyy") + "\n"
             ));
             paymentParagraph2.setAlignment(Element.ALIGN_CENTER);
             paymentCell2.addElement(paymentParagraph2);
@@ -284,7 +283,10 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
                 productVolume.setBackgroundColor(myColor);
                 PdfPCell productEthanolVolume = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getEthanolVolume())));
                 productEthanolVolume.setBackgroundColor(myColor);
-                PdfPCell productPrice = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getPrice())));
+
+                Double price = Double.valueOf(productFormWrapperBOs.get(i).getPrice());
+                price = price - (price / 100 * vat);
+                PdfPCell productPrice = new PdfPCell(new Paragraph(String.valueOf(price)));
                 productPrice.setBackgroundColor(myColor);
                 PdfPCell productAmount = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getOrderAmount())));
                 productAmount.setBackgroundColor(myColor);
@@ -313,6 +315,15 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             PdfPTable summaryTable = new PdfPTable(4); // 3 columns.
             summaryTable.setWidthPercentage(95);
 
+
+            PdfPCell vatSummaryCell2 = new PdfPCell();
+            vatSummaryCell2.setBackgroundColor(headerColor);
+            Paragraph vatSummaryParagraph2 = new Paragraph();
+            Chunk vatSummaryChunk2 = new Chunk("Celkem bez dane\n");
+            vatSummaryParagraph2.add(vatSummaryChunk2);
+            vatSummaryCell2.addElement(vatSummaryParagraph2);
+            summaryTable.addCell(vatSummaryCell2);
+
             PdfPCell vatSummaryCell1 = new PdfPCell();
             vatSummaryCell1.setBackgroundColor(headerColor);
             Paragraph vatSummaryParagraph1 = new Paragraph();
@@ -320,14 +331,6 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             vatSummaryParagraph1.add(vatSummaryChunk1);
             vatSummaryCell1.addElement(vatSummaryParagraph1);
             summaryTable.addCell(vatSummaryCell1);
-
-            PdfPCell vatSummaryCell2 = new PdfPCell();
-            vatSummaryCell2.setBackgroundColor(headerColor);
-            Paragraph vatSummaryParagraph2 = new Paragraph();
-            Chunk vatSummaryChunk2 = new Chunk("Bez dane\n");
-            vatSummaryParagraph2.add(vatSummaryChunk2);
-            vatSummaryCell2.addElement(vatSummaryParagraph2);
-            summaryTable.addCell(vatSummaryCell2);
 
             PdfPCell vatSummaryCell3 = new PdfPCell();
             vatSummaryCell3.setBackgroundColor(headerColor);
@@ -340,17 +343,11 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             PdfPCell vatSummaryCell4 = new PdfPCell();
             vatSummaryCell4.setBackgroundColor(headerColor);
             Paragraph vatSummaryParagraph4 = new Paragraph();
-            Chunk vatSummaryChunk4 = new Chunk("Celkem\n");
+            Chunk vatSummaryChunk4 = new Chunk("Celkem s dani\n");
             vatSummaryParagraph4.add(vatSummaryChunk4);
             vatSummaryCell4.addElement(vatSummaryParagraph4);
             summaryTable.addCell(vatSummaryCell4);
 
-            PdfPCell vatSummaryCell1b = new PdfPCell();
-            Paragraph vatSummaryParagraph1b = new Paragraph();
-            Chunk vatSummaryChunk1b = new Chunk(vat + "\n");
-            vatSummaryParagraph1b.add(vatSummaryChunk1b);
-            vatSummaryCell1b.addElement(vatSummaryParagraph1b);
-            summaryTable.addCell(vatSummaryCell1b);
 
             PdfPCell vatSummaryCell2b = new PdfPCell();
             Paragraph vatSummaryParagraph2b = new Paragraph();
@@ -359,9 +356,16 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             vatSummaryCell2b.addElement(vatSummaryParagraph2b);
             summaryTable.addCell(vatSummaryCell2b);
 
+            PdfPCell vatSummaryCell1b = new PdfPCell();
+            Paragraph vatSummaryParagraph1b = new Paragraph();
+            Chunk vatSummaryChunk1b = new Chunk(vat + "\n");
+            vatSummaryParagraph1b.add(vatSummaryChunk1b);
+            vatSummaryCell1b.addElement(vatSummaryParagraph1b);
+            summaryTable.addCell(vatSummaryCell1b);
+
             PdfPCell vatSummaryCell3b = new PdfPCell();
             Paragraph vatSummaryParagraph3b = new Paragraph();
-            Chunk vatSummaryChunk3b = new Chunk(Double.toString(totalPriceForOrder / 100 * vat) + "\n");
+            Chunk vatSummaryChunk3b = new Chunk(Double.toString(totalPriceForOrder - (totalPriceForOrder / 100 * vat)) + "\n");
             vatSummaryParagraph3b.add(vatSummaryChunk3b);
             vatSummaryCell3b.addElement(vatSummaryParagraph3b);
             summaryTable.addCell(vatSummaryCell3b);
