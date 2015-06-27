@@ -18,7 +18,7 @@ public class ProductDisplayBO implements Comparable<ProductDisplayBO> {
 
     private boolean hidden;
 
-    private int price;
+    private Double price;
 
     private int volume;
 
@@ -101,11 +101,11 @@ public class ProductDisplayBO implements Comparable<ProductDisplayBO> {
         this.hidden = hidden;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

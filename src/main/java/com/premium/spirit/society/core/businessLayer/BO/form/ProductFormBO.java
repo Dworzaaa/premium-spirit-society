@@ -24,7 +24,7 @@ public class ProductFormBO implements Serializable {
 
     private boolean hidden;
 
-    private int price;
+    private Double  price;
 
     private int volume;
 
@@ -154,11 +154,11 @@ public class ProductFormBO implements Serializable {
         this.hidden = hidden;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -34,7 +34,7 @@ public class ProductEntity implements Comparable<ProductEntity> {
     private boolean hidden;
 
     @Column(name = "PRICE", nullable = false)
-    private int price;
+    private Double price;
 
     @Column(name = "VOLUME", nullable = false)
     private int volume;
@@ -196,11 +196,11 @@ public class ProductEntity implements Comparable<ProductEntity> {
         this.hidden = hidden;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
