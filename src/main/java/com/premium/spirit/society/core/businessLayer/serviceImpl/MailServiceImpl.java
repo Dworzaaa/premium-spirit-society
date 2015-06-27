@@ -142,7 +142,7 @@ public class MailServiceImpl implements MailService {
                     text += (productFormWrapperBO.getAmount() * productFormWrapperBO.getPrice());
                     text += "\n";
                 }
-                text += "<br><a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString()+">faktura</a>" + "\" \n\n";
+                text += "<br><a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString()+"\">faktura</a>";
                 text+="</body></html>";
                 System.out.println(text);
                 message.setText(text, "UTF-8");
@@ -195,8 +195,6 @@ public class MailServiceImpl implements MailService {
 
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                    recipient));
-            message.addRecipient(Message.RecipientType.BCC, new InternetAddress(
                     "Dworza@gmail.com"));
            if (map.get("subject").equals("creationOfANewOrder")) {
                 message.setSubject("New order from created", "utf-8");
