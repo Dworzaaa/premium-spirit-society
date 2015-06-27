@@ -1,5 +1,6 @@
 package com.premium.spirit.society.core.businessLayer.serviceImpl;
 
+import com.premium.spirit.society.core.businessLayer.BO.form.OrderFormBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.ProductFormWrapperBO;
 import com.premium.spirit.society.core.businessLayer.BO.form.UserFormBO;
 import com.premium.spirit.society.core.businessLayer.service.MailService;
@@ -45,7 +46,7 @@ public class MailServiceImpl implements MailService {
      * @throws Exception the exception
      */
     public void sendMail(String recipient, HashMap<String, Object> map,
-                                Locale locale) throws Exception {
+                         Locale locale) throws Exception {
         // Recipient's email
         // ID needs to be
         // mentioned.
@@ -78,17 +79,11 @@ public class MailServiceImpl implements MailService {
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
                     recipient));
-            message.addRecipient(Message.RecipientType.BCC, new InternetAddress(
-                    "Dworza@gmail.com"));
             if (map.get("subject").equals("changeOfThePassword")) {
                 message.setSubject("Changed password to premium-spirit-society eshop");
                 UserFormBO user = (UserFormBO) map.get("user");
 
-				/*
-                 * String text = "Dear " + user.getUsername() + ",\n\n" +
-				 * "your password was changed to: " + map.get("password") +
-				 * ".\n\nRegards,\nGENEPI team.";
-				 */
+
                 String[] messageParameters = new String[]{user.getUsername(),
                         (String) map.get("password")};
                 String text = messageSource.getMessage("changedPassword",
@@ -131,8 +126,11 @@ public class MailServiceImpl implements MailService {
                 String reportDate = df.format(today);
 
                 String[] messageParameters = new String[]{user.getUsername(), reportDate};
-                String text = messageSource.getMessage("orderCreated",
+                String text = "<html><body>\n";
+
+                        text+=messageSource.getMessage("orderCreated",
                         messageParameters, locale);
+                text+="<br><br>";
 
                 for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                     text += productFormWrapperBO.getName();
@@ -144,14 +142,15 @@ public class MailServiceImpl implements MailService {
                     text += (productFormWrapperBO.getAmount() * productFormWrapperBO.getPrice());
                     text += "\n";
                 }
-                text += "\n\n <a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString() + "\" \n\n";
+                text += "<br><a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString()+">faktura</a>" + "\" \n\n";
+                text+="</body></html>";
                 System.out.println(text);
                 message.setText(text, "UTF-8");
 
                 Transport.send(message);
 
                 logger.info(reportDate
-                        + " Message about the creation of a new account was sent to user "
+                        + " Message about the creation of a new order was sent to user "
                         + user.getId());
             } else {
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -176,6 +175,80 @@ public class MailServiceImpl implements MailService {
         }
     }
 
+    public void sendMailToAdmin(String recipient, HashMap<String, Object> map,
+                                Locale locale, String orderNumber) throws Exception {
+
+        String from = "mailbot@premium-spirit-society.com";
+        String host = "localhost";
+        Properties properties = System.getProperties();
+        properties.setProperty("mail.smtp.host", host);
+        Session session = Session.getDefaultInstance(properties);
+
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+            String encodingOptions = "text/html; charset=UTF-8";
+            message.setHeader("Content-Type", encodingOptions);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+                    recipient));
+            message.addRecipient(Message.RecipientType.BCC, new InternetAddress(
+                    "Dworza@gmail.com"));
+           if (map.get("subject").equals("creationOfANewOrder")) {
+                message.setSubject("New order from created", "utf-8");
+                UserFormBO user = (UserFormBO) map.get("user");
+                List<ProductFormWrapperBO> productFormWrapperBOs = (List<ProductFormWrapperBO>) map.get("productFormWrapperBOs");
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                Date today = Calendar.getInstance().getTime();
+                String reportDate = df.format(today);
+
+                String[] messageParameters = new String[]{user.getUsername(), reportDate};
+                String text = messageSource.getMessage("orderCreatedAdmin",
+                                        messageParameters, orderNumber, locale);
+
+                for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
+                    text += productFormWrapperBO.getName();
+                    text += "   ";
+                    text += productFormWrapperBO.getAmount();
+                    text += "   ";
+                    text += productFormWrapperBO.getPrice();
+                    text += "   ";
+                    text += (productFormWrapperBO.getAmount() * productFormWrapperBO.getPrice());
+                    text += "\n";
+                }
+                text += "\n\n <a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString() + "\" \n\n";
+                System.out.println(text);
+                message.setText(text, "UTF-8");
+
+                Transport.send(message);
+            } else {
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                Date today = Calendar.getInstance().getTime();
+                String reportDate = df.format(today);
+                logger.error(reportDate
+                        + " Tried to send message with unknown subject");
+            }
+            // Send message
+
+        } catch (MessagingException mex) {
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            Date today = Calendar.getInstance().getTime();
+            String reportDate = df.format(today);
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            mex.printStackTrace(pw);
+            logger.info(reportDate + " Error when attempting to send an email: "
+                    + sw.toString());
+
+            mex.printStackTrace();
+        }
+    }
+
+
     public void notifyChangedPassword(UserFormBO user, String password, Locale locale) {
         try {
             HashMap<String, Object> map = new HashMap<>();
@@ -188,14 +261,16 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    public void notifyOrderCreated(UserFormBO user, List<ProductFormWrapperBO> productFormWrapperBOs, String invoice, Locale locale) {
+    public void notifyOrderCreated(UserFormBO user, List<ProductFormWrapperBO> productFormWrapperBOs, String invoice, Locale locale, OrderFormBO order) {
         try {
             HashMap<String, Object> map = new HashMap<>();
             map.put("subject", "creationOfANewOrder");
             map.put("user", user);
             map.put("invoice", invoice);
             map.put("productFormWrapperBOs", productFormWrapperBOs);
+
             this.sendMail(user.getContact().getEmail(), map, locale);
+            this.sendMailToAdmin(user.getContact().getEmail(), map, locale,order.getOrderNumber());
         } catch (Exception e) {
             e.printStackTrace();
         }

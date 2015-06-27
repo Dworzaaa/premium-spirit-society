@@ -182,12 +182,12 @@
     IC:<form:input path="user.contact.companyId" type="text"/><br>
     DIC:<form:input path="user.contact.vatId" type="text"/><br>
     <br><br>
-    <form:radiobutton path="shippingType" value="DPD"/>DPD
+    <form:radiobutton path="shippingType" value="DPD" checked="checked" />DPD
     <form:radiobutton path="shippingType" value="DHL"/>DHL
 
     <br>
 
-    <form:radiobutton path="paymentMethod" value="cashOnDelivery"/><spring:message code="label.paymentMethod.1"/>
+    <form:radiobutton path="paymentMethod" value="cashOnDelivery" checked="checked" /><spring:message code="label.paymentMethod.1"/>
     <form:radiobutton path="paymentMethod" value="bankTransfer"/><spring:message code="label.paymentMethod.2"/>
     <form:radiobutton path="paymentMethod" value="creditCard"/><spring:message code="label.paymentMethod.3"/>
     <form:radiobutton path="paymentMethod" value="paypal"/><spring:message code="label.paymentMethod.4"/>

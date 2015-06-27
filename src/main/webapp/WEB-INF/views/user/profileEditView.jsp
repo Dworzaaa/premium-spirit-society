@@ -208,6 +208,15 @@
             <br><br>
 
             <div class="form-group">
+                <label class="col-xs-4 control-label"
+                       for="contact.email">
+                    Odebirat novinky:
+                </label>
+
+                tady dodelat checkbox na newsletter
+            </div>
+            <br>
+            <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-8">
                     <button class="btn btn-small btn-primary"
                             type="submit">

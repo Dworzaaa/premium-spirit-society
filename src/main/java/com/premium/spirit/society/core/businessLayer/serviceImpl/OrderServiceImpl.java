@@ -379,7 +379,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             PdfPCell vatSummaryCell2b = new PdfPCell();
             Paragraph vatSummaryParagraph2b = new Paragraph();
-            Chunk vatSummaryChunk2b = new Chunk(Double.toString(Double.valueOf(totalPriceForOrder - (Double.valueOf(totalPriceForOrder)/100* vat))) + "\n");
+            Chunk vatSummaryChunk2b = new Chunk(Double.toString(Double.valueOf(totalPriceForOrder - (Double.valueOf(totalPriceForOrder)/100* vat))) + "%\n");
             vatSummaryParagraph2b.add(vatSummaryChunk2b);
             vatSummaryCell2b.addElement(vatSummaryParagraph2b);
             summaryTable.addCell(vatSummaryCell2b);
@@ -393,7 +393,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             PdfPCell vatSummaryCell3b = new PdfPCell();
             Paragraph vatSummaryParagraph3b = new Paragraph();
-            Chunk vatSummaryChunk3b = new Chunk(Double.toString(Double.valueOf((Double.valueOf(totalPriceForOrder )/ 100 * vat)) )+ "%\n");
+            Chunk vatSummaryChunk3b = new Chunk(Double.toString(Double.valueOf((Double.valueOf(totalPriceForOrder )/ 100 * vat)) )+ "\n");
             vatSummaryParagraph3b.add(vatSummaryChunk3b);
             vatSummaryCell3b.addElement(vatSummaryParagraph3b);
             summaryTable.addCell(vatSummaryCell3b);

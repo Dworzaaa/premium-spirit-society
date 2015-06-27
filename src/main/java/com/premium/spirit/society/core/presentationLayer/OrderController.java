@@ -209,7 +209,7 @@ public class OrderController {
         }
         orderService.createPdf(pdfFilename, productFormWrapperBOs, order, locale);
         order.setProducts(new ArrayList<ProductFormBO>());
-        mailService.notifyOrderCreated(user, productFormWrapperBOs, pdfFilename, locale);
+        mailService.notifyOrderCreated(user, productFormWrapperBOs, pdfFilename, locale,order);
         model.addAttribute("productFormWrapperBOs", productFormWrapperBOs);
         model.addAttribute("order", order);
         this.order.setProducts(new ArrayList<ProductFormBO>());
