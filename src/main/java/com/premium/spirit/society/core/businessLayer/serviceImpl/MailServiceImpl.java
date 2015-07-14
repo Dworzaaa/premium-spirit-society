@@ -204,9 +204,9 @@ public class MailServiceImpl implements MailService {
                 Date today = Calendar.getInstance().getTime();
                 String reportDate = df.format(today);
 
-                String[] messageParameters = new String[]{user.getUsername(), reportDate};
+                String[] messageParameters = new String[]{user.getUsername(), reportDate,orderNumber};
                 String text = messageSource.getMessage("orderCreatedAdmin",
-                                        messageParameters, orderNumber, locale);
+                                        messageParameters,  locale);
 
                 for (ProductFormWrapperBO productFormWrapperBO : productFormWrapperBOs) {
                     text += productFormWrapperBO.getName();

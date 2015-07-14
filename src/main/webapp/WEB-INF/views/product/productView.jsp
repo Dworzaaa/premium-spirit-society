@@ -268,9 +268,11 @@
 
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-8">
+
+                    <!-- obalit ifem - v pripade, ze ma bejt produkt skrytej, tak disablovat tlacitko/zobrazit hlasku -->
                     <button class="btn btn-small btn-primary"
                             type="submit">
-                        Koupit vole
+                        <spring:message code="label.addToCart"/>
                     </button>
                 </div>
             </div>
