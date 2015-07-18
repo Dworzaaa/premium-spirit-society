@@ -150,7 +150,6 @@ public class MailServiceImpl implements MailService {
                         "<p>A relative URL: <a href=\"tag_a.asp\">The a tag</a></p>\n";
                 text+="</body>\n" +
                         "</html>\n";
-                System.out.println(text);
                 message.setText(text, "UTF-8");
 
                 Transport.send(message);
