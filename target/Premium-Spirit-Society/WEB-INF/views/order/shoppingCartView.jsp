@@ -182,9 +182,8 @@
     IC:<form:input path="user.contact.companyId" type="text"/><br>
     DIC:<form:input path="user.contact.vatId" type="text"/><br>
     <br><br>
-    <form:radiobutton path="shippingType" value="DPD" checked="checked" />DPD
-    <form:radiobutton path="shippingType" value="DHL"/>DHL
-
+    <!-- pokud postovny vetsi jak 80 euro tak vypsat misto ceny freeShipping -->
+    <form:radiobutton path="shippingType" value="DPD" checked="checked" />DPD - 4.9 € (od 80 € zdarma)
     <br>
 
     <form:radiobutton path="paymentMethod" value="cashOnDelivery" checked="checked" /><spring:message code="label.paymentMethod.1"/>

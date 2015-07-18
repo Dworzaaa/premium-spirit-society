@@ -79,7 +79,7 @@
                 ${order.shippingPrice}
             </td>
             <td>
-                spocitat js
+               ${totalPrice}
             </td>
             <td><spring:message code="label.state.${order.state}"/></td>
             <td>
@@ -102,7 +102,7 @@
         <spring:message code="label.paymentMethod.2"/>
         IBAN: XXXXXXXXXXXXXXXX <br>
         BIC: XXXXXXXXX<br>
-        Variabilni symbol: ${order.orderNumber}
+        Verwendungszweck : ${order.orderNumber}
     </c:if>
     <c:if test="${order.paymentMethod == 'creditCard'}">
         <spring:message code="label.paymentMethod.3"/>

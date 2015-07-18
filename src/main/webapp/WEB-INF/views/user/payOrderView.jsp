@@ -74,7 +74,7 @@
         ${order.shippingPrice}
       </td>
       <td>
-        spocitat js
+        ${totalPrice}
       </td>
       <td><spring:message code="label.state.${order.state}"/></td>
       <td>

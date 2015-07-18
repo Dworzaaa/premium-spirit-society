@@ -70,7 +70,7 @@ public class OrderEntity {
 
 
     @Column(name="shipping_price", nullable = false)
-    private int shippingPrice;
+    private String shippingPrice;
 
 
     public int getId() {
@@ -209,11 +209,11 @@ public class OrderEntity {
         this.paymentMethod = paymentMethod;
     }
 
-    public int getShippingPrice() {
+    public String getShippingPrice() {
         return shippingPrice;
     }
 
-    public void setShippingPrice(int shippingPrice) {
+    public void setShippingPrice(String shippingPrice) {
         this.shippingPrice = shippingPrice;
     }
 }

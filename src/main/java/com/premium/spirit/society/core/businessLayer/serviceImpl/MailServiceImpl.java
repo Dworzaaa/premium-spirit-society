@@ -80,7 +80,7 @@ public class MailServiceImpl implements MailService {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
                     recipient));
             if (map.get("subject").equals("changeOfThePassword")) {
-                message.setSubject("Changed password to premium-spirit-society eshop");
+                message.setSubject( messageSource.getMessage("changedPasswordSubject",null,locale));
                 UserFormBO user = (UserFormBO) map.get("user");
 
 
@@ -99,7 +99,7 @@ public class MailServiceImpl implements MailService {
                         + " Message about the change of the password was sent to user "
                         + user.getId());
             } else if (map.get("subject").equals("creationOfANewUser")) {
-                message.setSubject("New account to premium-spirit-society eshop", "utf-8");
+                message.setSubject(messageSource.getMessage("userCreatedSubject",null, locale), "utf-8");
                 UserFormBO user = (UserFormBO) map.get("user");
                 String[] messageParameters = new String[]{user.getUsername(),
                         (String) map.get("password")};
@@ -118,7 +118,7 @@ public class MailServiceImpl implements MailService {
                         + " Message about the creation of a new account was sent to user "
                         + user.getId());
             } else if (map.get("subject").equals("creationOfANewOrder")) {
-                message.setSubject("New order from created", "utf-8");
+                message.setSubject(messageSource.getMessage("orderCreatedSubject",null, locale), "utf-8");
                 UserFormBO user = (UserFormBO) map.get("user");
                 List<ProductFormWrapperBO> productFormWrapperBOs = (List<ProductFormWrapperBO>) map.get("productFormWrapperBOs");
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
@@ -126,7 +126,9 @@ public class MailServiceImpl implements MailService {
                 String reportDate = df.format(today);
 
                 String[] messageParameters = new String[]{user.getUsername(), reportDate};
-                String text = "<html><body>\n";
+                String text = "<!DOCTYPE html>\n" +
+                        "<html>\n" +
+                        "<body>\n";
 
                         text+=messageSource.getMessage("orderCreated",
                         messageParameters, locale);
@@ -143,7 +145,11 @@ public class MailServiceImpl implements MailService {
                     text += "\n";
                 }
                 text += "<br><a href=\"http://premium-spirit-society.com/invoices/" + user.getId() + "/" + map.get("invoice").toString()+"\">faktura</a>";
-                text+="</body></html>";
+
+                text+="<p>An absolute URL: <a href=\"http://www.w3schools.com\">W3Schools</a></p>\n" +
+                        "<p>A relative URL: <a href=\"tag_a.asp\">The a tag</a></p>\n";
+                text+="</body>\n" +
+                        "</html>\n";
                 System.out.println(text);
                 message.setText(text, "UTF-8");
 

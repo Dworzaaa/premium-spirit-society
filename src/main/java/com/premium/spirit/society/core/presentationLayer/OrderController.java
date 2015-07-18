@@ -13,6 +13,7 @@ import com.premium.spirit.society.core.dataLayer.entity.UserEntity;
 import com.premium.spirit.society.core.util.PictureLoader;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +59,11 @@ public class OrderController {
         this.mailService = mailService;
         this.dozer = dozer;
     }
+
+
+    @Autowired
+    private MessageSource messageSource;
+
 
     @RequestMapping(value = "/order/addToCart/{productId}", method = RequestMethod.POST)
     public String orderAddToCartPOST(@PathVariable("productId") int productId, @ModelAttribute("product") @Valid ProductFormBO product, HttpServletRequest request, Model model) {
@@ -113,7 +119,7 @@ public class OrderController {
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
-                productFormWrapperBOs.get(productFormWrapperBOs.size()-1).setOrderAmount(1);
+                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(1);
             }
         }
         model.addAttribute("order", order);
@@ -134,11 +140,10 @@ public class OrderController {
                     productFormWrapperBO.setOrderAmount(productFormWrapperBO.getOrderAmount() + 1);
                     break;
                 }
-
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
-                productFormWrapperBOs.get(productFormWrapperBOs.size()-1).setOrderAmount(1);
+                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(1);
             }
         }
 
@@ -153,13 +158,27 @@ public class OrderController {
         long dateLong = Long.parseLong(sdf.format(new Date()).toString());
         dateLong = dateLong * 100;
         int orderCount = user.getOrders().size() + 1;
-        String orderNumber =  Integer.toString( order.getUserID() ) + Long.toString(dateLong) +Long.toString(orderCount);
+        String orderNumber = Integer.toString(order.getUserID()) + Long.toString(dateLong) + Long.toString(orderCount);
         order.setOrderNumber(orderNumber);
         order.setDate(new Date());
         order.setState(1);
-        // TODO: dat do konfiguraku
-        order.setShippingPrice(123);
         order.setProducts(this.order.getProducts());
+
+        // TODO: dat do konfiguraku
+        if (order.getPaymentMethod().equals("cashOnDelivery"))
+            order.setShippingPrice("10.90");
+        else order.setShippingPrice("4.90");
+        Double totalPrice = 0.0;
+        for (ProductFormBO p : order.getProducts()) {
+            ProductFormBO product = productService.getById(p.getId(), ProductFormBO.class, ProductEntity.class);
+            totalPrice += product.getPrice();
+        }
+        if (totalPrice>=80){
+            order.setShippingPrice((messageSource.getMessage("label.freeShipping", null, locale)));
+        }
+        else totalPrice+=Double.parseDouble(order.getShippingPrice());
+
+
         String pdfFilename = orderService.createFileName(user.getUsername(), orderNumber) + ".pdf";
         order.setInvoice(pdfFilename);
 
@@ -197,7 +216,7 @@ public class OrderController {
             }
             if (!wrapperContainsCurrentProduct) {
                 productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
-                productFormWrapperBOs.get(productFormWrapperBOs.size()-1).setOrderAmount(1);
+                productFormWrapperBOs.get(productFormWrapperBOs.size() - 1).setOrderAmount(1);
             }
         }
 
@@ -209,9 +228,10 @@ public class OrderController {
         }
         orderService.createPdf(pdfFilename, productFormWrapperBOs, order, locale);
         order.setProducts(new ArrayList<ProductFormBO>());
-        mailService.notifyOrderCreated(user, productFormWrapperBOs, pdfFilename, locale,order);
+        mailService.notifyOrderCreated(user, productFormWrapperBOs, pdfFilename, locale, order);
         model.addAttribute("productFormWrapperBOs", productFormWrapperBOs);
         model.addAttribute("order", order);
+        model.addAttribute("totalPrice", totalPrice);
         this.order.setProducts(new ArrayList<ProductFormBO>());
 
         return "order/finishOrderView";

@@ -13,6 +13,7 @@ import com.premium.spirit.society.core.util.PictureLoader;
 import org.apache.commons.lang.RandomStringUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -49,12 +50,13 @@ public class UserController {
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
     private final UserService userSerivce;
+    private final MessageSource messageSource;
 
     private final Mapper dozer;
 
 
     @Autowired
-    public UserController(UserService userService, AuthorizationChecker authorizationChecker, MailService mailService, OrderService orderService, ProductService productService, ProductCategoryService productCategoryService, UserService userSerivce, Mapper dozer) {
+    public UserController(UserService userService, AuthorizationChecker authorizationChecker, MailService mailService, OrderService orderService, ProductService productService, ProductCategoryService productCategoryService, UserService userSerivce, MessageSource messageSource, Mapper dozer) {
         this.userService = userService;
         this.authorizationChecker = authorizationChecker;
         this.mailService = mailService;
@@ -62,6 +64,7 @@ public class UserController {
         this.productService = productService;
         this.productCategoryService = productCategoryService;
         this.userSerivce = userSerivce;
+        this.messageSource = messageSource;
         this.dozer = dozer;
     }
 
@@ -506,7 +509,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/invoices/{userId}/payorder/{orderNumber}", method = RequestMethod.GET)
-    public String showPaymentGET(@PathVariable("userId") int userId, @PathVariable("orderNumber") String orderNum, HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+    public String showPaymentGET(@PathVariable("userId") int userId, @PathVariable("orderNumber") String orderNum, Locale locale, HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
         FileInputStream fis = null;
         OrderFormBO order = new OrderFormBO();
         order = orderService.getByOrderNumber(orderNum);
@@ -516,6 +519,15 @@ public class UserController {
         String username = auth.getName();
 
         List<ProductFormWrapperBO> productFormWrapperBOs;
+        Double totalPrice = 0.0;
+        for (ProductFormBO p : order.getProducts()) {
+            ProductFormBO product = productService.getById(p.getId(), ProductFormBO.class, ProductEntity.class);
+            totalPrice += product.getPrice();
+        }
+        if (totalPrice>=80){
+            order.setShippingPrice((messageSource.getMessage("label.freeShipping", null, locale)));
+        }
+        else totalPrice+=Double.parseDouble(order.getShippingPrice());
 
         List<ProductFormBO> products = new ArrayList<>();
         if ((username.equals(userSerivce.getById(userId, UserFormBO.class, UserEntity.class).getUsername()) || authorizationChecker.checkAuthorization(request))) {
@@ -558,7 +570,7 @@ public class UserController {
             }
             model.addAttribute("productFormWrapperBOs", productFormWrapperBOs);
             model.addAttribute("order", order);
-
+            model.addAttribute("totalPrice", totalPrice);
 
             return "user/payOrderView";
         } else

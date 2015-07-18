@@ -52,7 +52,7 @@ public class OrderFormBO implements Serializable{
 
     private String invoice;
 
-    private int shippingPrice;
+    private String shippingPrice;
 
     public int getId() {
         return id;
@@ -190,11 +190,11 @@ public class OrderFormBO implements Serializable{
         this.invoice = invoice;
     }
 
-    public int getShippingPrice() {
+    public String getShippingPrice() {
         return shippingPrice;
     }
 
-    public void setShippingPrice(int shippingPrice) {
+    public void setShippingPrice(String shippingPrice) {
         this.shippingPrice = shippingPrice;
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,9 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
     private final String BLUE = "C1DAD6";
     private final String GREY = "B2BEB5";
     private final String WHITE = "#FFFFFF";
-    private final String CURRENCY="€";
+    private final String CURRENCY = "€";
+
+    public static final String FONT = "C:/Windows/Fonts/Arialbd.ttf";
 
     @Autowired
     private OrderServiceImpl(OrderDAO orderDAO) {
@@ -85,6 +88,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
     @Override
     public void createPdf(String pdfFilename, List<ProductFormWrapperBO> productFormWrapperBOs, OrderFormBO order, Locale locale) {
+
         this.order = order;
         Document doc = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
         PdfWriter docWriter = null;
@@ -147,7 +151,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
 
             Paragraph idParagraph = new Paragraph();
-            Chunk chunkParagraph = new Chunk("\n\nInvoice: " + (String.valueOf(order.getOrderNumber())), FontFactory.getFont(FontFactory.HELVETICA, 16f, Font.BOLD));
+            Chunk chunkParagraph = new Chunk("\n\nInvoice: " + (String.valueOf(order.getOrderNumber())), FontFactory.getFont(FontFactory.TIMES_ROMAN, 16f, Font.BOLD));
             idParagraph.add(chunkParagraph);
             idParagraph.setAlignment(Element.ALIGN_RIGHT);
             idParagraph.setIndentationRight(50);
@@ -166,7 +170,6 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             doc.add(new Paragraph("\n"));
 
-
             Paragraph subjectParagraph = new Paragraph();
             PdfPTable subjectTable = new PdfPTable(2);
 
@@ -184,7 +187,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             Paragraph supplierParagraph = new Paragraph();
             supplierParagraph.setAlignment(Element.ALIGN_LEFT);
-            Chunk supplierChunk = new Chunk(messageSource.getMessage("SupplierInfo", null, locale));
+            Chunk supplierChunk = new Chunk(messageSource.getMessage("SupplierInfo", null, locale)      , new Font(bf)      );
             supplierParagraph.add(supplierChunk);
             supplierCell.addElement(supplierParagraph);
             subjectTable.addCell(supplierCell);
@@ -205,13 +208,21 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             Paragraph customerParagraph = new Paragraph();
             customerParagraph.setAlignment(Element.ALIGN_LEFT);
-            Chunk customerChunk = new Chunk("\n"
-                    + order.getUser().getContact().getFirstName() + "\n"
+            String customerString="\n"
+                    + order.getUser().getContact().getFirstName() + " "
                     + order.getUser().getContact().getLastName() + "\n"
                     + order.getUser().getContact().getAddressStreet() + " " + order.getUser().getContact().getAddressHn() + "\n"
                     + order.getUser().getContact().getAddressCity() + "\n"
                     + order.getUser().getContact().getAddressCountry() + "\n"
-                    + order.getUser().getContact().getAddressPostalcode() + "\n\n");
+                    + order.getUser().getContact().getAddressPostalcode() + "\n\n";
+            if (order.getUser().getContact().getCompanyId()!=null ){
+                customerString+=order.getUser().getContact().getCompanyId() + " "
+                        + order.getUser().getContact().getCompanyName() + "\n"
+                        + order.getUser().getContact().getVatId() +"\n\n";
+            }
+            Chunk customerChunk = new Chunk(customerString, new Font(bf) );
+
+
             customerParagraph.add(customerChunk);
             customerCell.addElement(customerParagraph);
             customerParagraph.setAlignment(Element.ALIGN_LEFT);
@@ -263,36 +274,40 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             productTable.setWidthPercentage(95);
 
             BaseColor headerColor = WebColors.getRGBColor(BLUE);
-            PdfPCell headerCell1 = new PdfPCell(new Paragraph("product ID"));
+            PdfPCell headerCell1 = new PdfPCell(new Paragraph("Product ID"));
             headerCell1.setBackgroundColor(headerColor);
             productTable.addCell(headerCell1);
-            PdfPCell headerCell2 = new PdfPCell(new Paragraph("name"));
+            PdfPCell headerCell2 = new PdfPCell(new Paragraph("Name"));
             headerCell2.setBackgroundColor(headerColor);
             productTable.addCell(headerCell2);
-            PdfPCell headerCell3 = new PdfPCell(new Paragraph("volume"));
+            PdfPCell headerCell3 = new PdfPCell(new Paragraph("Volume"));
             headerCell3.setBackgroundColor(headerColor);
             productTable.addCell(headerCell3);
-            PdfPCell headerCell4 = new PdfPCell(new Paragraph("ethanol volume"));
+            PdfPCell headerCell4 = new PdfPCell(new Paragraph("Ethanol volume"));
             headerCell4.setBackgroundColor(headerColor);
             productTable.addCell(headerCell4);
-            PdfPCell headerCell5 = new PdfPCell(new Paragraph("price without VAT"));
+            PdfPCell headerCell5 = new PdfPCell(new Paragraph("Price without VAT"));
             headerCell5.setBackgroundColor(headerColor);
             productTable.addCell(headerCell5);
-            PdfPCell headerCell7 = new PdfPCell(new Paragraph("VAT"));
+            PdfPCell headerCell7 = new PdfPCell(new Paragraph("%VAT"));
             headerCell7.setBackgroundColor(headerColor);
             productTable.addCell(headerCell7);
-            PdfPCell headerCell9 = new PdfPCell(new Paragraph("Price with VAT"));
+            PdfPCell headerCell9 = new PdfPCell(new Paragraph("VAT"));
             headerCell9.setBackgroundColor(headerColor);
             productTable.addCell(headerCell9);
-            PdfPCell headerCell6 = new PdfPCell(new Paragraph("amount"));
+            PdfPCell headerCell6 = new PdfPCell(new Paragraph("Amount"));
             headerCell6.setBackgroundColor(headerColor);
             productTable.addCell(headerCell6);
-            PdfPCell headerCell8 = new PdfPCell(new Paragraph("total price with VAT"));
+            PdfPCell headerCell8 = new PdfPCell(new Paragraph("Total price with VAT"));
             headerCell8.setBackgroundColor(headerColor);
             productTable.addCell(headerCell8);
 
             doc.add(new Paragraph("\n"));
             Double totalPriceForOrder = 0.0;
+            String shippingPrice = order.getShippingPrice();
+            if (!order.getShippingPrice().equals((messageSource.getMessage("label.freeShipping", null, locale)))) {
+                shippingPrice += " " + CURRENCY;
+            }
             for (int i = 0; i != productFormWrapperBOs.size(); i++) {
                 BaseColor myColor;
                 if (i % 2 == 0) {
@@ -316,15 +331,15 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
                 productEthanolVolume.setBackgroundColor(myColor);
                 Double price = Double.valueOf(productFormWrapperBOs.get(i).getPrice());
                 price = price - (price / 100 * vat);
-                PdfPCell productPrice = new PdfPCell(new Paragraph(String.valueOf(price)+" "+CURRENCY));
+                PdfPCell productPrice = new PdfPCell(new Paragraph(String.valueOf(price) + " " + CURRENCY));
                 productPrice.setBackgroundColor(myColor);
-                PdfPCell priceWithVAT = new PdfPCell(new Paragraph(String.valueOf(Double.valueOf(productFormWrapperBOs.get(i).getPrice()))+" "+CURRENCY));
-                priceWithVAT.setBackgroundColor(myColor);
+                PdfPCell VATvalue = new PdfPCell(new Paragraph(String.valueOf(Double.valueOf(productFormWrapperBOs.get(i).getPrice()) * vat * 0.01) + " " + CURRENCY));
+                VATvalue.setBackgroundColor(myColor);
                 PdfPCell productVAT = new PdfPCell(new Paragraph(String.valueOf(vat) + "%"));
                 productVAT.setBackgroundColor(myColor);
                 PdfPCell productAmount = new PdfPCell(new Paragraph(String.valueOf(productFormWrapperBOs.get(i).getOrderAmount())));
                 productAmount.setBackgroundColor(myColor);
-                PdfPCell totalPrice = new PdfPCell(new Paragraph(String.valueOf((vat / 100 + 1) * productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getOrderAmount())+" "+CURRENCY));
+                PdfPCell totalPrice = new PdfPCell(new Paragraph(String.valueOf((vat / 100 + 1) * productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getOrderAmount()) + " " + CURRENCY));
                 totalPrice.setBackgroundColor(myColor);
 
                 productTable.addCell(productId);
@@ -333,19 +348,21 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
                 productTable.addCell(productEthanolVolume);
                 productTable.addCell(productPrice);
                 productTable.addCell(productVAT);
-                productTable.addCell(priceWithVAT);
+                productTable.addCell(VATvalue);
                 productTable.addCell(productAmount);
                 productTable.addCell(totalPrice);
 
                 totalPriceForOrder += productFormWrapperBOs.get(i).getPrice() * productFormWrapperBOs.get(i).getOrderAmount();
+
             }
+
 
             productParagraph.add(productTable);
             doc.add(productParagraph);
 
             doc.add(new Paragraph("\n"));
 
-            PdfPTable summaryTable = new PdfPTable(4); // 3 columns.
+            PdfPTable summaryTable = new PdfPTable(5); // 5 columns.
             summaryTable.setWidthPercentage(95);
 
 
@@ -373,10 +390,18 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
             vatSummaryCell3.addElement(vatSummaryParagraph3);
             summaryTable.addCell(vatSummaryCell3);
 
+            PdfPCell vatSummaryCell5 = new PdfPCell();
+            vatSummaryCell5.setBackgroundColor(headerColor);
+            Paragraph vatSummaryParagraph5 = new Paragraph();
+            Chunk vatSummaryChunk5 = new Chunk("Doprava\n");
+            vatSummaryParagraph5.add(vatSummaryChunk5);
+            vatSummaryCell5.addElement(vatSummaryParagraph5);
+            summaryTable.addCell(vatSummaryCell5);
+
             PdfPCell vatSummaryCell4 = new PdfPCell();
             vatSummaryCell4.setBackgroundColor(headerColor);
             Paragraph vatSummaryParagraph4 = new Paragraph();
-            Chunk vatSummaryChunk4 = new Chunk("Celkem s dani\n");
+            Chunk vatSummaryChunk4 = new Chunk("Celkem\n");
             vatSummaryParagraph4.add(vatSummaryChunk4);
             vatSummaryCell4.addElement(vatSummaryParagraph4);
             summaryTable.addCell(vatSummaryCell4);
@@ -384,7 +409,7 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             PdfPCell vatSummaryCell2b = new PdfPCell();
             Paragraph vatSummaryParagraph2b = new Paragraph();
-            Chunk vatSummaryChunk2b = new Chunk(Double.toString(Double.valueOf(totalPriceForOrder - (Double.valueOf(totalPriceForOrder) / 100 * vat)))+" "+CURRENCY );
+            Chunk vatSummaryChunk2b = new Chunk(Double.toString(Double.valueOf(totalPriceForOrder - (Double.valueOf(totalPriceForOrder) / 100 * vat))) + " " + CURRENCY);
             vatSummaryParagraph2b.add(vatSummaryChunk2b);
             vatSummaryCell2b.addElement(vatSummaryParagraph2b);
             summaryTable.addCell(vatSummaryCell2b);
@@ -398,14 +423,25 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
             PdfPCell vatSummaryCell3b = new PdfPCell();
             Paragraph vatSummaryParagraph3b = new Paragraph();
-            Chunk vatSummaryChunk3b = new Chunk(Double.toString(Double.valueOf((Double.valueOf(totalPriceForOrder) / 100 * vat))) +" "+CURRENCY);
+            Chunk vatSummaryChunk3b = new Chunk(Double.toString(Double.valueOf((Double.valueOf(totalPriceForOrder) / 100 * vat))) + " " + CURRENCY);
             vatSummaryParagraph3b.add(vatSummaryChunk3b);
             vatSummaryCell3b.addElement(vatSummaryParagraph3b);
             summaryTable.addCell(vatSummaryCell3b);
 
+            PdfPCell vatSummaryCell5b = new PdfPCell();
+            Paragraph vatSummaryParagraph5b = new Paragraph();
+            Chunk vatSummaryChunk5b = new Chunk(shippingPrice);
+            vatSummaryParagraph5b.add(vatSummaryChunk5b);
+            vatSummaryCell5b.addElement(vatSummaryParagraph5b);
+            summaryTable.addCell(vatSummaryCell5b);
+
+            shippingPrice = shippingPrice.replace(" " + CURRENCY, "");
+            if (isNumeric(shippingPrice))
+                totalPriceForOrder += Double.parseDouble(shippingPrice);
+
             PdfPCell vatSummaryCell4b = new PdfPCell();
             Paragraph vatSummaryParagraph4b = new Paragraph();
-            Chunk vatSummaryChunk4b = new Chunk(totalPriceForOrder+" "+CURRENCY);
+            Chunk vatSummaryChunk4b = new Chunk(totalPriceForOrder + " " + CURRENCY);
             vatSummaryParagraph4b.add(vatSummaryChunk4b);
             vatSummaryCell4b.addElement(vatSummaryParagraph4b);
             summaryTable.addCell(vatSummaryCell4b);
@@ -547,11 +583,20 @@ public class OrderServiceImpl extends GenericServiceImpl<OrderFormBO, OrderEntit
 
     private void initializeFonts() {
         try {
-            bfBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            bfBold = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
