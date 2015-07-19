@@ -74,7 +74,6 @@
                    </div>
                </div>
            </sec:authorize>
-
 	</jsp:attribute>
 
 
