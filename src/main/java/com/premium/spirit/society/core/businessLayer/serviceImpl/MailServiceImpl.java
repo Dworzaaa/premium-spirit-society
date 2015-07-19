@@ -200,7 +200,7 @@ public class MailServiceImpl implements MailService {
 
             // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                    "Dworza@gmail.com"));
+                    "martin.dvoracek@premium-spirit-society.com"));
            if (map.get("subject").equals("creationOfANewOrder")) {
                 message.setSubject("New order from created", "utf-8");
                 UserFormBO user = (UserFormBO) map.get("user");
