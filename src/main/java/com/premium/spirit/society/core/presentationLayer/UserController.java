@@ -370,7 +370,7 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/profile/orders", "users/orders", "user/{username}/orders"}, method = RequestMethod.GET)
-    public String ordersGET(Model model, HttpServletRequest request) {
+    public String ordersGET(Model model, HttpServletRequest request,Locale locale) {
         UserFormBO user = null;
         List<List<ProductFormWrapperBO>> listOfProductFormWrappers = new ArrayList<>();
         List<ProductFormWrapperBO> productFormWrapperBOs = new ArrayList<>();
@@ -405,6 +405,7 @@ public class UserController {
                 }
             });
             List<String> listOfInvoices = new ArrayList<>();
+            List<Double> listOfTotalPrices= new ArrayList<>();
             for (OrderFormBO order : orders) {
                 productFormWrapperBOs = new ArrayList<>();
                 for (ProductFormBO productFormBO : order.getProducts()) {
@@ -421,7 +422,22 @@ public class UserController {
                         productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
                     }
                 }
+
+                if (order.getPaymentMethod().equals("cashOnDelivery"))
+                    order.setShippingPrice("10.90");
+                else order.setShippingPrice("4.90");
+                Double totalPrice = 0.0;
+                for (ProductFormBO p : order.getProducts()) {
+                    ProductFormBO product = productService.getById(p.getId(), ProductFormBO.class, ProductEntity.class);
+                    totalPrice += product.getPrice();
+                }
+                if (totalPrice>=80){
+                    order.setShippingPrice((messageSource.getMessage("label.freeShipping", null, locale)));
+                }
+                else totalPrice+=Double.parseDouble(order.getShippingPrice());
+
                 listOfProductFormWrappers.add(productFormWrapperBOs);
+                listOfTotalPrices.add(totalPrice);
                 String invoice = orderService.getInvoiceBaseUrl(order.getUserID());
                 invoice += System.getProperty("file.separator");
                 invoice += order.getInvoice();
@@ -438,9 +454,10 @@ public class UserController {
             }
             model.addAttribute("listOfInvoices", listOfInvoices);
             model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
+            model.addAttribute("listOfTotalPrices", listOfTotalPrices);
             model.addAttribute("orders", orders);
             // TODO: presmerovavat na jinou adresu
-            return "user/ordersView";
+            return "user/adminOrdersView";
         }
 
         Authentication auth = SecurityContextHolder.getContext()
@@ -462,7 +479,7 @@ public class UserController {
                     return o2.getId() - o1.getId();
                 }
             });
-
+            List<Double> listOfTotalPrices= new ArrayList<>();
             for (OrderFormBO order : user.getOrders()) {
                 productFormWrapperBOs = new ArrayList<>();
                 for (ProductFormBO productFormBO : order.getProducts()) {
@@ -480,7 +497,21 @@ public class UserController {
                         productFormWrapperBOs.add(new ProductFormWrapperBO(productFormBO, order));
                     }
                 }
+                if (order.getPaymentMethod().equals("cashOnDelivery"))
+                    order.setShippingPrice("10.90");
+                else order.setShippingPrice("4.90");
+                Double totalPrice = 0.0;
+                for (ProductFormBO p : order.getProducts()) {
+                    ProductFormBO product = productService.getById(p.getId(), ProductFormBO.class, ProductEntity.class);
+                    totalPrice += product.getPrice();
+                }
+                if (totalPrice>=80){
+                    order.setShippingPrice((messageSource.getMessage("label.freeShipping", null, locale)));
+                }
+                else totalPrice+=Double.parseDouble(order.getShippingPrice());
+
                 listOfProductFormWrappers.add(productFormWrapperBOs);
+                listOfTotalPrices.add(totalPrice);
             }
 
 
@@ -500,7 +531,7 @@ public class UserController {
             model.addAttribute("listOfProductFormWrappers", listOfProductFormWrappers);
             model.addAttribute("user", user);
             model.addAttribute("orders", user.getOrders());
-
+            model.addAttribute("listOfTotalPrices", listOfTotalPrices);
 
         }
 
@@ -573,6 +604,19 @@ public class UserController {
             model.addAttribute("totalPrice", totalPrice);
 
             return "user/payOrderView";
+        } else
+            return "deniedView";
+    }
+
+    @RequestMapping(value = "/invoices/changeState/{orderNumber}/{state}", method = RequestMethod.GET)
+    public String changeStateGET( @PathVariable("orderNumber") String orderNum,@PathVariable("state") int state, Locale locale, HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+        OrderFormBO order = new OrderFormBO();
+        order = orderService.getByOrderNumber(orderNum);
+
+        if (authorizationChecker.checkAuthorization(request)) {
+            order.setState(state);
+            orderService.update(order, OrderEntity.class);
+            return "redirect:/users/orders";
         } else
             return "deniedView";
     }

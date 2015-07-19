@@ -41,7 +41,6 @@
             <th align="center">cena dopravy</th>
             <th align="center">cena celkem</th>
             <th align="center">stav</th>
-            <th align="center">uhradit</th>
             <th align="center">faktura</th>
             </tr>
             </thead>
@@ -81,23 +80,42 @@
                             ${order.shippingPrice}
                     </td>
                     <td>
-                        spocitat js
+                            ${listOfTotalPrices[loop.index]}
                     </td>
-                    <td><spring:message code="label.state.${order.state}"/></td>
+
 
 
                     <c:choose>
+                        <c:when test="${order.state =='0'}">
+                            <td>
+                                <spring:message code="label.state.0"/><br>
+                            </td>
+                        </c:when>
                         <c:when test="${order.state =='1'}">
-                            <td><a class="navbar-brand"
+                            <td>
+                                <spring:message code="label.state.1"/><br>
+                                <a class="navbar-brand"
                                    href="<c:url value="/invoices/${order.userID}/payorder/${order.orderNumber}" />">
-                                Zaplatit
+                                    <spring:message code="label.state.performPayment"/><br>
+                                </a>
+                            </td>
+                        </c:when>
+                        <c:when test="${order.state =='2'}">
+                            <td>
+                                <spring:message code="label.state.2"/>
                             </a>
                             </td>
                         </c:when>
-                        <c:otherwise>
-                            Uhrazeno
-
-                        </c:otherwise>
+                        <c:when test="${order.state =='3'}">
+                            <td>
+                                <spring:message code="label.state.3"/>
+                            </td>
+                        </c:when>
+                        <c:when test="${order.state =='4'}">
+                            <td>
+                                <spring:message code="label.state.4"/>
+                            </td>
+                        </c:when>
                     </c:choose>
 
                     <td>

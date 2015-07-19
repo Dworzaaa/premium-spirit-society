@@ -31,6 +31,8 @@
             </c:choose>
         </h2>
 
+        <h3>ADMIN</h3>
+
         <table border="1" align="center">
             <thead>
 
@@ -41,6 +43,7 @@
             <th align="center">cena dopravy</th>
             <th align="center">cena celkem</th>
             <th align="center">stav</th>
+            <th align="center">zmenit stav</th>
             <th align="center">faktura</th>
             </tr>
             </thead>
@@ -82,42 +85,37 @@
                     <td>
                             ${listOfTotalPrices[loop.index]}
                     </td>
+                    <td><spring:message code="label.state.${order.state}"/></td>
 
+                    <td><a class="navbar-brand"
+                           href="<c:url value="/invoices/changeState/${order.orderNumber}/0" />">
+                        <spring:message code="label.state.0"/>
+                    </a>
 
+                        <br>
 
-                    <c:choose>
-                        <c:when test="${order.state =='0'}">
-                            <td>
-                                <spring:message code="label.state.0"/><br>
-                            </td>
-                        </c:when>
-                        <c:when test="${order.state =='1'}">
-                            <td>
-                                <spring:message code="label.state.1"/><br>
-                                <a class="navbar-brand"
-                                   href="<c:url value="/invoices/${order.userID}/payorder/${order.orderNumber}" />">
-                                    <spring:message code="label.state.performPayment"/><br>
-                                </a>
-                            </td>
-                        </c:when>
-                        <c:when test="${order.state =='2'}">
-                            <td>
-                                <spring:message code="label.state.2"/>
+                        <a class="navbar-brand"
+                               href="<c:url value="/invoices/changeState/${order.orderNumber}/1" />">
+                                <spring:message code="label.state.1"/>
                             </a>
-                            </td>
-                        </c:when>
-                        <c:when test="${order.state =='3'}">
-                            <td>
-                                <spring:message code="label.state.3"/>
-                            </td>
-                        </c:when>
-                        <c:when test="${order.state =='4'}">
-                            <td>
-                                <spring:message code="label.state.4"/>
-                            </td>
-                        </c:when>
-                    </c:choose>
 
+                            <br>
+                            <a class="navbar-brand"
+                               href="<c:url value="/invoices/changeState/${order.orderNumber}/2" />">
+                            <spring:message code="label.state.2"/>
+                        </a>
+
+                            <br>
+                            <a class="navbar-brand"
+                               href="<c:url value="/invoices/changeState/${order.orderNumber}/3" />">
+                            <spring:message code="label.state.3"/>
+                        </a>
+                        <br>
+                            <a class="navbar-brand"
+                               href="<c:url value="/invoices/changeState/${order.orderNumber}/4" />">
+                            <spring:message code="label.state.4"/>
+                        </a>
+                        </td>
                     <td>
                         <a class="navbar-brand"
                            href="<c:url value="/invoices/${order.userID}/${order.invoice}" />">
