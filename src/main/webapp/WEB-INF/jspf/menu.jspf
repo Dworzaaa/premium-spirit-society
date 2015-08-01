@@ -1,4 +1,4 @@
-<li><a href="shop">SHOP</a></li>
+
 <c:forEach var="category" items="${categories}">
     <li><a href="${category.url}">${category.name}</a></li>
 </c:forEach>

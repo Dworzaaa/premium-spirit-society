@@ -111,9 +111,14 @@
                             <spring:message code="label.state.3"/>
                         </a>
                         <br>
-                            <a class="navbar-brand"
-                               href="<c:url value="/invoices/changeState/${order.orderNumber}/4" />">
+                        <a class="navbar-brand"
+                           href="<c:url value="/invoices/changeState/${order.orderNumber}/4" />">
                             <spring:message code="label.state.4"/>
+                        </a>
+                        <br>
+                        <a class="navbar-brand"
+                           href="<c:url value="/invoices/changeState/${order.orderNumber}/5" />">
+                            <spring:message code="label.state.5"/>
                         </a>
                         </td>
                     <td>

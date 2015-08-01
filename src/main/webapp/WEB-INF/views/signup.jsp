@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>My ubercool eshop</title>
+    <title><spring:message code="label.title"/></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +27,7 @@
     <!-- Squad theme CSS -->
     <link href="/resources/css/style.css" rel="stylesheet">
     <link href="/resources/color/default.css" rel="stylesheet">
-
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 
 <body data-spy="scroll">
@@ -67,16 +67,15 @@
 
 
             <div class="form-group">
-                <label class="col-xs-3 control-label"
-                       for="username">
-                    <spring:message code="label.username"/>*
-                </label>
-<span>
+                <c:set var="usernamePlaceholder">
+                    <spring:message code="label.username"/>
+                </c:set>
                 <div class="col-xs-8">
                     <form:input id="username"
                                 class="form-control input-sm"
                                 type="text"
-                                path="username"/>
+                                path="username"
+                                placeholder="${usernamePlaceholder}"/>
                     <form:errors path="username"
                                  cssClass="text-danger"/>
                     <c:if test="${not uniqueUsername}">
@@ -85,7 +84,7 @@
                         </span>
                     </c:if>
                 </div>
-    </span>
+                </span>
             </div>
 
             <div class="form-group">
@@ -237,9 +236,10 @@
                                  cssClass="text-danger"/>
                 </div>
             </div>
-        <br>
             <br>
             <br>
+            <br>
+
             <div class="form-group">
                 <label class="col-xs-4 control-label"
                        for="contact.shippingFirstName">
@@ -421,6 +421,7 @@
                 </div>
             </div>
 
+            <div class="g-recaptcha" data-sitekey="6Lc5kwoTAAAAAHb0mwSRZEkyly5BfUtB_2uRyQbY"></div>
 
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-8">

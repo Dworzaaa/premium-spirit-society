@@ -112,10 +112,15 @@
                             </td>
                         </c:when>
                         <c:when test="${order.state =='4'}">
-                            <td>
-                                <spring:message code="label.state.4"/>
-                            </td>
-                        </c:when>
+                        <td>
+                            <spring:message code="label.state.4"/>
+                        </td>
+                            <c:when test="${order.state =='5'}">
+                                <td>
+                                    <spring:message code="label.state.5"/>
+                                </td>
+                            </c:when>
+                    </c:when>
                     </c:choose>
 
                     <td>

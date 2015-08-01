@@ -15,7 +15,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>My ubercool eshop!!!:)</title>
+    <title><spring:message code="label.title"/></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -30,73 +30,70 @@
     <link href="/resources/color/default.css" rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-<script>
+    <script>
 
-    $(document).ready(function(){
-        /*! Fades out the whole page when clicking links */
-        $('a').click(function(e) {
-            e.preventDefault();
-            newLocation = this.href;
-            $('body').fadeOut(500, newpage);
+        $(document).ready(function () {
+            /*! Fades out the whole page when clicking links */
+            $('a').click(function (e) {
+                e.preventDefault();
+                newLocation = this.href;
+                $('body').fadeOut(500, newpage);
+            });
+
+            function newpage() {
+                window.location = newLocation;
+            }
+
+            /*! Fades in whole page on load */
+            $('body').css('display', 'none');
+            $('body').fadeIn(1000);
+
         });
 
-        function newpage() {
-            window.location = newLocation;
-        }
-
-        /*! Fades in whole page on load */
-        $('body').css('display', 'none');
-        $('body').fadeIn(1000);
-
-    });
-
-    /*! Reloads page on every visit */
-    function Reload() {
-        try {
-            var headElement = document.getElementsByTagName("head")[0];
-            if (headElement && headElement.innerHTML)
-                headElement.innerHTML += "<meta http-equiv=\"refresh\" content=\"1\">";
-        }
-        catch (e) {}
-    }
-
-
-    /*! Reloads on every visit in mobile safari */
-    if ((/iphone|ipod|ipad.*os 5/gi).test(navigator.appVersion)) {
-        window.onpageshow = function(evt) {
-            if (evt.persisted) {
-                document.body.style.display = "none";
-                location.reload();
+        /*! Reloads page on every visit */
+        function Reload() {
+            try {
+                var headElement = document.getElementsByTagName("head")[0];
+                if (headElement && headElement.innerHTML)
+                    headElement.innerHTML += "<meta http-equiv=\"refresh\" content=\"1\">";
             }
-        };
-    }
-</script>
-    <meta name="google-site-verification" content="p1D8U9tyAFQc2Fpgkyfw7ZZJh0nG5HU3QfXDfVGY4Y4" />
+            catch (e) {
+            }
+        }
+
+
+        /*! Reloads on every visit in mobile safari */
+        if ((/iphone|ipod|ipad.*os 5/gi).test(navigator.appVersion)) {
+            window.onpageshow = function (evt) {
+                if (evt.persisted) {
+                    document.body.style.display = "none";
+                    location.reload();
+                }
+            };
+        }
+    </script>
+    <meta name="google-site-verification" content="p1D8U9tyAFQc2Fpgkyfw7ZZJh0nG5HU3QfXDfVGY4Y4"/>
 </head>
 <body>
-test
+
 <div class="container">
 
 
     <c:forEach begin="0" end="${fn:length(pictureList)-1}" varStatus="loop">
 
-        <img src="data:image/jpeg;base64,${pictureList[loop.index]}" alt="..."/>
-        <br>
-        <a href="${urlList[loop.index]}"> ${urlList[loop.index]} </a>
-        <c:out value="${promotionTextList[loop.index]}" />       <br>
-        <c:out value="${promotionHeaderList[loop.index]}" />       <br>
+    <img src="data:image/jpeg;base64,${pictureList[loop.index]}" alt="..."/>
+    <br>
+    <a href="${urlList[loop.index]}"> ${urlList[loop.index]} </a>
+        <c:out value="${promotionTextList[loop.index]}"/> <br>
+        <c:out value="${promotionHeaderList[loop.index]}"/> <br>
     </c:forEach>
 
 
-
-
     <ul id="gn-menu" class="gn-menu-main">
-
-        <%@include file="/WEB-INF/jspf/menu.jspf" %>
+        <li><a href="shop">SHOP</a></li>
     </ul>
-</div>
-
-<%@include file="/WEB-INF/jspf/modal.jspf" %>
+        <%@include file="/WEB-INF/jspf/modal.jspf" %>
+    <%@include file="/WEB-INF/jspf/footer.jspf" %>
 </body>
 
 </html>

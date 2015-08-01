@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>My ubercool eshop</title>
+    <title> <spring:message code="label.title"/></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -72,11 +72,17 @@
                     <spring:message code="label.username"/>*
                 </label>
 <span>
-                <div class="col-xs-8">
+
+    <c:set var="usernamePlaceholder">
+        <spring:message code="label.username"/>
+    </c:set>
+
+    <div class="col-xs-8">
                     <form:input id="username"
                                 class="form-control input-sm"
                                 type="text"
-                                path="username"/>
+                                path="username"
+                            placeholder="${usernamePlaceholder}"/>
                     <form:errors path="username"
                                  cssClass="text-danger"/>
                     <c:if test="${not uniqueUsername}">
